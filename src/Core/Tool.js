@@ -107,6 +107,7 @@ class Tool extends Component {
   clearExampleTimeout = [];
 
   onStartUsing = async () => {
+    console.log("hi");
     this.loading = false;
     this.error = "";
     this.clearExampleTimeout.forEach((item, index) => {
