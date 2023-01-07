@@ -10,7 +10,7 @@ const dev = {
 
 const prod = {
   baseURL: "/api/",
-  landingPageUrl: "https://app.openaitemplate.com",
+  landingPageUrl: "https://beta.plannr.ai/",
   stripe: {
     free: "price_1MNW04SB17XWitVzEcMoqiP0",
     entry: "price_1MNVzISB17XWitVzUeoQxSOF",
