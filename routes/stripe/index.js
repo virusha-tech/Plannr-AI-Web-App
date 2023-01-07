@@ -29,6 +29,8 @@ app.post(
           signature,
           process.env.STRIPE_WEBHOOK_SECRET
         );
+
+        console.log("event", event);
       } catch (err) {
         console.log(`⚠️  Webhook signature verification failed.`, err);
         return res.sendStatus(400);
