@@ -14,6 +14,7 @@ app.post(
   "/webhook",
   bodyParser.raw({ type: "application/json" }),
   async (req, res) => {
+    console.log("in web hook");
     let data;
     let eventType;
     // console.log(`webhook"]`,process.env.STRIPE_WEBHOOK_SECRET)
