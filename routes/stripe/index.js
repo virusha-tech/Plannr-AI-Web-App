@@ -14,7 +14,6 @@ app.post(
   "/webhook",
   bodyParser.raw({ type: "application/json" }),
   async (req, res) => {
-    console.log("in web hook");
     let data;
     let eventType;
     // console.log(`webhook"]`,process.env.STRIPE_WEBHOOK_SECRET)
@@ -30,8 +29,6 @@ app.post(
           signature,
           process.env.STRIPE_WEBHOOK_SECRET
         );
-
-        console.log("event", event);
       } catch (err) {
         console.log(`⚠️  Webhook signature verification failed.`, err);
         return res.sendStatus(400);
