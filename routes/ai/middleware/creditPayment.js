@@ -6,8 +6,8 @@ const creditPayment = async (req, res, next) => {
 
   console.log("inside credit payment", req.locals);
 
-  let inputLength = 0;
-  let outputLength = 0;
+  let inputLength = 0; // 36
+  let outputLength = 0; // 653
 
   if (req.locals.input) {
     inputLength = inputLength + req.locals.input.length;

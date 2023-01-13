@@ -35,8 +35,6 @@ app.post("/business/jobad", async (req, res, next) => {
     prompt += inputRaw;
   }
 
-  console.log("promt", prompt);
-
   const gptResponse = await openai.complete({
     engine: "davinci",
     prompt,
