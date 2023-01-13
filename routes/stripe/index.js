@@ -42,7 +42,7 @@ app.post(
       data = req.body.data;
       eventType = req.body.type;
     }
-    console.log("in webhook", data);
+
     checkout(eventType, data);
     subscription(eventType, data);
     invoice(eventType, data);
