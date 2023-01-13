@@ -4,7 +4,7 @@ const dev = {
   stripe: {
     free: "price_1MNW04SB17XWitVzEcMoqiP0",
     entry: "price_1MNVzISB17XWitVzUeoQxSOF",
-    pro: "price_1MNuKMSB17XWitVz30mpm918",
+    pro: "price_1MPkwPSB17XWitVzKs64hNLR",
   },
 };
 
@@ -14,7 +14,7 @@ const prod = {
   stripe: {
     free: "price_1MNW04SB17XWitVzEcMoqiP0",
     entry: "price_1MNVzISB17XWitVzUeoQxSOF",
-    pro: "price_1MNuKMSB17XWitVz30mpm918",
+    pro: "price_1MPkwPSB17XWitVzKs64hNLR",
   },
 };
 
