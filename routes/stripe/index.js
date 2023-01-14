@@ -17,7 +17,7 @@ app.post(
   async (req, res) => {
     let data;
     let eventType;
-    logger.info("before if in webhook");
+    logger.info("before if process.env.STRIPE_WEBHOOK_SECRET webhook");
     // console.log(`webhook"]`,process.env.STRIPE_WEBHOOK_SECRET)
     // Check if webhook signing is configured.
     if (process.env.STRIPE_WEBHOOK_SECRET) {
@@ -25,16 +25,14 @@ app.post(
       let event;
       // console.log(`req.headers["stripe-signature"]`,req.headers["stripe-signature"])
       let signature = req.headers["stripe-signature"];
-      logger.info("before create stripe object in webhook");
+      logger.info("before stripe event creation object in webhook");
       try {
         event = stripe.webhooks.constructEvent(
           req.body,
           signature,
           process.env.STRIPE_WEBHOOK_SECRET
         );
-        logger.info(
-          "after try create stripe object in webhook" + JSON.stringify(event)
-        );
+        logger.info("after stripe event creation object in webhook");
       } catch (err) {
         console.log(`⚠️  Webhook signature verification failed.`, err);
         logger.info("in catch webhook" + JSON.stringify(err));
@@ -50,7 +48,7 @@ app.post(
       eventType = req.body.type;
     }
 
-    logger.info("finally catch webhook");
+    logger.info("before checkout subscription invice");
     checkout(eventType, data);
     subscription(eventType, data);
     invoice(eventType, data);

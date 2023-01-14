@@ -7,7 +7,7 @@ const subscription = async (eventType, data) => {
     return; // not a subscription event
   }
 
-  logger.info("subscription.js" + JSON.stringify(JSON.stringify(eventType)));
+  logger.info("inside sunscription main event detected");
 
   created(eventType, data);
   updated(eventType, data);
@@ -19,9 +19,7 @@ const created = async (eventType, data) => {
     return; // not a subscription event
   }
   const { object } = data;
-  logger.info(
-    "inside subscription created" + JSON.stringify(JSON.stringify(object))
-  );
+  logger.info("inside subscription.created");
   console.log("data", data);
   console.log(`object.status`, object.plan.status);
   console.log(`object.id`, object.id);
@@ -48,9 +46,7 @@ const updated = async (eventType, data) => {
   }
   const { object } = data;
 
-  logger.info(
-    "inside subscription updated" + JSON.stringify(JSON.stringify(object))
-  );
+  logger.info("inside subscription.updated");
   console.log(`object.status`, object.plan.status);
   console.log(`object.id`, object.id);
   console.log(`object.customer`, object.customer);
@@ -74,6 +70,7 @@ const deleted = async (eventType, data) => {
   if (!eventType.includes("subscription.deleted")) {
     return; // not a subscription event
   }
+  logger.info("inside subscription.deleted");
   const { object } = data;
   console.log(`object.status`, object.plan.status);
   console.log(`object.id`, object.id);

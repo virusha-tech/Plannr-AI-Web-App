@@ -6,6 +6,7 @@ const invoice = async (eventType, data) => {
   if (!eventType.includes("invoice")) {
     return; // not a subscription event
   }
+  logger.info("inside invoice main event detected");
 
   paid(eventType, data);
 };
@@ -16,7 +17,7 @@ const paid = async (eventType, data) => {
   }
   const { object } = data;
 
-  logger.info("inside invoice" + JSON.stringify(JSON.stringify(object)));
+  logger.info("inside invoice.paid");
 
   let credits = 0;
 
@@ -38,7 +39,7 @@ const paid = async (eventType, data) => {
     customerId: object.customer,
   });
 
-  logger.info("credits inside invoice" + JSON.stringify(user));
+  logger.info("user fetch inside invoice");
 
   if (object.amount_paid > 0) {
     if (user) {
