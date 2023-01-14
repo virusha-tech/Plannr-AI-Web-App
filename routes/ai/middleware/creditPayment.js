@@ -4,8 +4,6 @@ const User = db.user;
 const creditPayment = async (req, res, next) => {
   // Prepare credit check on req
 
-  console.log("inside credit payment", req.locals);
-
   let inputLength = 0; // 36
   let outputLength = 0; // 653
 
