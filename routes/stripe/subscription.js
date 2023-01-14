@@ -1,4 +1,5 @@
 const models = require("../models");
+const logger = require("../../logger");
 const User = models.user;
 
 const subscription = async (eventType, data) => {
@@ -18,6 +19,9 @@ const created = async (eventType, data) => {
     return; // not a subscription event
   }
   const { object } = data;
+  logger.info(
+    "inside subscription created" + JSON.stringify(JSON.stringify(object))
+  );
   console.log("data", data);
   console.log(`object.status`, object.plan.status);
   console.log(`object.id`, object.id);
@@ -43,6 +47,10 @@ const updated = async (eventType, data) => {
     return; // not a subscription event
   }
   const { object } = data;
+
+  logger.info(
+    "inside subscription updated" + JSON.stringify(JSON.stringify(object))
+  );
   console.log(`object.status`, object.plan.status);
   console.log(`object.id`, object.id);
   console.log(`object.customer`, object.customer);
