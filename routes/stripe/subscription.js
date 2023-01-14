@@ -7,7 +7,7 @@ const subscription = async (eventType, data) => {
     return; // not a subscription event
   }
 
-  console.log("subscription event detected", eventType);
+  logger.info("subscription.js" + JSON.stringify(JSON.stringify(eventType)));
 
   created(eventType, data);
   updated(eventType, data);
