@@ -1,4 +1,5 @@
 const express = require("express");
+const logger = require("../../logger");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const stripe = require("../middlewares/stripe");
@@ -23,14 +24,19 @@ app.post(
       let event;
       // console.log(`req.headers["stripe-signature"]`,req.headers["stripe-signature"])
       let signature = req.headers["stripe-signature"];
+      logger.info("before create stripe object in webhook");
       try {
         event = stripe.webhooks.constructEvent(
           req.body,
           signature,
           process.env.STRIPE_WEBHOOK_SECRET
         );
+        logger.info(
+          "after try create stripe object in webhook" + JSON.stringify(event)
+        );
       } catch (err) {
         console.log(`⚠️  Webhook signature verification failed.`, err);
+        logger.info("in catch webhook" + JSON.stringify(err));
         return res.sendStatus(400);
       }
       // Extract the object from the event.
@@ -43,6 +49,7 @@ app.post(
       eventType = req.body.type;
     }
 
+    logger.info("finally catch webhook");
     checkout(eventType, data);
     subscription(eventType, data);
     invoice(eventType, data);
