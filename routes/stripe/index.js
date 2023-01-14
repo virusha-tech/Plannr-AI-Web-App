@@ -17,6 +17,7 @@ app.post(
   async (req, res) => {
     let data;
     let eventType;
+    logger.info("before if in webhook");
     // console.log(`webhook"]`,process.env.STRIPE_WEBHOOK_SECRET)
     // Check if webhook signing is configured.
     if (process.env.STRIPE_WEBHOOK_SECRET) {
