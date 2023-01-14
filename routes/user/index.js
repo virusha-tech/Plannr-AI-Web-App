@@ -68,7 +68,7 @@ app.post("/stripe/customer-portal", async (req, res) => {
     res.redirect(303, portalSession.url);
   } catch (err) {
     logger.info(
-      `insiode customer-portal portal session ${JSON.stringify(err)}`
+      `insiode customer-portal portal session error ${JSON.stringify(err)}`
     );
     // console.log(err)
     await User.updateOne(
