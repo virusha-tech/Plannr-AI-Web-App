@@ -47,12 +47,27 @@ const updated = async (eventType, data) => {
   const { object } = data;
 
   logger.info("inside subscription.updated");
-  console.log(`object.status`, object.plan.status);
-  console.log(`object.id`, object.id);
-  console.log(`object.customer`, object.customer);
-  console.log(`object.trial_end`, object.trial_end);
-  console.log(`object.current_period_end`, object.current_period_end);
-  console.log(`object.cancel_at_period_end`, object.cancel_at_period_end);
+  logger.info(
+    `subscription.updated object.status`,
+    JSON.stringify(object.plan.status)
+  );
+  logger.info(`subscription.updated object.id`, JSON.stringify(object.id));
+  logger.info(
+    `subscription.updated object.customer`,
+    JSON.stringify(object.customer)
+  );
+  logger.info(
+    `subscription.updated object.trial_end`,
+    JSON.stringify(object.trial_end)
+  );
+  logger.info(
+    `subscription.updated object.current_period_end`,
+    JSON.stringify(object.current_period_end)
+  );
+  logger.info(
+    `subscription.updated object.cancel_at_period_end`,
+    JSON.stringify(object.cancel_at_period_end)
+  );
 
   await User.updateOne(
     { customerId: object.customer },
