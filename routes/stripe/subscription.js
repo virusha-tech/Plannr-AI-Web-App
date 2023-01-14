@@ -69,6 +69,31 @@ const updated = async (eventType, data) => {
     ${JSON.stringify(object.cancel_at_period_end)}`
   );
 
+  logger.info(
+    `subscription.updated customerId ${JSON.stringify(object.customer)}`
+  );
+  logger.info(
+    `subscription.updated object.status ${JSON.stringify(object.status)}`
+  );
+  logger.info(
+    `subscription.updated object.items.data[0].plan.nickname ${JSON.stringify(
+      object.items.data[0].plan.nickname
+    )}`
+  );
+  logger.info(
+    `subscription.updated  object.trial_end ${JSON.stringify(object.trial_end)}`
+  );
+  logger.info(
+    `subscription.updated object.current_period_end ${JSON.stringify(
+      object.current_period_end
+    )}`
+  );
+  logger.info(
+    `subscription.updated cancel_at_period_end ${JSON.stringify(
+      object.cancel_at_period_end
+    )}`
+  );
+
   await User.updateOne(
     { customerId: object.customer },
     {
