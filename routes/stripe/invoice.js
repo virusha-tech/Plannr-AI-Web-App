@@ -36,6 +36,8 @@ const paid = async (eventType, data) => {
     customerId: object.customer,
   });
 
+  logger.info("credits inside invoice" + JSON.stringify(user));
+
   if (object.amount_paid > 0) {
     if (user) {
       if (!user.referrerPaid) {
@@ -49,8 +51,6 @@ const paid = async (eventType, data) => {
         }
       }
       user.credits += credits; //250 // 416
-
-      logger.info("credits inside invoice" + JSON.stringify(user));
 
       user.save();
     }
