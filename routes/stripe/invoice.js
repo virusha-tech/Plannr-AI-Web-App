@@ -21,9 +21,13 @@ const paid = async (eventType, data) => {
   let credits = 0;
 
   // 500 credits for $30
+
+  //amount_paid " 5000 //3000 //9000
   if (object.amount_paid > 2900) {
-    credits += object.amount_paid / 12;
+    credits += object.amount_paid / 12; // 416.6 //250
   }
+
+  //if for pro
   if (object.amount_paid > 8900) {
     credits += object.amount_paid / 12;
   }
@@ -44,9 +48,9 @@ const paid = async (eventType, data) => {
           referrer.save();
         }
       }
-      user.credits += credits;
+      user.credits += credits; //250 // 416
 
-      logger.info("credits inside invoice" + JSON.stringify(credits));
+      logger.info("credits inside invoice" + JSON.stringify(user));
 
       user.save();
     }
