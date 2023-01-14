@@ -48,25 +48,25 @@ const updated = async (eventType, data) => {
 
   logger.info("inside subscription.updated");
   logger.info(
-    `subscription.updated object.status`,
-    JSON.stringify(object.plan.status)
+    `subscription.updated object.status
+    ${JSON.stringify(object.plan.status)}`
   );
-  logger.info(`subscription.updated object.id`, JSON.stringify(object.id));
+  logger.info(`subscription.updated object.id ${JSON.stringify(object.id)}`);
   logger.info(
-    `subscription.updated object.customer`,
-    JSON.stringify(object.customer)
-  );
-  logger.info(
-    `subscription.updated object.trial_end`,
-    JSON.stringify(object.trial_end)
+    `subscription.updated object.customer
+    ${JSON.stringify(object.customer)}`
   );
   logger.info(
-    `subscription.updated object.current_period_end`,
-    JSON.stringify(object.current_period_end)
+    `subscription.updated object.trial_end
+    ${JSON.stringify(object.trial_end)}`
   );
   logger.info(
-    `subscription.updated object.cancel_at_period_end`,
-    JSON.stringify(object.cancel_at_period_end)
+    `subscription.updated object.current_period_end
+    ${JSON.stringify(object.current_period_end)}`
+  );
+  logger.info(
+    `subscription.updated object.cancel_at_period_end
+    ${JSON.stringify(object.cancel_at_period_end)}`
   );
 
   await User.updateOne(
