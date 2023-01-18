@@ -1,0 +1,28 @@
+/*
+  Intended to use with a mobile first approach
+*/
+
+$screen-md-min: 562px;
+$screen-lg-min: 955px;
+$screen-xl-min: 1521px;
+
+/* tablets*/
+@mixin md {
+  @media (min-width: #{$screen-md-min}) {
+    @content;
+  }
+}
+
+/* Desktops */
+@mixin lg {
+  @media (min-width: #{$screen-lg-min}) {
+    @content;
+  }
+}
+
+/* Large desktops */
+@mixin xl {
+  @media (min-width: #{$screen-xl-min}) {
+    @content;
+  }
+}

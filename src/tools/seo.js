@@ -1,8 +1,8 @@
 import { MenuAlt2Icon } from "@heroicons/react/solid";
 
 const obj = {
-  title: "Project Plan",
-  desc: "A project plan outlines the tasks, resources, and timeline needed to complete a specific project",
+  title: "SEO Plan",
+  desc: "An SEO plan outlines the strategies and actions needed to improve the visibility and ranking of a website in search engine results.",
   category: "Professional",
   Icon: MenuAlt2Icon,
   // tags: [],

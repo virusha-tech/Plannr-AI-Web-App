@@ -5,6 +5,9 @@ import intro from "./intro";
 import helloworld from "./helloworld";
 import example from "./example";
 import travel from "./travel";
+import seo from "./seo";
+import workout from "./workout";
+import mealPlan from "./mealPlan";
 
 const TOOLS = [
   codeInterpret,
@@ -14,6 +17,9 @@ const TOOLS = [
   helloworld,
   example,
   travel,
+  seo,
+  workout,
+  mealPlan,
 ];
 
 export default TOOLS;

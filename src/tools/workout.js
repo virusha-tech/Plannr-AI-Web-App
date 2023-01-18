@@ -1,9 +1,9 @@
 import { ViewListIcon } from "@heroicons/react/solid";
 
 const obj = {
-  title: "General",
-  desc: "Analyze your text or documents and convey the important concepts in bullet form.",
-  category: "Others",
+  title: "Workout Plan",
+  desc: "A workout plan outlines a schedule of exercises and activities to be performed over a specific period of time, often with the goal of improving physical fitness",
+  category: "Personal",
   Icon: ViewListIcon,
   // tags: [],
   permissions: ["user"],
@@ -11,11 +11,11 @@ const obj = {
   fromColor: "green-500",
   toColor: "blue-500",
 
-  to: "/ai/personal/summarize",
-  api: "/ai/personal/summarize",
+  to: "/ai/helloworld",
+  api: "/ai/helloworld",
 
   output: {
-    title: "Summarized Points",
+    title: "Hello World",
     desc: "The following key points detected",
     Icon: false,
     color: "blue",
@@ -39,17 +39,17 @@ const obj = {
           min: 3,
           required: true,
           error: "",
-          example:
-            "The Sun is over 4.5 billion years old and has a temperature of around 10,000 degrees Fahrenheit. The Sun's light reaches the Earth in eight minutes. Coronal mass ejections are gases on the Sun's surface erupt, shooting far out into space.",
+          example: "Hello World ",
         },
       ],
       example: {
-        // output: "",
-        outputs: [
-          "The sun is very old, over 4.5 billion years",
-          "At 10,000 degrees, sun is also very hot",
-          "Gasses called coronal mass ejections erupt from the sun",
-        ],
+        output:
+          "Hello World Hello World Hello World Hello World Hello World Hello World Hello World ",
+        // outputs: [
+        // 	"The sun is very old, over 4.5 billion years",
+        // 	"At 10,000 degrees, sun is also very hot",
+        // 	"Gasses called coronal mass ejections erupt from the sun",
+        // ],
         // Icon: RefreshIcon,
         color: "blue",
       },

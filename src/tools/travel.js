@@ -1,15 +1,15 @@
 import { ViewListIcon } from "@heroicons/react/solid";
 
 const obj = {
-  title: "Travel Prompt",
-  desc: "Quickly create a travel itinerary based on some basic details, like location, budgets, etc.",
-  category: "Business",
+  title: "Travel Plan",
+  desc: "A travel plan outline the details of a trip, including destinations, accommodation, transportation, and activities.",
+  category: "Personal",
   Icon: ViewListIcon,
   // tags: [],
   permissions: ["user"],
 
-  fromColor: "gray-500",
-  toColor: "gray-500",
+  fromColor: "green-500",
+  toColor: "blue-500",
 
   to: "/ai/travel",
   api: "/ai/travel",

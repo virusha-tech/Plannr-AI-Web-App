@@ -149,6 +149,7 @@ class appStore {
     this.toolsKeyword = e.target.value;
   };
   @computed get tools() {
+    debugger;
     // let tools = TOOLS.filter(tool => tool.title.toLowerCase().includes(this.toolsKeyword.toLowerCase()))
     let fuzzyTools = FuzzySearch.get(this.toolsKeyword, 0.5);
     if (fuzzyTools && fuzzyTools.length) {
@@ -157,6 +158,9 @@ class appStore {
         return TOOLS.filter((tool) => fuzzySummary.includes(tool.title));
       }
     }
+
+    console.log("TOOLS", TOOLS);
+
     return TOOLS;
   }
 

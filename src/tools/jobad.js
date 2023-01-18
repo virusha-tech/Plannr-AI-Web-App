@@ -1,8 +1,8 @@
 import { ClipboardListIcon } from "@heroicons/react/solid";
 
 const obj = {
-  title: "Job Ad",
-  desc: "Quickly create a job ad based on some basic details, like title, requirements, etc.",
+  title: "Business Plan",
+  desc: "A business plan outlines the goals and objectives of a business, as well as the strategies and actions needed to achieve those goals.",
   category: "Business",
   Icon: ClipboardListIcon,
   // tags: [],

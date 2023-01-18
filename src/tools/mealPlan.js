@@ -1,9 +1,9 @@
 import { ViewListIcon } from "@heroicons/react/solid";
 
 const obj = {
-  title: "General",
-  desc: "Analyze your text or documents and convey the important concepts in bullet form.",
-  category: "Others",
+  title: "Meal Plan",
+  desc: "A meal plan outlines the types and quantities of food to be consumed over a specific period of time, often with the goal of achieving a specific health or fitness goal.",
+  category: "Personal",
   Icon: ViewListIcon,
   // tags: [],
   permissions: ["user"],
