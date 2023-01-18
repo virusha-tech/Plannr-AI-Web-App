@@ -1,4 +1,5 @@
 const express = require("express");
+const logger = require("../../logger");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const stripe = require("../middlewares/stripe");
@@ -16,6 +17,7 @@ app.post(
   async (req, res) => {
     let data;
     let eventType;
+    logger.info("before if process.env.STRIPE_WEBHOOK_SECRET webhook");
     // console.log(`webhook"]`,process.env.STRIPE_WEBHOOK_SECRET)
     // Check if webhook signing is configured.
     if (process.env.STRIPE_WEBHOOK_SECRET) {
@@ -23,16 +25,17 @@ app.post(
       let event;
       // console.log(`req.headers["stripe-signature"]`,req.headers["stripe-signature"])
       let signature = req.headers["stripe-signature"];
+      logger.info("before stripe event creation object in webhook");
       try {
         event = stripe.webhooks.constructEvent(
           req.body,
           signature,
           process.env.STRIPE_WEBHOOK_SECRET
         );
-
-        console.log("event", event);
+        logger.info("after stripe event creation object in webhook");
       } catch (err) {
         console.log(`⚠️  Webhook signature verification failed.`, err);
+        logger.info("in catch webhook" + JSON.stringify(err));
         return res.sendStatus(400);
       }
       // Extract the object from the event.
@@ -45,6 +48,7 @@ app.post(
       eventType = req.body.type;
     }
 
+    logger.info("before checkout subscription invice");
     checkout(eventType, data);
     subscription(eventType, data);
     invoice(eventType, data);
