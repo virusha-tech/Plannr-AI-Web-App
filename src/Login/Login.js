@@ -86,7 +86,7 @@ class Login extends Component {
     return (
       <>
         <Helmet>
-          <title>{`Login - OpenAI Template`}</title>
+          <title>{`Plannr - AI Powered Planning Tool`}</title>
         </Helmet>
         <div className="container mx-auto lg:px-4 py-4 min-h-screen flex flex-col md:items-center md:justify-center">
           <div className="text-center mb-6">

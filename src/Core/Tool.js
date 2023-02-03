@@ -306,7 +306,7 @@ class Tool extends Component {
     return (
       <>
         <Helmet>
-          <title>{`${this.tool.title} Tool - OpenAI Template`}</title>
+          <title>{`Plannr - AI Powered Planning Tool`}</title>
         </Helmet>
         <Header
           title={this.tool.title}
