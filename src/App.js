@@ -29,17 +29,25 @@ import LoginSuccess from './Login/Success'
 
 
 import './App.scss'
+import Auth from './Auth/index';
 
 if(!window.store){
   window.store = new AppStore();
 }
 
+// Define what main theme will look like
+const theme = {
+  primary: "#079196",
+  primary_gradient: "linear-gradient(0deg, #04adb4, #04adb4)",
+  secondary_gradient: "linear-gradient(0deg, #05bbc2, #05bbc2)",
+  gray: "#475467",
+};
 
 @observer
 class App extends Component {
   render() {
     return (
-    <ThemeProvider theme={colors}>
+    <ThemeProvider theme={theme}>
         <Provider store={window.store}>
           <Router>
            {window.store.redirect ? <Redirect to={window.store.redirect} /> : null }
@@ -82,7 +90,7 @@ class App extends Component {
                   <Route path="/" exact>
                     <Redirect to="/login" />
                   </Route>
-                  <Route path="/" component={Login} />
+                  <Route path="/" component={Auth} />
                 </Switch>
             </>}
            </Router>

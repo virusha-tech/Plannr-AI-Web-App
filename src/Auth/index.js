@@ -1,15 +1,15 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import Slider from "react-slick";
-import "./index.css";
 import CompanyLogo from "../assets/CompanyLogo.svg";
 import Dashboard from "../assets/Dashboard.jpg";
-import GoogleLogo from "../assets/GoogleLogo.svg";
 import { Helmet } from "react-helmet";
-import { Switch, Route, withRouter, Redirect } from "react-router-dom";
+import { Switch, Route, withRouter, Redirect, Link } from "react-router-dom";
 import { observer, inject } from "mobx-react";
 import { observable, makeObservable } from "mobx";
 import { CheckIcon, UserIcon, LockClosedIcon } from "@heroicons/react/outline";
+import { SignIn } from "./Signin";
+import { SignUp } from "./SignUp";
 
 @inject("store")
 @observer
@@ -91,34 +91,8 @@ class Auth extends Component {
       slidesToScroll: 1,
       autoplay: true,
       autoplaySpeed: 3000,
-      prevArrow: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 20 20"
-          fill="currentColor"
-          className="w-5 h-5"
-        >
-          <path
-            fillRule="evenodd"
-            d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
-            clipRule="evenodd"
-          />
-        </svg>
-      ),
-      nextArrow: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 20 20"
-          fill="currentColor"
-          className="w-5 h-5"
-        >
-          <path
-            fillRule="evenodd"
-            d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z"
-            clipRule="evenodd"
-          />
-        </svg>
-      ),
+      prevArrow: <SlickArrowLeft />,
+      nextArrow: <SlickArrowRight />,
     };
 
     return (
@@ -132,8 +106,8 @@ class Auth extends Component {
               <img src={CompanyLogo} alt="Company Logo" />
               <div className="px-4">
                 <Switch>
-                  <Route path="/newLogin">
-                    <Logon
+                  <Route path="/login">
+                    <SignIn
                       landingPageUrl={this.props.store.landingPageUrl}
                       email={this.email}
                       password={this.password}
@@ -143,17 +117,20 @@ class Auth extends Component {
                     />
                   </Route>
                   <Route path="/signup">
-                    <h1>SignUp</h1>
-                    {/* <Signup
-                    email={this.email}
-                    password={this.password}
-                    fname={this.fname}
-                    lname={this.lname}
-                    onChange={this.onChangeAny}
-                    onSignup={this.onSignup}
-                  /> */}
+                    <SignUp
+                      email={this.email}
+                      password={this.password}
+                      fname={this.fname}
+                      lname={this.lname}
+                      onChange={this.onChangeAny}
+                      onSignup={this.onSignup}
+                    />
                   </Route>
-                  <Route>{/* <Redirect to="/login" /> */}</Route>
+                  <Route>
+                    <Route>
+                      <Redirect to="/login" />
+                    </Route>
+                  </Route>
                 </Switch>
                 {this.errorMessage ? (
                   <div className="text-red-600 bg-red-50 rounded-md p-1 text-center mt-4">
@@ -227,82 +204,66 @@ class Auth extends Component {
   }
 }
 
-const Logon = observer(
-  ({ active, email, password, onChange, onLogin, landingPageUrl, signUp }) => {
-    return (
-      <>
-        <Loginform onSubmit={onLogin}>
-          <div>
-            <div className="text-4xl font-medium text-black-900">Log in</div>
-            <p>Welcome back! Please enter your details.</p>
-            <div className="flex flex-col flex-1">
-              <label>Email</label>
-              <input
-                value={email}
-                onChange={(e) => onChange(e.target.value, "email")}
-                focus="true"
-                type="email"
-                className="rounded-md text-lg px-4 py-2  border border-gray-300 "
-                placeholder="Enter your email"
-              />
-            </div>
-            <div className="flex flex-col flex-1">
-              <label>Password</label>
-              <input
-                value={password}
-                onChange={(e) => onChange(e.target.value, "password")}
-                type="password"
-                className="rounded-md text-lg px-4 py-2  border border-gray-300 inline-block"
-                placeholder="••••••••"
-              />
-            </div>
-            <div className="flex flex-1 items-center mt-4 justify-between">
-              <div>
-                <input
-                  value={password}
-                  onChange={(e) => onChange(e.target.value, "password")}
-                  type="checkbox"
-                  className="rounded-md text-lg px-4 py-2  border border-gray-300 inline-block"
-                  placeholder="••••••••"
-                />
-                <span className="ml-4">Remeber for 30 days</span>
-              </div>
-              <ForgotPasswordButton>Forgot Password</ForgotPasswordButton>
-            </div>
-            <div className="flex flex-col">
-              <SignInButton
-                type="submit"
-                className="hover:bg-gray-600 font-medium rounded-lg text-lg px-4 py-2 bg-gray-500 text-white mt-4 border border-gray-300 inline-block text-lg bg-primary px-5 py-2.5"
-              >
-                Sign in
-              </SignInButton>
-              <button
-                type="button"
-                onClick={signUp}
-                class="text-center relative inline-flex items-center justify-center p-0.5 mt-3 text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-lg px-5 py-2.5 text-center dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800"
-              >
-                <GoogleImage class="h-4" src={GoogleLogo} alt="Google Logo" />
-                Sign in with Google
-              </button>
+export default Auth;
 
-              <span className="mt-10 text-center">
-                Don’t have an account? &nbsp;
-                <SignInAnchor
-                  href={`https://www.openaitemplate.ai/contact`}
-                  className="forgot_password"
-                >
-                  Sign up
-                </SignInAnchor>
-              </span>
-            </div>
-          </div>
-        </Loginform>
-      </>
-    );
-  }
+const SlickArrowLeft = ({ currentSlide, slideCount, ...props }) => (
+  <SlickArrowLeftButton
+    {...props}
+    className={
+      "slick-prev slick-arrow" + (currentSlide === 0 ? " slick-disabled" : "")
+    }
+    aria-hidden="true"
+    aria-disabled={currentSlide === 0 ? true : false}
+    type="button"
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 20 20"
+      fill="currentColor"
+      className="w-5 h-5"
+    >
+      <path
+        fillRule="evenodd"
+        d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+        clipRule="evenodd"
+      />
+    </svg>
+  </SlickArrowLeftButton>
 );
 
-export default Auth;
+const SlickArrowRight = ({ currentSlide, slideCount, ...props }) => (
+  <SlickArrowRightButton
+    {...props}
+    className={
+      "slick-next slick-arrow" +
+      (currentSlide === slideCount - 1 ? " slick-disabled" : "")
+    }
+    aria-hidden="true"
+    aria-disabled={currentSlide === slideCount - 1 ? true : false}
+    type="button"
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 20 20"
+      fill="currentColor"
+      className="w-5 h-5"
+    >
+      <path
+        fillRule="evenodd"
+        d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z"
+        clipRule="evenodd"
+      />
+    </svg>
+  </SlickArrowRightButton>
+);
+
+const SlickArrowLeftButton = styled.button`
+  &:before {
+    display: none;
+  }
+`;
+
+const SlickArrowRightButton = styled(SlickArrowLeftButton)``;
 
 const Leftarea = styled.div`
   background: white;
@@ -383,73 +344,6 @@ const SliderImageInfo = styled.div`
   }
 `;
 
-const Loginform = styled.form`
-  padding-top: ${(props) => {
-    console.log(props);
-    console.log("DATA");
-    return 0;
-  }};
-
-  p {
-    font-family: "Inter";
-    font-style: normal;
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 24px;
-    color: #475467;
-    margin-top: 12px;
-  }
-  label {
-    font-family: "Inter";
-    font-style: normal;
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 20px;
-    /* identical to box height, or 143% */
-
-    /* Gray/700 */
-    margin: 20px 0px 8px;
-    color: #344054;
-  }
-  button {
-  }
-`;
-
-const ForgotPasswordButton = styled.button`
-  background: white;
-  font-family: "Inter";
-  font-style: normal;
-  font-weight: 600;
-  font-size: 14px;
-  line-height: 20px;
-  color: ${({ theme }) => {
-    return theme.primary;
-  }};
-`;
-
-const SignInButton = styled.button`
-  background: ${({ theme }) => {
-    return `${theme.primary_gradient},${theme.secondary_gradient}`;
-  }};
-`;
-
-const SignInAnchor = styled.a`
-  background: white;
-  font-family: "Inter";
-  font-style: normal;
-  font-weight: 600;
-  font-size: 14px;
-  line-height: 20px;
-  color: ${({ theme }) => {
-    return theme.primary;
-  }};
-`;
-
-const GoogleImage = styled.img`
-  width: 40px !important;
-  height: 24px;
-`;
-
 const StyledSlider = styled(Slider)`
   .slick-slide img {
     margin: auto;
@@ -493,3 +387,5 @@ const StyledSlider = styled(Slider)`
     color: white !important;
   }
 `;
+
+
