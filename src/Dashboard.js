@@ -9,6 +9,7 @@ import { observer, inject } from "mobx-react";
 import styled from "styled-components";
 import Footer from "./Footer";
 import { TabList } from "./config";
+import SearchIcon from "./assets/SearchIcon.svg";
 @inject("store")
 @observer
 class Body extends Component {
@@ -99,7 +100,7 @@ class Body extends Component {
             </span>
           </QuestionBanner>
 
-          <div className="border-b border-gray-200 dark:border-gray-700">
+          <TabContainer className="border-b border-gray-200 dark:border-gray-700">
             <Tabs className="flex flex-wrap -mb-px text-sm font-medium text-center text-gray-500 dark:text-gray-400">
               {TabList.map((tabItem, index) => {
                 return (
@@ -117,7 +118,19 @@ class Body extends Component {
                 );
               })}
             </Tabs>
-          </div>
+            <Input
+              type="search"
+              tabIndex={-1}
+              id="q"
+              name="q"
+              // placeholder="Search...  [Shortcut: Ctrl + K]"
+              // className="py-4 pl-4 md:pl-14 text-xl focus:outline-none focus:bg-white focus:text-gray-900 transition flex flex-1 w-full"
+              autoComplete="off"
+              value={this.props.store.toolsKeyword}
+              onChange={this.props.store.onChangeToolsKeyword}
+              onKeyUp={this.onKeyUp}
+            ></Input>
+          </TabContainer>
           <CardsBody className="py-4 md:py-8 lg:py-12 ">
             <Grid>
               {this[this.state.activeTab]?.map((tool, index) => {
@@ -364,4 +377,30 @@ const Tabs = styled.ul`
       color: white;
     }
   }
+`;
+
+const Input = styled.input`
+  font-size: 16px;
+  width: 36px;
+  height: 36px;
+  border: 1px solid #d0d5dd;
+  box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+  border-radius: 8px;
+  background-image: url(${SearchIcon});
+  background-repeat: no-repeat;
+  padding: 12px 20px 12px 20px;
+  background-position: 10px 7px;
+  box-sizing: border-box;
+  -webkit-transition: width 0.4s ease-in-out;
+  transition: width 0.4s ease-in-out;
+  align-self: flex-end;
+  &:focus {
+    width: 20vw;
+    padding: 12px 20px 12px 40px;
+  }
+`;
+
+const TabContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
 `;
