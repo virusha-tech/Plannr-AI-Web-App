@@ -1,172 +1,367 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom'
-import { computed,  } from 'mobx'
-import MainBody from './Components/Body'
-import {Helmet} from "react-helmet";
-
-
-import { observer, inject } from 'mobx-react'
-@inject('store')
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import { computed } from "mobx";
+import CardsBody from "./Components/Body";
+import { Helmet } from "react-helmet";
+import HandGesture from "./assets/Hand.svg";
+import User from "./assets/User.png";
+import { observer, inject } from "mobx-react";
+import styled from "styled-components";
+import Footer from "./Footer";
+import { TabList } from "./config";
+@inject("store")
 @observer
 class Body extends Component {
+  state = {
+    activeTab: "AllAuthorizedCards",
+  };
 
-	@computed get permissions() {
-		return this.props.store.tools.filter(tool=>
-			tool.permissions.some(r=> this.props.store.profile.permissions.includes(r))
-		)
-	}
+  changeTab = (tab) => {
+    this.setState({ activeTab: tab });
+  };
 
-	@computed get beta() {
-		return this.permissions.filter(tool => tool.category === 'Beta')
-	}
-
-
-	@computed get personal() {
-		return this.permissions.filter(tool => tool.category === 'Personal')
-	}
-
-	@computed get business() {
-		return this.permissions.filter(tool => tool.category === 'Business')
-	}
-
-	@computed get social() {
-		return this.permissions.filter(tool => tool.category === 'Social')
-	}
-
-	@computed get content() {
-		return this.permissions.filter(tool => tool.category === 'Content')
-	}
-
-	@computed get programming() {
-		return this.permissions.filter(tool => tool.category === 'Programming')
-	}
-
-	render() {
-	return (
-
-		<>
-			<Helmet>
-				<title>{`Tools - OpenAI Template`}</title>
-			</Helmet>
-			<MainBody className="px-4 py-4 md:px-28 md:py-8 lg:py-12 ">
-
-		
-
-			{this.programming.length ? <>
-				<Title title="Programming" />
-				<Grid>
-					{this.programming.map((tool, index) => 
-						<Tool 
-							key={index}
-							group={tool.category}
-							title={tool.title} 
-							to={tool.to} 
-							Icon={tool.Icon} 
-							desc={tool.desc} 
-							fromColor={tool.fromColor} 
-							toColor={tool.toColor} 
-						/>)} 
-				</Grid>
-				<Divider />
-			</> : null}
-
-			{this.content.length ? <>
-				<Title title="Written Content" />
-				<Grid>
-					{this.content.map((tool, index) => 
-						<Tool 
-							key={index}
-							group={tool.category}
-							title={tool.title} 
-							to={tool.to} 
-							Icon={tool.Icon} 
-							desc={tool.desc} 
-							fromColor={tool.fromColor} 
-							toColor={tool.toColor} 
-						/>)} 
-				</Grid>
-				<Divider />
-				</> : null}
-
-			{this.business.length ? <>
-				<Title title="Business" />
-				<Grid>
-					{this.business.map((tool, index) => 
-						<Tool 
-							key={index}
-							group={tool.category}
-							title={tool.title} 
-							to={tool.to} 
-							Icon={tool.Icon} 
-							desc={tool.desc} 
-							fromColor={tool.fromColor} 
-							toColor={tool.toColor} 
-						/>)} 
-				</Grid>
-				<Divider />
-			</> : null}
-
-			{this.personal.length ? <>
-				<Title title="Personal" />
-				<Grid>
-					{this.personal.map((tool, index) => 
-						<Tool 
-							key={index}
-							group={tool.category}
-							title={tool.title} 
-							to={tool.to} 
-							Icon={tool.Icon} 
-							desc={tool.desc} 
-							fromColor={tool.fromColor} 
-							toColor={tool.toColor} 
-						/>)} 
-				</Grid>
-				<Divider />
-			</> : null}
-
-			{this.social.length ? <>
-				<Title title="Online" />
-				<Grid>
-					{this.social.map((tool, index) => 
-						<Tool 
-							key={index}
-							group={tool.category}
-							title={tool.title} 
-							to={tool.to} 
-							Icon={tool.Icon} 
-							desc={tool.desc} 
-							fromColor={tool.fromColor} 
-							toColor={tool.toColor} 
-						/>)} 
-				</Grid>
-				<Divider />
-			</> : null}
-
-</MainBody>
-</>)
-}
+  @computed get AllAuthorizedCards() {
+    return this.props.store.tools.filter((tool) =>
+      tool.permissions.some((r) =>
+        this.props.store.profile.permissions.includes(r)
+      )
+    );
   }
 
-export const Divider = () => <div className="divide-y-2 divide-dashed divide-gray-300 py-8 md:py-12"> <div></div>
-<div></div></div>
+  @computed get beta() {
+    return this.AllAuthorizedCards.filter((tool) => tool.category === "Beta");
+  }
 
-export const Title = ({ title }) => <h2 className="text-xl sm:text-2xl md:text-3xl text-gray-700 mb-4 md:mb-6">
-{title}
-</h2>
+  @computed get Personal() {
+    return this.AllAuthorizedCards.filter(
+      (tool) => tool.category === "Personal"
+    );
+  }
 
-export const Grid = ({ children }) => <div className="grid grid-cols-1 gap-8 mt-4 lg:grid-cols-2 xl:grid-cols-3 ">{children}</div>
+  @computed get Business() {
+    return this.AllAuthorizedCards.filter(
+      (tool) => tool.category === "Business"
+    );
+  }
 
-export const Tool = ({ Icon, title, desc, to, group, fromColor, toColor }) => <Link to={to || "/"} className="flex relative ">
-	
-	<div className={`bg-white flex-1 rounded-xl transition hover:shadow-md overflow-hidden md:max-w-1lg text-gray-500 cursor-pointer border border-gray-300 md:flex relative transform hover:scale-105  hover:text-black`}>
-  <div className="p-4">
-	<div className={`uppercase tracking-wide text-sm text-${fromColor ? fromColor : "green-500"} font-semibold leading-none`}>{group || "New"}</div>
-	<div href="#" className="block text-lg xl:text-xl 2xl:text-2xl leading-tight font-medium text-black leading-none">{title}</div>
-	<p className="mt-1 pr-1 text-sm ">{desc} </p>
+  @computed get Professional() {
+    return this.AllAuthorizedCards.filter(
+      (tool) => tool.category === "Professional"
+    );
+  }
+
+  @computed get social() {
+    return this.AllAuthorizedCards.filter((tool) => tool.category === "Social");
+  }
+
+  @computed get content() {
+    return this.AllAuthorizedCards.filter(
+      (tool) => tool.category === "Content"
+    );
+  }
+
+  @computed get programming() {
+    return this.AllAuthorizedCards.filter(
+      (tool) => tool.category === "Programming"
+    );
+  }
+
+  render() {
+    return (
+      <>
+        <MainContainer>
+          <Helmet>
+            <title>{`Tools - OpenAI Template`}</title>
+          </Helmet>
+
+          <AddBanner>
+            <div className="flex items-center justify-between	flex-1 gap-5">
+              <StyledButton className="flex-none">Upgrade Now</StyledButton>
+              <TextContainer className="flex flex-grow">
+                Get <span>&nbsp;20% off&nbsp;</span> if you upgrade within 24h,
+                use the code 20TODAY at checkout!
+              </TextContainer>
+              <FreeTrial>
+                Free Trial
+                <span>&nbsp;&#8226;&nbsp;</span>7 Days remaining
+              </FreeTrial>
+            </div>
+          </AddBanner>
+
+          <QuestionBanner>
+            <Header>
+              <img width="32px" src={HandGesture} alt="Hand Gesture" />
+              <h1>What will you create today?</h1>
+            </Header>
+            <span>
+              Generate Customized Plans with Plannr.ai using OpenAI’s Language
+              Model
+            </span>
+          </QuestionBanner>
+
+          <div className="border-b border-gray-200 dark:border-gray-700">
+            <Tabs className="flex flex-wrap -mb-px text-sm font-medium text-center text-gray-500 dark:text-gray-400">
+              {TabList.map((tabItem, index) => {
+                return (
+                  <li className="mr-2">
+                    <button
+                      onClick={() => this.changeTab(tabItem.id)}
+                      className={`inline-flex p-4 border-b-2 border-transparent  rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group ${
+                        this.state.activeTab === tabItem.id ? "active" : ""
+                      }`}
+                    >
+                      {tabItem.label}
+                      <Pill>{this[tabItem.id].length}</Pill>
+                    </button>
+                  </li>
+                );
+              })}
+            </Tabs>
+          </div>
+          <CardsBody className="py-4 md:py-8 lg:py-12 ">
+            <Grid>
+              {this[this.state.activeTab]?.map((tool, index) => {
+                return (
+                  <Tool
+                    key={tool.title}
+                    group={tool.category}
+                    title={tool.title}
+                    to={tool.to}
+                    Icon={tool.Icon}
+                    desc={tool.desc}
+                    fromColor={tool.fromColor}
+                    toColor={tool.toColor}
+                  />
+                );
+              })}
+            </Grid>
+          </CardsBody>
+        </MainContainer>
+        <Footer />
+      </>
+    );
+  }
+}
+
+export const Divider = () => (
+  <div className="divide-y-2 divide-dashed divide-gray-300 py-8 md:py-12">
+    {" "}
+    <div></div>
+    <div></div>
   </div>
-</div>
-</Link>
+);
 
+export const Title = ({ title }) => (
+  <h2 className="text-xl sm:text-2xl md:text-3xl text-gray-700 mb-4 md:mb-6">
+    {title}
+  </h2>
+);
 
+export const Grid = ({ children }) => (
+  <div className="grid grid-cols-1 gap-8 mt-4 lg:grid-cols-2 xl:grid-cols-3 ">
+    {children}
+  </div>
+);
 
-export default Body
+export const Tool = ({ Icon, title, desc, to, group, fromColor, toColor }) => (
+  <LinkCard to={to || "/"} className="flex relative gap-5">
+    <div>
+      <img width="36px" height="36px" src={User} alt="Avatar" />
+    </div>
+    <div className="flex gap-2 flex-col	">
+      <CardTitle
+        className={`uppercase ${group} tracking-wide text-sm font-semibold leading-none`}
+      >
+        {group || "New"}
+      </CardTitle>
+      <CardSubTitle
+        href="#"
+        className="block text-lg xl:text-xl 2xl:text-2xl leading-tight font-medium text-black leading-none"
+      >
+        {title}
+      </CardSubTitle>
+      <p className="mt-1 pr-1 text-sm ">{desc} </p>
+    </div>
+  </LinkCard>
+);
+
+export default Body;
+
+const LinkCard = styled(Link)`
+  background: #ffffff;
+  border: 1px solid #eaecf0;
+  box-shadow: 0px 1px 3px rgba(16, 24, 40, 0.1),
+    0px 1px 2px rgba(16, 24, 40, 0.06);
+  border-radius: 12px;
+  height: 181px;
+  padding: 28px 20px;
+`;
+
+const AddBanner = styled.div`
+  background: #fdfdfd;
+  border: 1px solid #eaecf0;
+  border-radius: 12px;
+  padding: 14px 20px;
+  gap: 20px;
+  margin-top: 16px;
+`;
+
+const QuestionBanner = styled.div`
+  padding: 36px 0px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  span {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #475467;
+  }
+`;
+
+const StyledButton = styled.button`
+  padding: 10px 16px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  height: 40px;
+  background: #05bbc2;
+  border: 1px solid #04adb4;
+  box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+  border-radius: 8px;
+  color: white;
+  font-weight: 600;
+`;
+
+const MainContainer = styled.div`
+  padding: 10px 120px;
+  background: white;
+  min-height: 83vh;
+`;
+
+const Pill = styled.div`
+  font-style: normal;
+  font-weight: 700;
+  font-size: 11px;
+  color: #667085;
+  margin-left: 10px;
+  background: #e8e8e8;
+  width: 18px;
+  height: 20px;
+  border-radius: 5px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const Header = styled.div`
+  display: flex;
+  gap: 10px;
+
+  h1 {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 600;
+    font-size: 30px;
+    line-height: 38px;
+    color: #101828;
+  }
+`;
+
+const TextContainer = styled.div`
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 28px;
+  color: #101828;
+
+  span {
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 28px;
+    color: #0e9499;
+  }
+`;
+
+const CardTitle = styled.div`
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 18px;
+  color: ${({ theme }) => {
+    return theme.primary;
+  }};
+
+  &.Personal {
+    color: ${({ theme }) => {
+      return theme.personal;
+    }};
+  }
+  &.Business {
+    color: ${({ theme }) => {
+      return theme.business;
+    }};
+  }
+  &.Education {
+    color: ${({ theme }) => {
+      return theme.education;
+    }};
+  }
+  &.Programming {
+    color: ${({ theme }) => {
+      return theme.programming;
+    }};
+  }
+`;
+
+const CardSubTitle = styled.div`
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 24px;
+  color: #344054;
+`;
+
+const FreeTrial = styled.div`
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 28px;
+  color: #939393;
+`;
+
+const Image = styled.img`
+  width: 140px;
+  height: 32px;
+  margin-right: 60px;
+`;
+
+const Tabs = styled.ul`
+  li button.active {
+    color: ${({ theme }) => {
+      return theme.primary;
+    }};
+    border-bottom: ${({ theme }) => {
+      return `2px solid ${theme.primary}`;
+    }};
+
+    div {
+      background-color: ${({ theme }) => {
+        return theme.primary;
+      }};
+      color: white;
+    }
+  }
+`;

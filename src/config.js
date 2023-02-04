@@ -18,6 +18,53 @@ const prod = {
   },
 };
 
+export const TabList = [
+  {
+    label: "All",
+    id: "AllAuthorizedCards",
+  },
+  {
+    label: "Personal",
+    id: "Personal",
+  },
+  {
+    label: "Professional",
+    id: "Professional",
+  },
+  {
+    label: "Business",
+    id: "Business",
+  },
+];
+
+export const MenuList = [
+  {
+    label: "Dashboard",
+    to: "/",
+    exact: true,
+  },
+  {
+    label: "All Plans",
+    to: "/all-plans",
+    exact: true,
+  },
+  {
+    label: "Saved",
+    to: "/saved-plans",
+    exact: true,
+  },
+  {
+    label: "Help",
+    to: "/help",
+    exact: true,
+  },
+  {
+    label: "Whats new?",
+    to: "/whats-new",
+    exact: true,
+  },
+];
+
 const config = process.env.NODE_ENV === "development" ? dev : prod;
 
 export default config;

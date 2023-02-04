@@ -5,7 +5,7 @@ import { Provider  } from 'mobx-react'
 import { observer,  } from 'mobx-react'
 
 import AppStore from './store'
-import colors from 'tailwindcss/colors' 
+// import colors from 'tailwindcss/colors' 
 import {
   BrowserRouter as Router,
   Switch,
@@ -22,7 +22,7 @@ import Dashboard from './Dashboard'
 import Tool from './Core/Tool'
 import Chat from './Core/Chat'
 
-import Login from './Login/Login'
+// import Login from './Login/Login'
 
 import Profile from './Profile/'
 import LoginSuccess from './Login/Success'
@@ -30,6 +30,7 @@ import LoginSuccess from './Login/Success'
 
 import './App.scss'
 import Auth from './Auth/index';
+import SavedPlans from './SavedPlans';
 
 if(!window.store){
   window.store = new AppStore();
@@ -41,6 +42,10 @@ const theme = {
   primary_gradient: "linear-gradient(0deg, #04adb4, #04adb4)",
   secondary_gradient: "linear-gradient(0deg, #05bbc2, #05bbc2)",
   gray: "#475467",
+  personal: "#2CB082",
+  professional: "#D99F21",
+  business: "#336EE9",
+  programming: "red",
 };
 
 @observer
@@ -59,7 +64,7 @@ class App extends Component {
                 </Switch>
                
                 <Switch>
-                      
+                      <Route path="/saved-plans" exact component={SavedPlans} /> 
                       <Route path="/" exact component={Dashboard} />
                       <Route path="/search" exact component={Search} />
 

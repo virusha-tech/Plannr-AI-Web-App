@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import Slider from "react-slick";
-import CompanyLogo from "../assets/CompanyLogo.svg";
-import Dashboard from "../assets/Dashboard.jpg";
+import CompanyLogo from "../assets/CompanyLogo.png";
+import Dashboard from "../assets/Dashboard.png";
 import { Helmet } from "react-helmet";
 import { Switch, Route, withRouter, Redirect, Link } from "react-router-dom";
 import { observer, inject } from "mobx-react";
@@ -104,7 +104,7 @@ class Auth extends Component {
           <Leftarea className="h-screen flex flex-col justify-between flex-1">
             <AuthForm>
               <img src={CompanyLogo} alt="Company Logo" />
-              <div className="px-4">
+              <div>
                 <Switch>
                   <Route path="/login">
                     <SignIn
@@ -278,8 +278,10 @@ const AuthForm = styled.div`
   }
   flex-direction: column;
   background: white;
-  img {
-    width: 140px;
+  > img {
+    width: 180px;
+    height:38px;
+    margin-bottom:85px;
   }
 `;
 
@@ -299,8 +301,8 @@ const Wrapper = styled.div`
   margin: 0 auto;
   width: 80%;
   img {
-    width: 450px;
-    height: 300px;
+    width: 550px;
+    // height: 3500px;
     @media (max-width: 1200px) {
       width: 300px;
       height: 200px;

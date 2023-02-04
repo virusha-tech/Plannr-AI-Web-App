@@ -1,6 +1,6 @@
 export function Body(props) {
 	return(
-		<div className={`container mx-auto overflow-hidden ${props.className || "md:px-28 md:py-8 lg:py-12 "}`}>{props.children}</div>
+		<div className={`container overflow-hidden ${props.className || "md:px-28 md:py-8 lg:py-12 "}`}>{props.children}</div>
 	)
 }
 
