@@ -52,7 +52,6 @@ class Login extends Component {
 
   onSignup = async (e) => {
     try {
-      debugger;
       e.preventDefault();
       this.errorMessage = "";
       console.log("signup");
@@ -88,11 +87,15 @@ class Login extends Component {
         </Helmet>
         <div className="container mx-auto lg:px-4 py-4 min-h-screen flex flex-col md:items-center md:justify-center">
           <div className="text-center flex justify-center items-center my-5 md:mb-10 md:mt-6">
-            <img
-              alt="logo"
-              className="w-60 md:w-80"
-              src="http://plannr.ai/wp-content/uploads/2023/01/plannr.ai-Logo-Website-With-Variations-492-%C3%97-102-px-3.png"
-            />
+            <a href="https://plannr.ai/" rel="noreferrer" target="_blank">
+              {" "}
+              <img
+                alt="logo"
+                className="w-60 md:w-80"
+                src="http://plannr.ai/wp-content/uploads/2023/01/plannr.ai-Logo-Website-With-Variations-492-%C3%97-102-px-3.png"
+              />
+            </a>
+
             {/* 
             <div className="text-3xl md:text-5xl relative font-medium text-transparent bg-clip-text bg-gradient-to-r from-gray-700 to-gray-600 mb-4">
               <div className="absolute top-0 ml-3 left-full bg-gradient-to-r from-gray-500 to-gray-500 text-white text-sm px-2 py-0.5 hidden md:inline-block rounded-md font-normal ">
@@ -213,7 +216,7 @@ class Login extends Component {
               ) : null}
             </div>
             <a
-              href={`https://www.open.ai/`}
+              href={`https://plannr.ai/`}
               className="block text-center bg-gray-100 text-gray-500 text-sm p-3 rounded-b-lg hover:bg-gray-200 cursor-pointer"
             >
               Back to landing page
@@ -282,7 +285,7 @@ const Logon = observer(
 						</div>
 						 */}
               <a
-                href={`https://www.openaitemplate.ai/contact`}
+                href={`https://plannr.ai/contact`}
                 className="mt-4 text-gray-400 text-sm"
               >
                 Forgot your password?

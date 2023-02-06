@@ -259,7 +259,6 @@ class Tool extends Component {
       if (this.prompts[this.currentPrompt].n) {
         postObj.n = this.prompts[this.currentPrompt].n;
       }
-      debugger;
       let response = await this.props.store.api.post(this.tool.api, postObj);
 
       if (!response.data.success) {

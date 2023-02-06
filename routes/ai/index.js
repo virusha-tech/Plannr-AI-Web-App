@@ -19,6 +19,9 @@ app.use("/", require("./writing/intro"));
 app.use("/", require("./jobad"));
 app.use("/", require("./helloworld"));
 app.use("/", require("./travel"));
+app.use("/", require("./workout"));
+app.use("/", require("./seo"));
+app.use("/", require("./mealPlan"));
 app.use("/", require("./example"));
 
 app.use("/", contentFilterCheck);
