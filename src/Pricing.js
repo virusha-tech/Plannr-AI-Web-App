@@ -214,6 +214,13 @@ function BasicTabs({ handleTabChange }) {
 const Flex = styled.div`
   display: flex;
   justify-content: space-between;
+  flex-direction: row;
+  @media only screen and (max-width: 1200px) {
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+
+  }
 `;
 
 @inject("store")
@@ -222,7 +229,7 @@ class Pricing extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeStep: 1,
+      activeStep: 2,
       subscription: "monthly",
       currency: "indianCurrency",
     };
@@ -751,15 +758,15 @@ const Premium = ({
             <span>
               &#8377;
               {isMonthlySubscription
-                ? amount["personal"]["indianCurrency"]["monthly"]
-                : amount["personal"]["indianCurrency"]["yearly"]}
+                ? amount["buisness"]["indianCurrency"]["monthly"]
+                : amount["buisness"]["indianCurrency"]["yearly"]}
             </span>
           ) : (
             <span>
               &#36;
               {isMonthlySubscription
-                ? amount["personal"]["USCurrency"]["monthly"]
-                : amount["personal"]["USCurrency"]["yearly"]}
+                ? amount["buisness"]["USCurrency"]["monthly"]
+                : amount["buisness"]["USCurrency"]["yearly"]}
             </span>
           )}
           <span className="text-lg">

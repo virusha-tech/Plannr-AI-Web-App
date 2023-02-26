@@ -14,6 +14,7 @@ const obj = {
 	
 	fromColor: "green-500",
 	toColor: "blue-500",
+	isComingSoon: true,
 
 	to: "/ai/personal/summarize",
 	api: "/ai/personal/summarize",

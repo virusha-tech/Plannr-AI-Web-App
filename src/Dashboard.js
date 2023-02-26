@@ -10,6 +10,7 @@ import styled from "styled-components";
 import { TabList } from "./config";
 import SearchIcon from "./assets/SearchIcon.svg";
 import { Layout } from "./Layout";
+import { Chip } from "../node_modules/@mui/material/index";
 @inject("store")
 @observer
 class Body extends Component {
@@ -144,6 +145,7 @@ class Body extends Component {
                   desc={tool.desc}
                   fromColor={tool.fromColor}
                   toColor={tool.toColor}
+                  isComingSoon={tool.isComingSoon}
                 />
               );
             })}
@@ -174,32 +176,79 @@ export const Grid = ({ children }) => (
   </div>
 );
 
-export const Tool = ({ Icon, title, desc, to, group, fromColor, toColor }) => (
-  <LinkCard to={to || "/"} className="flex relative gap-5">
-    <div>
-      <img width="36px" height="36px" src={User} alt="Avatar" />
-    </div>
-    <div className="flex gap-2 flex-col	">
-      <CardTitle
-        className={`uppercase ${group} tracking-wide text-sm font-semibold leading-none`}
-      >
-        {group || "New"}
-      </CardTitle>
-      <CardSubTitle
-        href="#"
-        className="block text-lg xl:text-xl 2xl:text-2xl leading-tight font-medium text-black leading-none"
-      >
-        {title}
-      </CardSubTitle>
-      <p className="mt-1 pr-1 text-sm ">{desc} </p>
-    </div>
-  </LinkCard>
-);
+export const Tool = ({
+  Icon,
+  title,
+  desc,
+  to,
+  group,
+  fromColor,
+  toColor,
+  isComingSoon,
+}) => {
+  return !isComingSoon ? (
+    <LinkCard
+      to={`${isComingSoon ? "#" : to || "/"}`}
+      className="flex relative gap-5"
+    >
+      <div>
+        <img width="36px" height="36px" src={User} alt="Avatar" />
+      </div>
+      <div className="flex gap-2 flex-col	">
+        <CardTitle
+          className={`uppercase ${group} tracking-wide text-sm font-semibold leading-none flex justify-between`}
+        >
+          <span> {group || "New"} </span>
+          {isComingSoon ? <Chip color="info" label="COMING SOON" /> : null}
+        </CardTitle>
+        <CardSubTitle
+          href="#"
+          className="block text-lg xl:text-xl 2xl:text-2xl leading-tight font-medium text-black leading-none"
+        >
+          {title}
+        </CardSubTitle>
+        <p className="mt-1 pr-1 text-sm ">{desc} </p>
+      </div>
+    </LinkCard>
+  ) : (
+    <ComingSoonCard className="flex relative gap-5">
+      <div>
+        <img width="36px" height="36px" src={User} alt="Avatar" />
+      </div>
+      <div className="flex gap-2 flex-col	">
+        <CardTitle
+          className={`uppercase ${group} tracking-wide text-sm font-semibold leading-none flex justify-between`}
+        >
+          <span> {group || "New"} </span>
+          {isComingSoon ? <Chip color="primary" label="COMING SOON" /> : null}
+        </CardTitle>
+        <CardSubTitle
+          href="#"
+          className="block text-lg xl:text-xl 2xl:text-2xl leading-tight font-medium text-black leading-none"
+        >
+          {title}
+        </CardSubTitle>
+        <p className="mt-1 pr-1 text-sm ">{desc} </p>
+      </div>
+    </ComingSoonCard>
+  );
+};
 
 export default Body;
 
 const LinkCard = styled(Link)`
   background: #ffffff;
+  border: 1px solid #eaecf0;
+  box-shadow: 0px 1px 3px rgba(16, 24, 40, 0.1),
+    0px 1px 2px rgba(16, 24, 40, 0.06);
+  border-radius: 12px;
+  height: 181px;
+  padding: 28px 20px;
+`;
+
+const ComingSoonCard = styled.div`
+  background: lightgrey;
+  cursor: not-allowed;
   border: 1px solid #eaecf0;
   box-shadow: 0px 1px 3px rgba(16, 24, 40, 0.1),
     0px 1px 2px rgba(16, 24, 40, 0.06);

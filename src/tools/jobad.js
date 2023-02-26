@@ -13,6 +13,7 @@ const obj = {
 
   fromColor: "blue-600",
   toColor: "yellow-500",
+	isComingSoon: true,
 
   output: {
     title: "Job Ad Preview",

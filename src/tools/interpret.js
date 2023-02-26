@@ -14,6 +14,7 @@ const obj = {
 	desc: "Interpret some code based on the language, code, and syntax provided",
 	category: "Programming",
 	Icon: EyeIcon,
+	isComingSoon: true,
 	// tags: [],
 	permissions: ['user'],
 	

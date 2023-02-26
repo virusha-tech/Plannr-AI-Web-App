@@ -11,6 +11,7 @@ const obj = {
 	Icon: MenuAlt2Icon,
 	// tags: [],
 	permissions: ['user'],
+	isComingSoon: true,
 	
 	fromColor: "yellow-400",
 	toColor: "yellow-600",

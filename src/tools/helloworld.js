@@ -11,6 +11,7 @@ const obj = {
 	Icon: ViewListIcon,
 	// tags: [],
 	permissions: ['user'],
+	isComingSoon: true,
 	
 	fromColor: "gray-500",
 	toColor: "gray-500",

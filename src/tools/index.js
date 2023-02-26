@@ -7,13 +7,13 @@ import example from "./example";
 import travel from "./travel";
 
 const TOOLS = [
+  travel,
   codeInterpret,
   intro,
   jobad,
   summarize,
   helloworld,
   example,
-  travel,
 ];
 
 export default TOOLS;
