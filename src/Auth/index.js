@@ -44,7 +44,8 @@ class Auth extends Component {
           password: this.password,
         })
         .then(({ data }) => data);
-      this.props.store.loginWithDataTokenAndProfile(data);
+
+      this.props.store.loginWithDataTokenAndProfile(data, this.props.history);
     } catch (err) {
       console.log(err);
       console.log(err?.response?.data?.message);
@@ -56,7 +57,6 @@ class Auth extends Component {
 
   onSignup = async (e) => {
     try {
-      debugger;
       e.preventDefault();
       this.errorMessage = "";
       console.log("signup");
@@ -204,7 +204,7 @@ class Auth extends Component {
   }
 }
 
-export default Auth;
+export default withRouter(Auth);
 
 const SlickArrowLeft = ({ currentSlide, slideCount, ...props }) => (
   <SlickArrowLeftButton
@@ -280,8 +280,8 @@ const AuthForm = styled.div`
   background: white;
   > img {
     width: 180px;
-    height:38px;
-    margin-bottom:85px;
+    height: 38px;
+    margin-bottom: 85px;
   }
 `;
 
@@ -389,5 +389,3 @@ const StyledSlider = styled(Slider)`
     color: white !important;
   }
 `;
-
-

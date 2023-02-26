@@ -12,7 +12,6 @@ const {
 let app = express.Router();
 
 app.use("/", initMiddleware, creditCheck);
-
 app.use("/", require("./summarize"));
 app.use("/", require("./code/interpret"));
 app.use("/", require("./writing/intro"));
@@ -20,6 +19,7 @@ app.use("/", require("./jobad"));
 app.use("/", require("./helloworld"));
 app.use("/", require("./travel"));
 app.use("/", require("./example"));
+app.use("/", require("./subsequentQuestion"));
 
 app.use("/", contentFilterCheck);
 app.use("/", creditPayment);

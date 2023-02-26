@@ -32,6 +32,7 @@ class appStore {
   @observable landingPageUrl = config.landingPageUrl;
 
   editor;
+  @observable editorOutput = "";
 
   constructor() {
     makeObservable(this);
@@ -61,6 +62,10 @@ class appStore {
       }
     );
   }
+
+  setEditorOutput = async (output) => {
+    this.editorOutput = output;
+  };
 
   noCreditsRemainPrompt = () => {
     // set the browser url to the no-credits page
@@ -105,10 +110,13 @@ class appStore {
     this.referral = referral;
   };
 
-  loginWithDataTokenAndProfile = async (data) => {
+  loginWithDataTokenAndProfile = async (data, history) => {
     this.setToken(data.token);
     this.setProfile(data.profile);
     this.isLoggedIn = true;
+    if (data.profile.status) {
+      history.push("/");
+    }
   };
 
   refreshTokenAndProfile = async () => {

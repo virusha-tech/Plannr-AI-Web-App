@@ -45,8 +45,7 @@ export const MenuList = [
   },
   {
     label: "All Plans",
-    to: "/all-plans",
-    exact: true,
+    isButton: true,
   },
   {
     label: "Saved",

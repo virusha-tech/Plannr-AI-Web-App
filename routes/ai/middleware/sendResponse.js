@@ -3,7 +3,7 @@ const sendResponse = async (req, res, next) => {
 
 	// if both req.locals.output is null and req.locals.outputs is null, then
 	// the middleware has not been executed
-	if (!req.locals.output && !req.locals.outputs) {
+	if (!req.locals.output_id) {
 		res.json({
 			success: false,
 			error: "No Content",
@@ -13,18 +13,11 @@ const sendResponse = async (req, res, next) => {
 	}
 
 	let response = { success: true, }
-	if(req.locals.output){
-		response.output = req.locals.output
-	}
-	if(req.locals.outputs){
-		response.outputs = req.locals.outputs
-	}
-	if(req.locals.code){
-		response.code =  req.locals.code
+	if(req.locals.output_id){
+		response.output_id = req.locals.output_id
 	}
 
 	res.json(response)
-	
 }
 
 module.exports = sendResponse

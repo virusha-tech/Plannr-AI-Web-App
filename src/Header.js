@@ -11,11 +11,44 @@ import { NavLink } from "react-router-dom";
 // } from "@heroicons/react/outline";
 
 // import { IconDashboard } from "./Icons";
-import CompanyLogo from "./assets/CompanyLogo.png";
 import { useLocation } from "react-router-dom";
 import { withRouter } from "react-router-dom";
 import User from "./assets/User.png";
 import { MenuList } from "./config";
+import CompanyLogo from "./assets/CompanyLogo.png";
+import Select from "react-select";
+
+const customStyles = {
+  control: (base, { isFocused }) => ({
+    ...base,
+    border: "1px solid rgba(209, 213, 219)",
+    boxShadow: "none",
+    height: "46px",
+    "&:hover": {
+      border: "1px solid rgba(156, 163, 175)",
+    },
+  }),
+  menuPortal: (base, state) => ({
+    ...base,
+    zIndex: 50,
+    height: "100px",
+  }),
+
+  // menu: (base, state) => ({
+  //   ...base,
+  //   "max-height": "200px",
+  //   "overflow-y": "scroll",
+  // }),
+
+  option: (styles, { data, isDisabled, isFocused, isSelected }) => {
+    // const color = chroma(data.color);
+    return {
+      ...styles,
+      backgroundColor: isFocused ? "#079196" : null,
+      color: "#333333",
+    };
+  },
+};
 
 function HeaderExpand(props) {
   const location = useLocation();
@@ -27,6 +60,17 @@ function HeaderExpand(props) {
 class SidebarCompontent extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      isOpen: false,
+      selectedOption: null,
+      allPlansOptions: [],
+    };
+
+    this.setWrapperRef = this.setWrapperRef.bind(this);
+    this.toggleDropdown = this.toggleDropdown.bind(this);
+    this.handleClickOutside = this.handleClickOutside.bind(this);
+    this.handleSelect = this.handleSelect.bind(this);
+
     if (this.props.location.pathname === "/signup") {
       this.props.history.push("/");
     }
@@ -34,11 +78,41 @@ class SidebarCompontent extends Component {
       this.props.history.push("/");
     }
   }
+
+  handleClickOutside(event) {
+    if (this.allPlansRef && !this.allPlansRef.contains(event.target)) {
+      if (this.state.isOpen) {
+        this.setState({ isOpen: false });
+      }
+    }
+  }
+
+  @computed get AllAuthorizedPlans() {
+    debugger;
+    const allPlans = [];
+    this.props.store.tools.forEach((tool) => {
+      let autorisedtool = tool.permissions.some((r) =>
+        this.props.store.profile.permissions.includes(r)
+      );
+      if (autorisedtool) {
+        allPlans.push({
+          label: `${tool.title} / ${tool.category}`,
+          value: `${tool.to}`,
+        });
+      }
+    });
+    console.log(allPlans, "allPlans");
+    return allPlans;
+  }
+
   componentDidMount() {
     document.addEventListener("keydown", this.shortcutHandler);
+    document.addEventListener("mousedown", this.handleClickOutside);
   }
+
   componentWillUnmount() {
     document.removeEventListener("keydown", this.shortcutHandler);
+    document.removeEventListener("mousedown", this.handleClickOutside);
   }
   shortcutHandler = (e) => {
     if (e.keyCode === 75 && e.ctrlKey) {
@@ -60,6 +134,23 @@ class SidebarCompontent extends Component {
     }
   };
 
+  handleSelect(selectedOption) {
+    this.setState(
+      {
+        isOpen: false,
+      },
+      () => {
+        this.props.history.push(selectedOption.value);
+      }
+    );
+  }
+
+  toggleDropdown() {
+    this.setState({
+      isOpen: !this.state.isOpen,
+    });
+  }
+
   @computed get fromColor() {
     if (this.props.store.profile.credits <= 0) {
       return "bg-red-200 text-red-600";
@@ -74,6 +165,10 @@ class SidebarCompontent extends Component {
       return "";
     }
     return "bg-red-200 text-red-600";
+  }
+
+  setWrapperRef(node) {
+    this.allPlansRef = node;
   }
 
   render() {
@@ -92,37 +187,60 @@ class SidebarCompontent extends Component {
               <img src={CompanyLogo} alt="Company Logo" />
             </StyledNavLink>
             {/* MENUBAR */}
-
             <NavList className="flex flex-grow">
               {MenuList.map((menuItem, index) => {
-                return (
-                  <NavListItem
-                    to={menuItem.to}
-                    key={menuItem.label}
-                    exact={menuItem.exact}
-                    className="mr-2 text-center block rounded py-2 px-4 hover:bg-blue-700"
-                    activeClassName="selected"
-                  >
-                    {menuItem.label}
-                  </NavListItem>
-                );
+                if (menuItem.isButton) {
+                  return (
+                    <SearchableDropdown
+                      ref={this.setWrapperRef}
+                      key={menuItem.label}
+                    >
+                      <NavButton
+                        className="mr-2 text-center block rounded py-2 px-4"
+                        onClick={this.toggleDropdown}
+                      >
+                        {menuItem.label}
+                      </NavButton>
+                      <div
+                        className={`dropdown ${
+                          this.state.isOpen ? "open" : ""
+                        }`}
+                      >
+                        <Select
+                          options={this.AllAuthorizedPlans}
+                          value={this.state.selectedOption}
+                          onChange={this.handleSelect}
+                          autoFocus={true}
+                          menuIsOpen={true}
+                          classNamePrefix="select"
+                          styles={customStyles}
+                          isClearable={true}
+                          isSearchable={true}
+                          maxMenuHeight={200}
+                          // menuPortalTarget={menuPortalTarget}
+
+                        />
+                      </div>
+                    </SearchableDropdown>
+                  );
+                } else {
+                  return (
+                    <NavListItem
+                      to={menuItem.to}
+                      key={menuItem.label}
+                      exact={menuItem.exact}
+                      className="mr-2 text-center block rounded py-2 px-4"
+                      activeClassName="selected"
+                    >
+                      {menuItem.label}
+                    </NavListItem>
+                  );
+                }
               })}
             </NavList>
 
             {/* Profile */}
-            <NavLink to="/my-profile">
-              <Profile className="flex items-center gap-x-1">
-                <img width="36px" height="36px" src={User} alt="Avatar" />
-                <div className="flex flex-col">
-                  <span className="greeting">
-                    Hi, {this.props.store.profile.fname}
-                  </span>
-                  <span className="credits">
-                    {this.props.store.profile.credits} Credits
-                  </span>
-                </div>
-              </Profile>
-            </NavLink>
+            
           </div>
         </HeaderExpand>
       </>
@@ -139,7 +257,7 @@ class SidebarCompontent extends Component {
 // `;
 
 const SuperHeader = styled.div`
-  height: 9vh;
+  height: 8vh;
   background: white;
   margin-top: ${(props) => (props.active ? "0px" : "-150px")};
   display: ${(props) => (props.hidden ? "hidden" : "flex")};
@@ -207,6 +325,47 @@ const NavListItem = styled(NavLink)`
 
   &:hover {
     background: rgba(116, 116, 116, 0.1);
+  }
+`;
+
+const NavButton = styled.button`
+  width: max-content;
+  height: 40px;
+  background: white;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  color: #344054;
+
+  /* &.selected {
+    background: rgba(116, 116, 116, 0.1);
+    cursor: not-allowed;
+  } */
+
+  /* &:hover,
+  &:active {
+    background: rgba(116, 116, 116, 0.1);
+  } */
+`;
+
+const SearchableDropdown = styled.div`
+  position: relative;
+  display: inline-block;
+
+  .dropdown {
+    width: 100%;
+    position: absolute;
+    top: 115%;
+    left: 15px;
+    z-index: 1;
+    display: none;
+    width: 350%;
+  }
+
+  .dropdown.open {
+    display: block;
   }
 `;
 

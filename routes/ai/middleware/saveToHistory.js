@@ -1,52 +1,57 @@
 const db = require("../../models");
-const History = db.history;
+
+const Plan = db.plan;
+const Editor = db.output;
 
 const saveToHistory = async (req, res, next) => {
+  let enteredPlan = {};
 
-	let prepHistory = {}
+  if (req.url) {
+    enteredPlan.api = req.originalUrl;
+    enteredPlan.url = req.originalUrl;
+  }
 
+  if (req.locals.inputLength) {
+  enteredPlan.inputLength = req.locals.inputLength;
+  }
 
-	if(req.body.n){
-		prepHistory.n = req.body.n
-	}
+  if (req.locals.inputLength) {
+    enteredPlan.inputLength = req.locals.inputLength;
+  }
+  if (req.locals.outputLength) {
+    enteredPlan.outputLength = req.locals.outputLength;
+  }
+  if (req.locals.price) {
+    enteredPlan.price = req.locals.price;
+  }
 
-	if(req.locals.input){
-		prepHistory.input = req.locals.input
-	}
-	if(req.locals.inputRaw){
-		prepHistory.input = req.locals.inputRaw
-	}
-	if(req.locals.output){
-		prepHistory.output = req.locals.output
-	}
-	if(req.locals.outputs){
-		prepHistory.outputs = req.locals.outputs
-	}
-	if(req.locals.inputLength){
-		prepHistory.inputLength = req.locals.inputLength
-	}
-	if(req.locals.outputLength){
-		prepHistory.outputLength = req.locals.outputLength
-	}
-	if(req.locals.price){
-		prepHistory.price = req.locals.price
-	}
-	if(req.locals.credits){
-		prepHistory.credits = req.locals.credits
-	}
-	if(req.user._id){
-		prepHistory.user = req.user._id
-	}
+  if (req.locals.credits) {
+    enteredPlan.credits = req.locals.credits;
+  }
 
-	if(req.url){
-		prepHistory.api = req.originalUrl
-		prepHistory.url = req.originalUrl
-	}
+  if (req.user._id) {
+    enteredPlan.user = req.user._id;
+  }
 
-	let history = new History(prepHistory)
-	history.save();
+  if (req.locals.planName) {
+    enteredPlan.planName = req.locals.planName;
+  }
 
-	next()
-}
+  if (req.body.plan) {
+    enteredPlan.planFormFields = req.body.plan;
+  }
 
-module.exports = saveToHistory
+  let editor = new Editor({
+    question: req.locals.input,
+    answer: req.locals.output,
+    user: req.user._id,
+  });
+
+  const editorResult = await editor.save();
+  req.locals.output_id = editorResult._id;
+  let plan = new Plan({ ...enteredPlan, output: editorResult._id });
+  await plan.save();
+  next();
+};
+
+module.exports = saveToHistory;

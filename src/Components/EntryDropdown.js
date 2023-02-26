@@ -1,10 +1,36 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component, Fragment } from "react";
+import Select from "react-select";
 
-import Select, { components }  from 'react-select';
+const customStyles = {
+  control: (base, { isFocused }) => ({
+    ...base,
+    border: "1px solid rgba(209, 213, 219)",
+    boxShadow: "none",
+    height: "46px",
+    "&:hover": {
+      border: "1px solid rgba(156, 163, 175)",
+    },
+  }),
+  menuPortal: (base, state) => ({
+    ...base,
+    zIndex: 50,
+  }),
+
+  option: (styles, { data, isDisabled, isFocused, isSelected }) => {
+    // const color = chroma(data.color);
+    console.log({ data, isDisabled, isFocused, isSelected });
+    return {
+      ...styles,
+      backgroundColor: isFocused ? "#079196" : null,
+      color: "#333333"
+    };
+  }
+
+};
 
 export default class SingleSelect extends Component {
   state = {
-    isClearable: false,
+    isClearable: true,
     isDisabled: false,
     isLoading: false,
     isRtl: false,
@@ -12,74 +38,82 @@ export default class SingleSelect extends Component {
   };
 
   toggleClearable = () =>
-    this.setState(state => ({ isClearable: !state.isClearable }));
+    this.setState((state) => ({ isClearable: !state.isClearable }));
   toggleDisabled = () =>
-    this.setState(state => ({ isDisabled: !state.isDisabled }));
+    this.setState((state) => ({ isDisabled: !state.isDisabled }));
   toggleLoading = () =>
-    this.setState(state => ({ isLoading: !state.isLoading }));
-  toggleRtl = () => this.setState(state => ({ isRtl: !state.isRtl }));
+    this.setState((state) => ({ isLoading: !state.isLoading }));
+  toggleRtl = () => this.setState((state) => ({ isRtl: !state.isRtl }));
   toggleSearchable = () =>
-    this.setState(state => ({ isSearchable: !state.isSearchable }));
+    this.setState((state) => ({ isSearchable: !state.isSearchable }));
   render() {
-    const {
-      isClearable,
-      isSearchable,
-      isDisabled,
-      isLoading,
-      isRtl,
-    } = this.state;
+    const { isClearable, isSearchable, isDisabled, isLoading, isRtl } =
+      this.state;
     return (
       <Fragment>
         <Select
+          placeholder={this.props.placeholder}
+          className="basic-single focus-within:border-gray-400 border-gray-300"
+          classNamePrefix="select"
+          // defaultValue={this.props.options[0]}
+          isDisabled={isDisabled}
+          isLoading={isLoading}
+          isClearable={false}
+          isRtl={isRtl}
+          isSearchable={isSearchable}
+          name="color"
+          options={this.props.options}
+          menuPortalTarget={document.body}
+          styles={customStyles}
+          onChange={this.props.onChange}
+          // styles={{ menuPortal: (base) => ({ ...base,  }) }}
+        />
+        {/* <Select
           className="basic-single mt-2"
           classNamePrefix="select"
-          defaultValue={this.props.options[0]}
+          defaultValue={}
           isDisabled={isDisabled}
           isLoading={isLoading}
           isClearable={isClearable}
           isRtl={isRtl}
           isSearchable={isSearchable}
-          name="color" 
+          name="color"
           onChange={this.props.onChange}
-          options={this.props.options}
-          components={{ 
+          options={}
+          components={{
             Option,
-            SingleValue
+            SingleValue,
           }}
-        />
+        /> */}
       </Fragment>
     );
   }
 }
 
-const SingleValue = (props) => {
-  let Icon = props.data.Icon
-  return (
-      <components.SingleValue {...props}>
-       <div className="flex items-center">
-         <div>
-           <Icon className="w-6 h-6" />
-         </div>
-        <div className="pl-2">
-          {props.children}
-        </div>
-       </div>
-      </components.SingleValue>
-  );
-};
+// const SingleValue = (props) => {
+//   let Icon = props.data.Icon;
+//   return (
+//     <components.SingleValue {...props}>
+//       <div className="flex items-center">
+//         <div>
+//           <Icon className="w-6 h-6" />
+//         </div>
+//         <div className="pl-2">{props.children}</div>
+//       </div>
+//     </components.SingleValue>
+//   );
+// };
 
-const Option = (props) => {
-  let Icon = props.data.Icon
-  return (
-      <components.Option {...props}>
-       <div className="flex items-center">
-         <div>
-           <Icon className="w-6 h-6" />
-         </div>
-        <div className="pl-2">
-          {props.children}
-        </div>
-       </div>
-      </components.Option>
-  );
-};
+// const Option = (props) => {
+//   let Icon = props.data.Icon;
+//   return (
+//     <components.Option {...props}>
+//       <div className="flex items-center">
+//         <div>
+//           <Icon className="w-6 h-6" />
+//         </div>
+//         <div className="pl-2">{props.children}</div>
+//       </div>
+//     </components.Option>
+//   );
+// };

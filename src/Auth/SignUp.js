@@ -1,11 +1,12 @@
 import { observer } from "mobx-react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 export const SignUp = observer(
   ({ active, email, password, fname, lname, onChange, onSignup }) => {
     return (
       <>
-        <SignUpForm onSubmit={onSignup}>
+        <SignUpForm onSubmit={onSignup} className='mb-10'>
           <div>
             <div className="text-4xl font-medium text-black-900">Sign Up</div>
             <p>Create your account.</p>
@@ -62,10 +63,26 @@ export const SignUp = observer(
             </div>
           </div>
         </SignUpForm>
+        <span className="flex justify-center items-center">
+          Already have an account? &nbsp;
+          <SignInAnchor to={`/signin`}>Sign in</SignInAnchor>
+        </span>
       </>
     );
   }
 );
+
+const SignInAnchor = styled(Link)`
+  background: white;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 20px;
+  color: ${({ theme }) => {
+    return theme.primary;
+  }};
+`;
 
 const SignUpForm = styled.form`
   p {

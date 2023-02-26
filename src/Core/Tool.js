@@ -22,8 +22,15 @@ import EntryTabs from "../Components/EntryTabs";
 import EntryPrompt from "../Components/EntryPrompt";
 import EntryInput from "../Components/EntryInput";
 import EntryN from "../Components/EntryN";
-
+import { Stepper, Step, StepLabel } from "@mui/material";
 import Filter from "bad-words";
+import styled from "styled-components";
+import Footer from "../Footer";
+import { getSteps, serialize } from "../tools/utils";
+import { Editor } from "draft-js";
+import MyEditor from "./Editor/index";
+import GeneratingSpinner from "./Editor/GeneratingSpinner";
+import { Layout } from "../Layout";
 let filterBadWords = new Filter();
 
 @inject("store")
@@ -37,19 +44,25 @@ class Tool extends Component {
 
   @observable error = "";
 
-  @observable output = "";
-  @observable outputs = [];
-  @observable code = "";
+  // @observable output = "";
+  // @observable outputs = [];
+  // @observable code = "";
 
   @observable loading = false;
 
-  @observable date = Date.now() + 1000;
   countdown = [];
 
   constructor(props) {
     super(props);
+    this.state = {
+      activeStep: 0,
+      editorOutput: { answer: "" },
+    };
+    this.getEditorOutput = this.getEditorOutput.bind(this);
+    this.steps = getSteps();
     makeObservable(this);
     this.tool = this.props.store.getToolByUrl(this.props.location.pathname);
+
     if (!this.tool) {
       window.location.href = "/";
     } else {
@@ -91,12 +104,18 @@ class Tool extends Component {
 
   checkMinimumPrompts = () => {
     let shouldReturn = false;
-
     this.prompts[this.currentPrompt].prompts.forEach((prompt, promptIndex) => {
       if (prompt.min) {
         if (prompt.value.length < prompt.min) {
           shouldReturn = true;
           prompt.error = `${prompt.title} needs to meet the minimum ${prompt.min} characters`;
+        }
+      } else {
+        if (prompt.required) {
+          if (!prompt.value.length) {
+            shouldReturn = true;
+            prompt.error = `Selection of ${prompt.title} field is required`;
+          }
         }
       }
     });
@@ -114,75 +133,6 @@ class Tool extends Component {
       clearTimeout(this.clearExampleTimeout[index]);
     });
     this.currentOption = "Start Using";
-  };
-
-  onExample = async () => {
-    this.loading = true;
-    this.error = "";
-    this.output = "";
-    this.outputs = [];
-    this.code = ``;
-
-    this.currentOption = "Example";
-
-    let totalLength = 0;
-
-    this.clearExampleTimeout.forEach((item, index) => {
-      clearTimeout(this.clearExampleTimeout[index]);
-    });
-
-    this.prompts[this.currentPrompt].prompts.forEach((prompt, promptIndex) => {
-      this.prompts[this.currentPrompt].prompts[promptIndex].value = "";
-    });
-
-    this.prompts[this.currentPrompt].prompts.forEach((prompt, promptIndex) => {
-      for (
-        let timeoutIndex = 0;
-        timeoutIndex < prompt.example.length;
-        timeoutIndex++
-      ) {
-        totalLength++;
-        this.clearExampleTimeout[totalLength] = setTimeout(() => {
-          this.prompts[this.currentPrompt].prompts[promptIndex].value +=
-            prompt.example[timeoutIndex];
-        }, 7 * totalLength);
-      }
-    });
-
-    totalLength++;
-
-    if (this.prompts[this.currentPrompt].example.output) {
-      this.clearExampleTimeout[totalLength] = setTimeout(() => {
-        this.output = this.prompts[this.currentPrompt].example.output;
-        totalLength++;
-        this.clearExampleTimeout[totalLength] = setTimeout(() => {
-          this.loading = false;
-          this.currentOption = "Start Using";
-          this.prompts[this.currentPrompt].prompts[0].value += " ";
-        }, 7 * totalLength + this.prompts[this.currentPrompt].example.output.length * 7 + 500);
-      }, 7 * totalLength + 500);
-    }
-
-    if (this.prompts[this.currentPrompt].example.code) {
-      totalLength++;
-      this.clearExampleTimeout[totalLength] = setTimeout(() => {
-        this.code = `${this.prompts[this.currentPrompt].example.code}`;
-        this.loading = false;
-      }, 7 * totalLength + 500);
-    }
-
-    if (this.prompts[this.currentPrompt].example.outputs) {
-      this.clearExampleTimeout[totalLength] = setTimeout(() => {
-        this.outputs = this.prompts[this.currentPrompt].example.outputs;
-
-        totalLength++;
-        this.clearExampleTimeout[totalLength] = setTimeout(() => {
-          this.loading = false;
-          this.currentOption = "Start Using";
-          // this.prompts[this.currentPrompt].prompts[0].value += " "
-        }, 7 * totalLength + 500);
-      }, 7 * totalLength + 500);
-    }
   };
 
   sanitizeAllPrompts = () => {
@@ -206,7 +156,6 @@ class Tool extends Component {
   contentFilterFlagged = async (response) => {
     this.error = response.message;
 
-    this.date = Date.now() + 5000;
     this.countdown.forEach((countdown) => {
       if (countdown) {
         countdown.stop();
@@ -219,7 +168,6 @@ class Tool extends Component {
   checkOutput = (output) => {
     if (output) {
       output = output.replace(/^\s+|\s+$/g, "");
-      // output = output.replace(/\s{2,}/g, ' ')
     }
     return output;
   };
@@ -237,17 +185,13 @@ class Tool extends Component {
   onGenerateClick = async () => {
     try {
       this.error = "";
-      this.output = "";
-      this.code = ``;
-      this.outputs = [];
+      this.setState({ editorOutput: { answer: "" } });
       this.loading = true;
-
       let checkMinimumPrompts = this.checkMinimumPrompts();
       if (checkMinimumPrompts) {
         this.loading = false;
         return false;
       }
-      // this.sanitizeAllPrompts()
 
       let postObj = {};
 
@@ -259,86 +203,111 @@ class Tool extends Component {
       if (this.prompts[this.currentPrompt].n) {
         postObj.n = this.prompts[this.currentPrompt].n;
       }
-      debugger;
-      let response = await this.props.store.api.post(this.tool.api, postObj);
 
-      if (!response.data.success) {
-        this.contentFilterFlagged(response.data);
-        return false;
-      }
+      this.setState({ activeStep: 1 });
 
-      if (response.data.output) {
-        this.output = this.checkOutput(response.data.output);
-      }
+      console.log(this.prompts[this.currentPrompt]);
 
-      if (response.data.code) {
-        this.code = response.data.code;
-      }
+      // let response = await this.props.store.api.post(this.tool.api, {
+      //   plan: {
+      //     city: postObj['destination'],
+      //     days: "10",
+      //     traveller: postObj['traveller'],
+      //     budget: postObj['budget'],
+      //     purpose: purpose["purpose"],
+      //     stay: "10",
+      //     currentPrompt: "Entry Text",
+      //   },
+      // });
 
-      if (response.data.outputs) {
-        this.outputs = response.data.outputs;
-      }
-
-      this.date = Date.now() + 10000;
-      this.countdown.forEach((countdown) => {
-        if (countdown) {
-          countdown.stop();
-          countdown.start();
-        }
+      let response = await this.props.store.api.post(this.tool.api, {
+        plan: {
+          city: "Rishikesh",
+          days: "10",
+          traveller: "Solo",
+          budget: "30000",
+          purpose: "Explore",
+          stay: "10",
+          currentPrompt: "Entry Text",
+        },
       });
+
+      if (response.data.output_id) {
+        this.props.history.replace({
+          search: serialize({
+            output_id: response.data.output_id,
+          }),
+        });
+      }
       this.loading = false;
     } catch (error) {
-      console.log(error);
-      this.countdown.forEach((countdown) => {
-        if (countdown) {
-          countdown.stop();
-          countdown.start();
-        }
-      });
       this.loading = false;
     }
   };
 
-  render() {
-    // required for mobx to pick up deeply nested value
-    const currentValue = this.prompts[this.currentPrompt].prompts[0].value;
+  async getEditorOutput(outputId) {
+    this.setState({ activeStep: 1 });
+    const { data } = await this.props.store.api.get(
+      `/Editor/output/${outputId}`
+    );
 
+    if (data.answer && this.checkOutput(data.answer)) {
+      this.setState({ editorOutput: data });
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.location.search !== prevProps.location.search) {
+      const output_id = new URLSearchParams(this.props.location.search).get(
+        "output_id"
+      );
+      if (output_id) this.getEditorOutput(output_id);
+      else {
+        this.setState({
+          activeStep: 0,
+          editorOutput: { answer: "" },
+        });
+      }
+    }
+  }
+
+  componentDidMount() {
+    const output_id = new URLSearchParams(this.props.location.search).get(
+      "output_id"
+    );
+    if (output_id) {
+      this.getEditorOutput(output_id);
+    }
+  }
+
+  render() {
     return (
-      <>
+      <Layout>
         <Helmet>
           <title>{`${this.tool.title} Tool - OpenAI Template`}</title>
         </Helmet>
-        <Header
-          title={this.tool.title}
-          desc={this.tool.desc}
-          Icon={this.tool.Icon}
-          fromColor={this.tool.fromColor}
-          category={this.tool.category}
-          options={[
-            {
-              title: "Start Using",
-              Icon: PencilIcon,
-              color: this.props.store.profile.credits ? "green" : "red",
-              onClick: this.onStartUsing,
-            },
-            {
-              title: "Example",
-              color: "yellow",
-              Icon: InformationCircleIcon,
-              onClick: this.onExample,
-            },
-          ]}
-          currentOption={this.currentOption}
-        />
-        <Body>
-          <Grid>
-            <Col span="6">
+        <StyledContainer>
+          <AlignStepper>
+            <StyledStepper activeStep={this.state.activeStep}>
+              {this.steps.map((label, index) => {
+                return (
+                  <Step key={label}>
+                    <StyledStepLabel>{label}</StyledStepLabel>
+                  </Step>
+                );
+              })}
+            </StyledStepper>
+          </AlignStepper>
+          {this.state.activeStep == 0 ? (
+            <StyledForm>
+              <StyledSubHeading className="px-6 py-6">
+                {this.tool.title} Plan
+              </StyledSubHeading>
               <EntryTabs
                 prompts={this.prompts}
                 currentPrompt={this.currentPrompt}
                 onChange={this.handleCurrentPrompt}
               />
-
               {this.prompts.map((prompt, index) => (
                 <EntryPrompt
                   prompt={prompt}
@@ -347,47 +316,25 @@ class Tool extends Component {
                   disabled={this.disabled}
                   currentPrompt={this.currentPrompt}
                 >
-                  {prompt.prompts.map((promptInput, index) => (
-                    <EntryInput
-                      prompt={promptInput}
-                      key={index}
-                      language={this.language}
-                      index={index}
-                      disabled={this.disabled}
-                    />
-                  ))}
-
-                  <div className="md:flex">
-                    <Countdown
-                      ref={(countdown) => (this.countdown[index] = countdown)}
-                      date={this.date}
-                      renderer={(props) => (
-                        <Button
-                          title={
-                            props.total
-                              ? `Timeout ${props.total / 1000} secs`
-                              : "Perform Request"
-                          }
-                          disabled={
-                            props.total || this.isGenerateButtonDisabled
-                          }
-                          Icon={
-                            props.total
-                              ? ClockIcon
-                              : currentValue
-                              ? DuplicateIcon
-                              : PencilIcon
-                          }
-                          onClick={this.onGenerateClick}
+                  <div>
+                    {prompt.prompts.map((promptInput, index) => {
+                      return (
+                        <EntryInput
+                          isLast={index === prompt.prompts.length - 1}
+                          prompt={promptInput}
+                          key={index}
+                          language={this.language}
+                          index={index}
+                          disabled={this.disabled}
                         />
-                      )}
-                    />
-                    <EntryN
-                      prompts={this.prompts}
-                      currentPrompt={this.currentPrompt}
-                    />
+                      );
+                    })}
                   </div>
 
+                  <div className="flex justify-end gap-6 items-center">
+                    <CancelButton>Cancel</CancelButton>
+                    <Button onClick={this.onGenerateClick}>Generate</Button>
+                  </div>
                   {this.error && (
                     <div className="mt-4">
                       <label
@@ -401,28 +348,80 @@ class Tool extends Component {
                   )}
                 </EntryPrompt>
               ))}
-            </Col>
-            <Col span="6">
-              <Output
-                title={this.tool.output.title}
-                desc={this.tool.output.desc}
-                Icon={this.tool.output.Icon || this.tool.Icon}
-                fromColor={this.tool.fromColor}
-                toColor={this.tool.toColor}
-                loading={this.loading}
-                output={this.output}
-                outputs={this.outputs}
-                code={this.code}
-                language={this.language}
-                outputsColor={this.tool.output.color}
-                OutputsIcon={this.tool.output.Icon}
-              />
-            </Col>
-          </Grid>
-        </Body>
-      </>
+            </StyledForm>
+          ) : !this.state.editorOutput.answer.length ? (
+            <GeneratingSpinner />
+          ) : (
+            <>
+              <MyEditor {...this.state.editorOutput} />
+            </>
+          )}
+        </StyledContainer>
+      </Layout>
     );
   }
 }
+
+//
+const StyledContainer = styled.div`
+  background: #fafafa;
+  padding: 0px 10px;
+  background: #fafafa;
+  min-height: 83vh;
+`;
+
+const CancelButton = styled.button`
+  background: #fafafa;
+  width: 80px;
+  height: 40px;
+  background: #ffffff;
+  border: 1px solid #d0d5dd;
+  box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+  border-radius: 8px;
+`;
+
+const StyledForm = styled.div`
+  width: 50vw;
+  margin: 0 auto;
+  /* padding-top: 8vh; */
+  background: #fafafa;
+  @media only screen and (max-width: 1200px) {
+    width: 100%;
+  }
+`;
+
+const StyledSubHeading = styled.div`
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 30px;
+  line-height: 38px;
+  /* text-align: center; */
+  color: #101828;
+  margin-bottom: 1vh;
+`;
+
+const StyledStepper = styled(Stepper)`
+  background: inherit !important;
+`;
+
+const StyledStepLabel = styled(StepLabel)`
+  .MuiStepLabel-label {
+    font-size: 24px;
+    padding: 10px;
+  }
+  .MuiSvgIcon-root.MuiStepIcon-root {
+    height: 2rem;
+    width: 2rem;
+    margin: 5px;
+  }
+`;
+const AlignStepper = styled.div`
+  width: 50vw;
+  margin: 0 auto;
+  @media only screen and (max-width: 1200px) {
+    width: 100%;
+  }
+`;
 
 export default withRouter(Tool);

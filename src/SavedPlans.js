@@ -1,38 +1,143 @@
-import React from "react";
+import React, { Component } from "react";
 import { Helmet } from "react-helmet";
 import styled from "styled-components";
-import Footer from "./Footer";
+import { Layout } from "./Layout";
+import { observer, inject } from "mobx-react";
+import { withRouter } from "react-router-dom";
+import moment from "moment";
+import GeneratingSpinner from "./Core/Editor/GeneratingSpinner";
+import { EnhancedTable } from "./TestDb";
 
-function SavedPlans() {
-  return (
-    <>
-      <MainContainer>
-        <Helmet>
-          <title>{`Tools - OpenAI Template`}</title>
-        </Helmet>
-        <h1>Saved Plans</h1>
-        <span>
-          Oops! you do not have any saved plans. Start creating one by clicking
-          on the link below
-        </span>
-        <button type="button">Create New</button>
-      </MainContainer>
-      <Footer />
-    </>
-  );
+function createData(created, credits, id, planName, output, api) {
+  return {
+    created: moment(created).format("D MMM, YYYY"),
+    credits,
+    id,
+    planName,
+    output,
+    api,
+  };
 }
 
-export default SavedPlans;
+@inject("store")
+@observer
+class SavedPlans extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      rows: [],
+      count: 0,
+      isLoading: true,
+    };
 
-const MainContainer = styled.div`
-  padding: 10px 120px;
+    this.handleOutput = this.handleOutput.bind(this);
+    this.handleNewPlanCreation = this.handleNewPlanCreation.bind(this);
+    this.handleChangePage = this.handleChangePage.bind(this);
+  }
+
+  handleNewPlanCreation = (plan) => {
+    this.props.history.push("/");
+  };
+
+  handleOutput = (output, api) => {
+    console.log(api);
+    this.props.history.push(`${api.substring(4)}?output_id=${output}`);
+  };
+
+  componentDidMount() {
+    const getPlannerHistory = async () => {
+      const plans = await await this.props.store.api.get(
+        "/getMyPlans?page=1&pageSize=10"
+      );
+
+      const rows = plans.data.docs.map((plan) => {
+        const { created, credits, id, planName, output, api } = plan;
+        return createData(created, credits, id, planName, output, api);
+      });
+
+      this.setState({
+        rows,
+        isLoading: false,
+        count: plans.data.count,
+      });
+    };
+    getPlannerHistory();
+  }
+
+  async handleChangePage(pageNumber, pageSize = 10, cb) {
+    const plans = await await this.props.store.api.get(
+      `/getMyPlans?page=${pageNumber + 1}&pageSize=${pageSize}`
+    );
+    const rows = plans.data.docs.map((plan) => {
+      const { created, credits, _id, api, output } = plan;
+      return createData(created, credits, _id, api, output);
+    });
+
+    this.setState(
+      {
+        rows: [...rows],
+        count: plans.data.count,
+      },
+      () => {
+        cb();
+      }
+    );
+  }
+
+  render() {
+    return (
+      <Layout>
+        {this.state.isLoading ? (
+          <GeneratingSpinner>Finding your seach History...</GeneratingSpinner>
+        ) : this.state.count ? (
+          <TableWrapper>
+            <Heading>History..</Heading>
+            <EnhancedTable
+              rows={this.state.rows}
+              count={this.state.count}
+              handleChangePage={this.handleChangePage}
+              handleOutput={this.handleOutput}
+            />
+          </TableWrapper>
+        ) : (
+          <Center>
+            <Helmet>
+              <title>{`Tools - OpenAI Template`}</title>
+            </Helmet>
+            <h1>Saved Plans</h1>
+            <span>
+              Oops! you do not have any saved plans. Start creating one by
+              clicking on the link below
+            </span>
+            <button type="button" onClick={this.handleNewPlanCreation}>
+              Create New
+            </button>
+          </Center>
+        )}
+      </Layout>
+    );
+  }
+}
+
+export default withRouter(SavedPlans);
+const TableWrapper = styled.div`
+  height: 100%;
+  padding-top: 2%;
+`;
+
+const Heading = styled.h1`
+  font-size: 36px;
+  font-weight: bold;
+  margin-bottom: 30px;
+`;
+const Center = styled.div`
   background: white;
-  min-height: 83vh;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  gap: 0px;
+  background: #fafafa;
   h1 {
     font-family: "Inter";
     font-style: normal;
@@ -51,9 +156,8 @@ const MainContainer = styled.div`
     text-align: center;
     color: #475467;
     margin-top: 4px;
-
   }
-  button {
+  > button {
     font-family: "Inter";
     font-style: normal;
     font-weight: 600;

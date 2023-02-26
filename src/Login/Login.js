@@ -52,7 +52,6 @@ class Login extends Component {
 
   onSignup = async (e) => {
     try {
-      debugger;
       e.preventDefault();
       this.errorMessage = "";
       console.log("signup");
@@ -176,7 +175,6 @@ class Login extends Component {
               </NavLink>
             </div>
             <div className="px-4 py-4 md:px-12 md:py-12">
-              {/* Sorru */}
               <Switch>
                 <Route path="/login">
                   <Logon
