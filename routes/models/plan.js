@@ -58,33 +58,5 @@ PlanSchema.plugin(AutoIncrement, { inc_field: "id" });
 
 const Plan = mongoose.model("Plan", PlanSchema);
 
-// Apply the auto-increment plugin to your schema
 module.exports = Plan;
 
-// autoIncrement.initialize(mongoose.connection); // This is important. You can remove initialization in different file
-
-// PlanSchema.plugin(autoIncrement.plugin, {
-//   model: "Plan",
-//   field: "plan_id",
-//   startAt: 100,
-//   incrementBy: 100,
-// });
-
-// bookSchema.plugin(autoIncrement.plugin, 'Book');
-
-// const TestPlan = new Plan({
-//   formName: "My Form",
-//   formFields: {
-//     field1: "Text input",
-//     field2: "Checkbox",
-//     field3: "Radio button",
-//   },
-// });
-
-// TestPlan.save((err, form) => {
-//   if (err) {
-//     console.error(err);
-//   } else {
-//     console.log(form);
-//   }
-// });

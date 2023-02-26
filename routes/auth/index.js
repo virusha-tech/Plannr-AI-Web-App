@@ -95,23 +95,6 @@ const signup = async (req, res) => {
     ...referrerObj,
   });
 
-  const TestPlan = new Plan({
-    planName: "My Form",
-    planFormFields: {
-      field1: "Text input",
-      field2: "Checkbox",
-      field3: "Radio button",
-    },
-  });
-
-  TestPlan.save((err, form) => {
-    if (err) {
-      console.error(err);
-    } else {
-      console.log(form);
-    }
-  });
-
   user.save((err, user) => {
     if (err) {
       res.status(500).json({ message: err });
