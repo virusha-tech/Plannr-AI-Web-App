@@ -22,10 +22,20 @@ const customStyles = {
     return {
       ...styles,
       backgroundColor: isFocused ? "#079196" : null,
-      color: "#333333"
+      color: "#333333",
     };
-  }
+  },
+};
 
+export const errorStyles = {
+  control: (base, state) => ({
+    ...base,
+    border: "1px solid red",
+    boxShadow: "none",
+    "&:hover": {
+      border: "1px solid red",
+    },
+  }),
 };
 
 export default class SingleSelect extends Component {
@@ -49,6 +59,9 @@ export default class SingleSelect extends Component {
   render() {
     const { isClearable, isSearchable, isDisabled, isLoading, isRtl } =
       this.state;
+
+    const errors = this.props.isError ? errorStyles : {};
+
     return (
       <Fragment>
         <Select
@@ -64,7 +77,7 @@ export default class SingleSelect extends Component {
           name="color"
           options={this.props.options}
           menuPortalTarget={document.body}
-          styles={customStyles}
+          styles={{ ...customStyles, ...errors }}
           onChange={this.props.onChange}
           // styles={{ menuPortal: (base) => ({ ...base,  }) }}
         />

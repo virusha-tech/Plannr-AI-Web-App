@@ -104,7 +104,7 @@ class Body extends Component {
           <Tabs className="flex flex-wrap -mb-px text-sm font-medium text-center text-gray-500 dark:text-gray-400">
             {TabList.map((tabItem, index) => {
               return (
-                <li className="mr-2">
+                <li className="mr-2" key={tabItem.id}>
                   <button
                     onClick={() => this.changeTab(tabItem.id)}
                     className={`inline-flex p-3 md:p-4 border-b-2 border-transparent  rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group ${
@@ -131,24 +131,24 @@ class Body extends Component {
             onKeyUp={this.onKeyUp}
           ></Input>
         </TabContainer>
-         <CardsBody className="py-4 md:py-8 lg:py-12 ">
-            <Grid>
-              {this[this.state.activeTab]?.map((tool, index) => {
-                return (
-                  <Tool
-                    key={tool.title}
-                    group={tool.category}
-                    title={tool.title}
-                    to={tool.to}
-                    Icon={tool.Icon}
-                    desc={tool.desc}
-                    fromColor={tool.fromColor}
-                    toColor={tool.toColor}
-                  />
-                );
-              })}
-            </Grid>
-          </CardsBody>
+        <CardsBody className="py-4 md:py-8 lg:py-12 ">
+          <Grid>
+            {this[this.state.activeTab]?.map((tool, index) => {
+              return (
+                <Tool
+                  key={tool.title}
+                  group={tool.category}
+                  title={tool.title}
+                  to={tool.to}
+                  Icon={tool.Icon}
+                  desc={tool.desc}
+                  fromColor={tool.fromColor}
+                  toColor={tool.toColor}
+                />
+              );
+            })}
+          </Grid>
+        </CardsBody>
       </Layout>
     );
   }
@@ -256,7 +256,6 @@ const StyledButton = styled.button`
   color: white;
   font-weight: 600;
 `;
-
 
 const Pill = styled.div`
   font-style: normal;
@@ -406,10 +405,8 @@ const Input = styled.input`
   }
 
   @media only screen and (max-width: 1200px) {
-   display: none;
+    display: none;
   }
-
-
 `;
 
 const TabContainer = styled.div`

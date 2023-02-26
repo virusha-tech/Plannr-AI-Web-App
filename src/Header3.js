@@ -321,7 +321,7 @@ class ResponsiveAppBar extends React.Component {
                     <img
                       src={CompanyLogo}
                       alt="Company Logo"
-                      style={{ margin: "auto", "margin-top": "30px" }}
+                      style={{ margin: "auto", marginTop: "30px" }}
                     />
                   </StyledNavLink>
                 </Box>
@@ -330,13 +330,12 @@ class ResponsiveAppBar extends React.Component {
                   {MenuList.map((menuItem) => {
                     if (menuItem.isButton) {
                       return (
-                        <>
+                        <div key={menuItem.label}>
                           <StyledListItemButton
                             onClick={(ev) => {
                               ev.stopPropagation();
                               this.toggleDropdown("isOpenAllPlansInMobile");
                             }}
-                            key={menuItem.label}
                           >
                             <StyledListItemText>
                               {menuItem.label}
@@ -387,7 +386,7 @@ class ResponsiveAppBar extends React.Component {
                                         sx={{ textAlign: "center" }}
                                       >
                                         <NestedNavListItem
-                                          isMobile={true}
+                                          ismobile='true'
                                           to={value}
                                         >
                                           {label}
@@ -399,14 +398,14 @@ class ResponsiveAppBar extends React.Component {
                               )}
                             </List>
                           </Collapse>
-                        </>
+                        </div>
                       );
                     } else {
                       return (
                         <ListItem key={menuItem.label} disablePadding>
                           <ListItemButton sx={{ textAlign: "center" }}>
                             <NavListItem
-                              isMobile={true}
+                              ismobile='true'
                               to={menuItem?.to || "test"}
                             >
                               {menuItem.label}
@@ -498,7 +497,7 @@ const SearchableDropdown = styled.div`
   }
 `;
 const NavListItem = styled(NavLink)`
-  width: ${(props) => (props.isMobile ? "100%" : "max-content")};
+  width: ${(props) => (!!props.ismobile ? "100%" : "max-content")};
   height: 40px;
   background: white;
   font-family: "Inter";
@@ -519,7 +518,7 @@ const NavListItem = styled(NavLink)`
 `;
 
 const NestedNavListItem = styled(NavLink)`
-  width: ${(props) => (props.isMobile ? "100%" : "max-content")};
+  width: ${(props) => (!!props.ismobile ? "100%" : "max-content")};
   height: min-content;
   background: white;
   font-family: "Inter";

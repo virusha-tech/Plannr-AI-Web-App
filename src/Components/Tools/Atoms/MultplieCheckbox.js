@@ -32,14 +32,14 @@ class MultplieCheckbox extends React.Component {
     return (
       <React.Fragment>
         {this.props.checkboxList.map(({ label }) => (
-          <StyledCheckbox key={label}>
+          <StyledCheckbox key={label} iserror={this.props.isError}>
             <label key={label}>
               <Checkbox
                 name={label}
                 checked={this.state.checkedItems.get(label)}
                 onChange={this.handleChange}
               />
-              <span> {label}</span>
+              <span>{label}</span>
             </label>
           </StyledCheckbox>
         ))}
@@ -60,11 +60,13 @@ const StyledCheckbox = styled.div`
     height: 18px;
     border-radius: 4px;
     margin-right: 0.5em;
-    border: 2px solid #007a7e;
     outline: none;
     cursor: pointer;
     position: relative;
     top: 4px;
+    border: ${(props) => {
+      return props.iserror ? `2px solid red;` : `2px solid #007a7e;`;
+    }};
 
     &:disabled {
       border-color: #c0c0c0;
@@ -104,15 +106,16 @@ const StyledCheckbox = styled.div`
   span {
     font-family: "Inter";
     font-style: normal;
-    font-weight: 500;
+    font-weight: 400;
     font-size: 14px;
     line-height: 20px;
     cursor: pointer;
     /* identical to box height, or 143% */
 
     /* Gray/700 */
-
-    color: #344054;
+    color: ${({ iserror, theme }) => {
+      return iserror ? "red" : " #344054";
+    }};
   }
 `;
 

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Radio, RadioGroup as Group } from "react-radio-group";
 import styled from "styled-components";
 
-const RadioGroup = ({ name, radioItemList, onChange }) => {
+const RadioGroup = ({ name, radioItemList, onChange, isError }) => {
   const [selectedValue, setSelectedValue] = useState(null);
 
   const handleChange = (value) => {
@@ -18,8 +18,8 @@ const RadioGroup = ({ name, radioItemList, onChange }) => {
     >
       {radioItemList.map(({ label }, index) => {
         return (
-          <StyledLabel key={label}>
-            <StyledRadio value={label} />
+          <StyledLabel key={label} iserror={isError}>
+            <StyledRadio value={label} iserror={isError} />
             <span>{label}</span>
           </StyledLabel>
         );
@@ -48,12 +48,15 @@ const StyledLabel = styled.label`
   span {
     font-family: "Inter";
     font-style: normal;
-    font-weight: 500;
+    font-weight: 400;
     font-size: 14px;
     line-height: 20px;
     color: #344054;
     text-transform: capitalize;
     cursor: pointer;
+    color: ${({ iserror, theme }) => {
+      return iserror ? "red" : "black";
+    }};
   }
 `;
 const StyledRadio = styled(Radio)`
@@ -69,8 +72,8 @@ const StyledRadio = styled(Radio)`
     font: inherit;
     width: 0.6em;
     height: 0.6em;
-    border: ${({ theme }) => {
-      return `0.08em solid ${theme.primary}`;
+    border: ${({ iserror, theme }) => {
+      return iserror ? `0.08em solid red` : `0.08em solid ${theme.primary}`;
     }};
     border-radius: 50%;
     transform: translateY(-0.075em);

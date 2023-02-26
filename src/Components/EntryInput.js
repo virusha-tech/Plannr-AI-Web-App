@@ -72,11 +72,16 @@ class EntryInput extends Component {
             placeholder={this.props.prompt.placeholder}
             onChange={(e) => this.onChange(e.value)}
             options={this.props.prompt.options}
-            // onChange={(e) => this.onChange(e.target.value)}
+            isError={this.props.prompt.error}
           />
         );
       case "dateRange":
-        return <DateRange onChange={this.onChange} />;
+        return (
+          <DateRange
+            onChange={this.onChange}
+            isError={this.props.prompt.error}
+          />
+        );
       case "code":
         return (
           <div className="mt-4 -mx-6" style={{ backgroundColor: "#f5f5f5" }}>
@@ -121,6 +126,7 @@ class EntryInput extends Component {
             checkboxList={this.props.prompt.options}
             name={this.props.prompt.attr}
             onChange={this.onChange}
+            isError={this.props.prompt.error}
           />
         );
       case "radiogroup":
@@ -129,15 +135,16 @@ class EntryInput extends Component {
             radioItemList={this.props.prompt.options}
             name={this.props.prompt.attr}
             onChange={this.onChange}
+            isError={this.props.prompt.error}
           />
         );
       default:
         return (
           <>
             <div
-              className={`text-xs absolute z-30 right-2 select-none pointer-events-none transition-all top bg-white px-2 text-gray-400 ${
-                !this.isLongEnoughToDrop && this.props.size ? "" : ""
-              }`}
+              className={`text-xs absolute z-30 right-2 select-none pointer-events-none transition-all top bg-white px-2 
+              ${this.props.prompt.error ? " text-red-400" : "text-gray-400"}
+              ${!this.isLongEnoughToDrop && this.props.size ? "" : ""}`}
             >
               {this.currentNumberOfCharacters} chars
             </div>
@@ -156,7 +163,7 @@ class EntryInput extends Component {
                     this.props.size || "lg"
                   } bg-white rounded-md px-4 py-2 w-full border  focus:border-gray-400 ${
                     this.props.prompt.error
-                      ? "border-gray-300"
+                      ? "border-red-400"
                       : "border-gray-300"
                   } font-regular mt-2 transition-all`}
                   onChange={(e) => this.onChange(e.target.value)}

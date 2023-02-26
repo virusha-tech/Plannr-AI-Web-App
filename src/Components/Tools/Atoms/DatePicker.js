@@ -58,8 +58,8 @@ class DateRange extends Component {
       <DateWrapper
         className={`outline-none focus:outline-none text-${
           this.props?.size || "lg"
-        } bg-white rounded-md  w-full border focus-within:border-gray-400 ${
-          this.props?.prompt?.error ? "border-red-400" : "border-gray-300"
+        }  bg-white rounded-md  w-full border focus-within:border-gray-400 ${
+          this.props?.isError ? "border-red-400" : "border-gray-300"
         } font-regular px-4 mt-2  transition-all`}
       >
         <input

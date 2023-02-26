@@ -489,6 +489,7 @@ const Wrapper = styled.div`
 const StyledForm = styled.div`
   width: 50vw;
   margin: 0 auto;
+  /* padding-top: 8vh; */
   @media only screen and (max-width: 1200px) {
     width: 100%;
   }
