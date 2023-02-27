@@ -395,7 +395,7 @@ const amount = {
       yearly: 59 * 10,
     },
   },
-  buisness: {
+  Business: {
     indianCurrency: {
       monthly: `7000`,
       yearly: 7000 * 10,
@@ -758,15 +758,15 @@ const Premium = ({
             <span>
               &#8377;
               {isMonthlySubscription
-                ? amount["buisness"]["indianCurrency"]["monthly"]
-                : amount["buisness"]["indianCurrency"]["yearly"]}
+                ? amount["Business"]["indianCurrency"]["monthly"]
+                : amount["Business"]["indianCurrency"]["yearly"]}
             </span>
           ) : (
             <span>
               &#36;
               {isMonthlySubscription
-                ? amount["buisness"]["USCurrency"]["monthly"]
-                : amount["buisness"]["USCurrency"]["yearly"]}
+                ? amount["Business"]["USCurrency"]["monthly"]
+                : amount["Business"]["USCurrency"]["yearly"]}
             </span>
           )}
           <span className="text-lg">
