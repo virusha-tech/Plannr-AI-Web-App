@@ -283,7 +283,7 @@ class Tool extends Component {
     return (
       <Layout>
         <Helmet>
-          <title>{`${this.tool.title} Tool - OpenAI Template`}</title>
+          <title>{`${this.tool.title} Tool - Plannr AI`}</title>
         </Helmet>
         <StyledContainer>
           <AlignStepper>
@@ -300,7 +300,7 @@ class Tool extends Component {
           {this.state.activeStep == 0 ? (
             <StyledForm>
               <StyledSubHeading className="px-6 py-6">
-                {this.tool.title} Plan
+                {this.tool.title}
               </StyledSubHeading>
               <EntryTabs
                 prompts={this.prompts}
@@ -352,7 +352,7 @@ class Tool extends Component {
             <GeneratingSpinner />
           ) : (
             <>
-              <MyEditor {...this.state.editorOutput} />
+              <MyEditor {...this.state.editorOutput} title={this.tool.title} />
             </>
           )}
         </StyledContainer>
@@ -438,6 +438,9 @@ const ScrollbarContainer = styled.div`
       width: 12px;
       border-radius: 10px;
       background-color: #000;
+      /* background-color: ${({ theme }) => {
+        return `${theme.primary}`;
+      }}; */
     }
     &::-webkit-scrollbar-track {
       -webkit-border-radius: 10px;
@@ -446,6 +449,7 @@ const ScrollbarContainer = styled.div`
     &::-webkit-scrollbar-thumb {
       -webkit-border-radius: 10px;
       border-radius: 10px;
+      /* background:black; */
       background: ${({ theme }) => {
         return `${theme.primary}`;
       }};

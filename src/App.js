@@ -4,7 +4,10 @@ import React, { Component } from "react";
 import { Provider } from "mobx-react";
 import { observer } from "mobx-react";
 import AppStore from "./store";
-import { createTheme,ThemeProvider as MuiThemeProvider } from '@mui/material/styles';
+import {
+  createTheme,
+  ThemeProvider as MuiThemeProvider,
+} from "@mui/material/styles";
 
 // import colors from 'tailwindcss/colors'
 import {
@@ -94,7 +97,17 @@ class App extends Component {
                         <Route path="/ai/">
                           <Switch>
                             <Route path="/ai/code/debugging" component={Chat} />
-                            <Route component={Tool} />
+                            <Route
+                              path="/ai/:toolname"
+                              render={(props) => {
+                                return (
+                                  <Tool
+                                    key={props.match.params.toolname}
+                                    {...props}
+                                  />
+                                );
+                              }}
+                            />
                           </Switch>
                         </Route>
                         <Route path="/my-profile" component={Profile} />

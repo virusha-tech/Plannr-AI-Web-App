@@ -14,6 +14,7 @@ import { NotificationManager } from "react-notifications";
 import { observer, inject } from "mobx-react";
 import { observable, makeObservable } from "mobx";
 import { withRouter } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 @inject("store")
 @observer
@@ -164,6 +165,9 @@ class MyEditor extends React.Component {
   render() {
     return (
       <>
+        <Helmet>
+          <title>{`${this.props.title} Output - Plannr AI`}</title>
+        </Helmet>
         <ReactQuill
           ref={this.quillRef}
           readOnly={this.state.readOnly}

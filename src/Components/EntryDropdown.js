@@ -66,7 +66,9 @@ export default class SingleSelect extends Component {
       <Fragment>
         <Select
           placeholder={this.props.placeholder}
-          className="basic-single focus-within:border-gray-400 border-gray-300"
+          className={`${
+            this.props.isMulti ? "basic-multi-select" : "basic-single"
+          } focus-within:border-gray-400 border-gray-300`}
           classNamePrefix="select"
           // defaultValue={this.props.options[0]}
           isDisabled={isDisabled}
@@ -74,6 +76,7 @@ export default class SingleSelect extends Component {
           isClearable={false}
           isRtl={isRtl}
           isSearchable={isSearchable}
+          isMulti={this.props.isMulti}
           name="color"
           options={this.props.options}
           menuPortalTarget={document.body}

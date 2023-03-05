@@ -215,7 +215,7 @@ export const EnhancedTable = (props) => {
             />
             <TableBody>
               {stableSort(props.rows, getComparator(order, orderBy)).map(
-                (row, index) => {
+                (row, index, array) => {
                   return (
                     <StyledTableRow role="checkbox" tabIndex={-1} key={row._id}>
                       <StyledTableCell
@@ -223,7 +223,7 @@ export const EnhancedTable = (props) => {
                         scope="row"
                         align="center"
                       >
-                        {`Plannr_${row.id}`}
+                        {`Plannr_${array.length - index}`}
                       </StyledTableCell>
                       <StyledTableCell align="center">
                         {row.planName}

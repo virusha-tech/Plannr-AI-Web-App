@@ -3,12 +3,10 @@ import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
-import ListItemText from "@mui/material/ListItemText";
 import styled from "styled-components";
 import Drawer from "@mui/material/Drawer";
 import PropTypes from "prop-types";
@@ -40,11 +38,10 @@ const customStyles = {
     height: "100px",
   }),
 
-  // menu: (base, state) => ({
-  //   ...base,
-  //   "max-height": "200px",
-  //   "overflow-y": "scroll",
-  // }),
+  menu: (base, state) => ({
+    ...base,
+    margin: "0px",
+  }),
 
   option: (styles, { data, isDisabled, isFocused, isSelected }) => {
     // const color = chroma(data.color);
@@ -202,7 +199,7 @@ class ResponsiveAppBar extends React.Component {
             <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
               <NavList className="flex flex-grow">
                 {MenuList.map((menuItem, index) => {
-                  if (menuItem.isButton) {
+                  if (menuItem.label === "All Plans") {
                     return (
                       <SearchableDropdown
                         ref={this.setWrapperRef}
@@ -233,6 +230,12 @@ class ResponsiveAppBar extends React.Component {
                           />
                         </div>
                       </SearchableDropdown>
+                    );
+                  } else if (menuItem.isButton) {
+                    return (
+                      <NavButton className="mr-2 text-center block rounded py-2 px-4">
+                        {menuItem.label}
+                      </NavButton>
                     );
                   } else {
                     return (
@@ -321,14 +324,18 @@ class ResponsiveAppBar extends React.Component {
                     <img
                       src={CompanyLogo}
                       alt="Company Logo"
-                      style={{ margin: "auto", marginTop: "30px", width: "140px" }}
+                      style={{
+                        margin: "auto",
+                        marginTop: "30px",
+                        width: "140px",
+                      }}
                     />
                   </StyledNavLink>
                 </Box>
                 <Divider />
                 <List>
                   {MenuList.map((menuItem) => {
-                    if (menuItem.isButton) {
+                    if (menuItem.label === "All Plans") {
                       return (
                         <div key={menuItem.label}>
                           <StyledListItemButton
@@ -398,6 +405,16 @@ class ResponsiveAppBar extends React.Component {
                               )}
                             </List>
                           </Collapse>
+                        </div>
+                      );
+                    } else if (menuItem.isButton) {
+                      return (
+                        <div key={menuItem.label}>
+                          <StyledListItemButton>
+                            <StyledListItemText>
+                              {menuItem.label}
+                            </StyledListItemText>
+                          </StyledListItemButton>
                         </div>
                       );
                     } else {

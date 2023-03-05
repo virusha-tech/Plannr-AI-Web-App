@@ -19,6 +19,7 @@ import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Chip from "@mui/material/Chip";
+import { Helmet } from "react-helmet";
 
 const StyledStepLabel = styled(StepLabel)`
   .MuiStepLabel-label {
@@ -312,17 +313,18 @@ class Pricing extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeStep: 2,
+      activeStep: 1,
       subscription: "monthly",
       currency: "indianCurrency",
     };
     this.handleNextAction = this.handleNextAction.bind(this);
     this.handleTabChange = this.handleTabChange.bind(this);
-
+    this.handleSkipAction = this.handleSkipAction.bind(this);
     this.steps = getSignUpSteps();
   }
 
-  handleNextAction() {
+  async handleNextAction(payload) {
+    await this.props.store.api.put("/user/update", { payload });
     this.setState((prev) => {
       return {
         activeStep: prev.activeStep + 1,
@@ -336,6 +338,15 @@ class Pricing extends Component {
     } else {
       this.setState({ [key]: value });
     }
+  }
+
+  async handleSkipAction(payload) {
+    await this.props.store.api.put("/user/update", { payload });
+    this.setState((prev) => {
+      return {
+        activeStep: prev.activeStep + 1,
+      };
+    });
   }
 
   render() {
@@ -375,16 +386,29 @@ class Pricing extends Component {
             </StyledStepper>
           </AlignStepper>
           {this.state.activeStep === 1 ? (
-            <UserProfileForm onNext={this.handleNextAction} />
+            <>
+              <Helmet>
+                <title>{`Basic Info - Plannr AI`}</title>
+              </Helmet>
+              <UserProfileForm
+                onNext={this.handleNextAction}
+                onSkip={this.handleSkipAction}
+              />
+            </>
           ) : (
             <>
+              <Helmet>
+                <title>{`Pricing - Plannr AI`}</title>
+              </Helmet>
               <div className="container mx-auto px-8 py-4 lg:px-28 lg:py-12 lg:pb-64 select-none">
                 <Wrapper>
                   <Header>Plans that fit your scale</Header>
                   <SubHeader>
                     Get started with a 14-day trial for only $1. Cancel anytime
                   </SubHeader>
-                  <Styledheader>Simple, transparent pricing that grows with you.</Styledheader>
+                  <Styledheader>
+                    Simple, transparent pricing that grows with you.
+                  </Styledheader>
                 </Wrapper>
                 <BasicTabs handleTabChange={this.handleTabChange} />
                 <Grid>
@@ -443,9 +467,9 @@ const Header = styled.h1`
   margin-bottom: 24px;
 `;
 
-const Wrapper= styled.div`
+const Wrapper = styled.div`
   margin: 0 auto;
-`
+`;
 
 const SubHeader = styled.h1`
   font-family: "Inter";
@@ -464,22 +488,21 @@ const SubHeader = styled.h1`
   margin-bottom: 12px;
   max-width: 694px;
   /* max-width: ; */
-  padding:5px 40px;
+  padding: 5px 40px;
   background-color: ${({ theme }) => {
     return theme.primary;
   }};
 `;
 
 const Styledheader = styled.h3`
- font-family: "Inter";
+  font-family: "Inter";
   font-style: normal;
   font-weight: 400;
   font-size: 20px;
   line-height: 30px;
   text-align: center;
   color: #475467;
-
-`
+`;
 const Personal = ({
   fromColor,
   toColor,
@@ -597,25 +620,6 @@ const Personal = ({
 );
 
 const Card = styled.div`
-  &:hover {
-    background: ${({ theme }) => {
-      return theme.primary;
-    }};
-    color: white;
-    min-height: "680px";
-    box-shadow: "0px 12px 16px -4px rgba(16, 24, 40, 0.08), 0px 4px 6px -2px rgba(16, 24, 40, 0.03)";
-    border-radius: "16px";
-    .horizontalLine {
-      background: white;
-    }
-    button {
-      color: ${({ theme }) => {
-        return theme.primary;
-      }};
-      background: white;
-    }
-  }
-
   > div {
     border: 1px solid #eaecf0;
     box-shadow: 0px 12px 16px -4px rgba(16, 24, 40, 0.08),
@@ -628,6 +632,25 @@ const Card = styled.div`
       return theme.primary;
     }};
     color: white;
+  }
+`;
+
+const ProCard = styled(Card)`
+  background: ${({ theme }) => {
+    return theme.primary;
+  }};
+  color: white;
+  min-height: "680px";
+  box-shadow: "0px 12px 16px -4px rgba(16, 24, 40, 0.08), 0px 4px 6px -2px rgba(16, 24, 40, 0.03)";
+  border-radius: "16px";
+  .horizontalLine {
+    background: white;
+  }
+  button {
+    color: ${({ theme }) => {
+      return theme.primary;
+    }};
+    background: white;
   }
 `;
 
@@ -691,7 +714,7 @@ const Professional = ({
   isMonthlySubscription,
 }) => (
   <div className="flex relative ">
-    <Card
+    <ProCard
       className={`bg-white rounded-xl transition hover:shadow-md overflow-hidden md:max-w-1lg text-gray-500 border- hover:border-${
         fromColor ? fromColor : "blue-400"
       } md:flex relative transform hover:scale-105  hover: flex-1`}
@@ -801,7 +824,7 @@ const Professional = ({
           </button>
         </form>
       </div>
-    </Card>
+    </ProCard>
   </div>
 );
 

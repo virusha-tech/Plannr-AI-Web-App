@@ -6,6 +6,7 @@ import { Helmet } from "react-helmet";
 import HandGesture from "./assets/Hand.svg";
 import User from "./assets/User.png";
 import { observer, inject } from "mobx-react";
+import moment from "moment";
 import styled from "styled-components";
 import { TabList } from "./config";
 import SearchIcon from "./assets/SearchIcon.svg";
@@ -69,6 +70,9 @@ class Body extends Component {
   }
 
   render() {
+    var today = moment();
+    const specificDate = moment(this.props.store.profile.current_period_end);
+    const differenceInDays = specificDate.diff(today, "days");
     return (
       <Layout>
         <Helmet>
@@ -77,7 +81,23 @@ class Body extends Component {
 
         <AddBanner>
           <div className="flex items-center justify-between	flex-1 gap-5">
-            <StyledButton className="flex-none">Upgrade Now</StyledButton>
+            <form
+              action={`${this.props.store.baseURL}user/stripe/customer-portal`}
+              method="POST"
+              className="flex relative"
+              target="_blank"
+            >
+              <input
+                type="hidden"
+                name="token"
+                value={
+                  this.props.store.api.defaults.headers.common["x-access-token"]
+                }
+              />
+              <StyledButton type="submit" className="flex-none">
+                Upgrade Now
+              </StyledButton>
+            </form>
             <TextContainer className="flex flex-grow">
               Get
               <span>&nbsp;20% off&nbsp;</span>
@@ -85,7 +105,8 @@ class Body extends Component {
             </TextContainer>
             <FreeTrial>
               Free Trial
-              <span>&nbsp;&#8226;&nbsp;</span>7 Days remaining
+              <span>&nbsp;&#8226;&nbsp;</span>
+              {differenceInDays > 0 ? differenceInDays : "0"} Days remaining
             </FreeTrial>
           </div>
         </AddBanner>

@@ -2,7 +2,103 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import EntryDropdown from "./../Components/EntryDropdown";
 import { Button } from "@mui/material";
+const industryList = [
+  "Retail",
+  "Hospitality",
+  "Marketing/Advertising",
+  "Real Estate",
+  "Consulting",
+  "Non-profit/NGO",
+  "Manufacturing",
+  "Transportation/Logistics",
+  "Government",
+  "Legal Services",
+  "Agriculture",
+  "Construction",
+  "Energy/Utilities",
+  "Media/Entertainment",
+  "Fashion/Beauty",
+  "Sports/Fitness",
+  "Art/Culture",
+  "Automotive",
+  "Healthcare",
+  "Finance",
+  "Education",
+  "Technology",
+  "Telecommunications",
+  "Other",
+];
 
+const companySize = [
+  "Solo Entrepreneur/Individual",
+  "Small Business (1-50 employees)",
+  "Medium-sized Business (51-250 employees)",
+  "Large Business (251-1000 employees)",
+  "Enterprise (1001+ employees)",
+];
+
+const jobtitle = [
+  "CEO/Founder",
+  "Manager",
+  "Director",
+  "Analyst",
+  "Engineer",
+  "Sales Representative",
+  "Consultant",
+  "Human Resources",
+  "Marketing Manager",
+  "Customer Service Representative",
+];
+
+const personalGoal = [
+  "Health and Wellness",
+  "Relationship Building",
+  "Education and Learning",
+  "Community Involvement",
+  "Travel and Adventure",
+  "Creative Pursuits",
+  "Philanthropy and Giving Back",
+  "Spiritual Growth",
+  "Family and Parenting",
+  "Homeownership and Real Estate",
+  "Retirement Planning",
+];
+
+const interests = [
+  "Technology (specific areas like AI, Machine Learning, Blockchain, etc.)",
+  "Marketing (e.g. Digital Marketing, Content Marketing, SEO)",
+  "Creative (e.g. Graphic Design, Photography, Video Production)",
+  "Entrepreneurship",
+  "Fashion and Beauty",
+  "Arts and Culture",
+  "Food and Beverage",
+  "Sustainability",
+  "Personal Development",
+  "Sports and Fitness",
+  "Music and Entertainment",
+  "Gaming",
+  "Travel and Tourism",
+  "Education and Learning",
+  "Science and Technology",
+  "Health and Wellness",
+  "Finance and Investing",
+  "Social Justice and Activism",
+  "Parenting and Family",
+  "Pets and Animals",
+  "Home and Garden",
+  "Automotive and Transportation",
+];
+
+const mapArraytoReactSelectorOptions = (array) => {
+  return array.map((arr) => {
+    return {
+      title: arr,
+      value: arr,
+      label: arr,
+    };
+  });
+};
+// console.log();
 const userProfileFields = [
   {
     title: "Age range",
@@ -12,6 +108,7 @@ const userProfileFields = [
       { title: "18-24", value: "18-24", label: "18-24" },
       { title: "25-34", value: "25-34", label: "25-34" },
       { title: "35-44", value: "35-44", label: "35-44" },
+      { title: "45-60", value: "45-60", label: "45-60" },
     ],
     placeholder: "Select your Date Range",
     type: "dropdown",
@@ -69,24 +166,7 @@ const userProfileFields = [
     title: "Industry",
     attr: "industry",
     value: "",
-    options: [
-      { title: "Healthcare", value: "Healthcare", label: "Healthcare" },
-      {
-        title: "Finance",
-        value: "Finance",
-        label: "Finance",
-      },
-      {
-        title: "Education",
-        value: "Education",
-        label: "Education",
-      },
-      {
-        title: "Technology",
-        value: "Technology",
-        label: "Technology",
-      },
-    ],
+    options: mapArraytoReactSelectorOptions(industryList),
     placeholder: "Select your Industry",
     type: "dropdown",
     required: true,
@@ -96,23 +176,7 @@ const userProfileFields = [
     title: "Company size",
     attr: "companysize",
     value: "",
-    options: [
-      {
-        title: "Small Business",
-        value: "Small Business",
-        label: "Small Business",
-      },
-      {
-        title: "Mid-Size Business",
-        value: "Mid-Size Business",
-        label: "Mid-Size Business",
-      },
-      {
-        title: "Large Corporation",
-        value: "Large Corporation",
-        label: "Large Corporation",
-      },
-    ],
+    options: mapArraytoReactSelectorOptions(companySize),
     placeholder: "Select your Company size",
     type: "dropdown",
     required: true,
@@ -121,19 +185,7 @@ const userProfileFields = [
     title: "Job title",
     attr: "jobtitle",
     value: "",
-    options: [
-      { title: "Manager", value: "Manager", label: "Manager" },
-      {
-        title: "Director",
-        value: "Director",
-        label: "Director",
-      },
-      {
-        title: "Executive",
-        value: "Executive",
-        label: "Executive",
-      },
-    ],
+    options: mapArraytoReactSelectorOptions(jobtitle),
     placeholder: "Select your Job Title",
     type: "dropdown",
     required: true,
@@ -142,52 +194,21 @@ const userProfileFields = [
     title: "Interests",
     attr: "interests",
     value: "",
-    options: [
-      { title: "Travel", value: "Travel", label: "Travel" },
-      {
-        title: "Fitness",
-        value: "Fitness",
-        label: "Fitness",
-      },
-      {
-        title: "Cooking",
-        value: "Cooking",
-        label: "Cooking",
-      },
-      {
-        title: "Reading",
-        value: "Reading",
-        label: "Reading",
-      },
-    ],
+    options: mapArraytoReactSelectorOptions(interests),
     placeholder: "Select your Interests",
     type: "dropdown",
     required: true,
+    isMulti: true,
   },
   {
     title: "Personal goals",
     attr: "personalgoals",
     value: "",
-    options: [
-      {
-        title: "Career Advancement",
-        value: "Career Advancement",
-        label: "Career Advancement",
-      },
-      {
-        title: "Financial Independence",
-        value: "Financial Independence",
-        label: "Financial Independence",
-      },
-      {
-        title: "Personal Development",
-        value: "Personal Development",
-        label: "Personal Development",
-      },
-    ],
+    options: mapArraytoReactSelectorOptions(personalGoal),
     placeholder: "Select your Personal goals",
     type: "dropdown",
     required: true,
+    isMulti: true,
   },
 
   {
@@ -211,6 +232,7 @@ const userProfileFields = [
         label: "Business Planning",
       },
     ],
+    isMulti: true,
     placeholder: "Select your Planning Type",
     type: "dropdown",
     required: true,
@@ -220,7 +242,7 @@ const userProfileFields = [
 function UserProfileForm(props) {
   const [userProfile, setUserProfile] = useState({});
   const [userProfileError, setUserProfileError] = useState({});
-  const [currentStep, setCurrentStep] = useState(0);
+  const [currentStep, setCurrentStep] = useState(1);
 
   const renderCorrespondingInput = ({
     type,
@@ -230,6 +252,7 @@ function UserProfileForm(props) {
     maxLength,
     error,
     value,
+    isMulti = false,
   }) => {
     switch (type) {
       case "dropdown":
@@ -237,8 +260,9 @@ function UserProfileForm(props) {
           <EntryDropdown
             name={attr}
             placeholder={placeholder}
-            onChange={(e) => onChange(attr, e.value)}
+            onChange={(e) => onChange(attr, e)}
             options={options}
+            isMulti={isMulti}
             isError={userProfileError[attr]}
           />
         );
@@ -267,6 +291,10 @@ function UserProfileForm(props) {
           </>
         );
     }
+  };
+
+  const handleSkipAction = async () => {
+    props.onSkip(userProfile);
   };
 
   const handleNextAction = () => {
@@ -302,24 +330,32 @@ function UserProfileForm(props) {
       setUserProfileError({ ...errorState });
     } else {
       if (currentStep == 1) {
-        console.log(userProfile);
-        props.onNext();
+        props.onNext(userProfile);
       } else {
         setCurrentStep((cur) => cur + 1);
         setUserProfileError({});
-        console.log(userProfile);
       }
     }
   };
 
-  const onChange = async (key, value) => {
-    if (value.length) {
-      setUserProfile((prevState) => {
-        return {
-          ...prevState,
-          [key]: value,
-        };
-      });
+  const onChange = async (key, event) => {
+    const value = event.value;
+    if (value?.length || (Array.isArray(event) && event.length > 0)) {
+      if (value?.length) {
+        setUserProfile((prevState) => {
+          return {
+            ...prevState,
+            [key]: value,
+          };
+        });
+      } else {
+        setUserProfile((prevState) => {
+          return {
+            ...prevState,
+            [key]: event.map(({ value }) => value),
+          };
+        });
+      }
       const errorState = userProfileError;
       delete errorState[key];
       setUserProfileError({
@@ -337,7 +373,6 @@ function UserProfileForm(props) {
   return (
     <Wrapper>
       <StyledForm>
-        {/* <pre>{currentStep}</pre> */}
         {currentStep == 1 ? (
           <>
             {userProfileFields.slice(4).map((field, index) => {
@@ -355,6 +390,7 @@ function UserProfileForm(props) {
                         attr: field.attr,
                         value: userProfile[field.attr] || field.value,
                         maxLength: field.maxLength,
+                        isMulti: field.isMulti ?? false,
                       })}
                       {userProfileError[field.attr] && (
                         <div
@@ -415,6 +451,30 @@ function UserProfileForm(props) {
         )}
       </StyledForm>
       <NextButton>
+        {currentStep == 1 ? (
+          <Button
+            onClick={handleSkipAction}
+            variant="contained"
+            endIcon={
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="w-6 h-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M12 19.5v-15m0 0l-6.75 6.75M12 4.5l6.75 6.75"
+                />
+              </svg>
+            }
+          >
+            Skip
+          </Button>
+        ) : null}
         <Button
           onClick={handleNextAction}
           variant="contained"
@@ -453,6 +513,7 @@ const HorizontalRule = styled.div`
 const NextButton = styled.div`
   display: flex;
   justify-content: end;
+  gap: 30px;
   button {
     width: 120px;
     svg {

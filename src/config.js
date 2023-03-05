@@ -78,12 +78,15 @@ export const MenuList = [
   },
   {
     label: "Help",
-    to: "/help",
+    // to: "/help",
+    isButton: true,
+
     exact: true,
   },
   {
     label: "Whats new?",
-    to: "/whats-new",
+    // to: "/whats-new",
+    isButton: true,
     exact: true,
   },
 ];

@@ -4,6 +4,8 @@ const db = require("../models");
 const logger = require("../../logger");
 const User = db.user;
 const Feedback = db.feedback;
+const { mongoose } = require("../models/index");
+const { ObjectId } = mongoose.Types;
 
 // Prepare Core Router
 let app = express.Router(); // User Subscribe
@@ -43,6 +45,19 @@ app.post("/stripe/subscribe", async (req, res) => {
       },
     });
   }
+});
+// update/userbasicinformation
+app.put("/update", async (req, res) => {
+  const { payload } = req.body;
+
+  await User.update(
+    { _id: ObjectId(req.user._id) },
+    {
+      $set: { basicInfoFields: payload },
+    }
+  );
+
+  res.send({ success: true });
 });
 
 app.post("/stripe/customer-portal", async (req, res) => {

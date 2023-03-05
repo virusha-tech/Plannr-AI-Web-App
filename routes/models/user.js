@@ -54,6 +54,11 @@ const UserSchema = new Schema({
     maxLength: 100,
     default: v4(),
   },
+  basicInfoFields: {
+    type: Map,
+    of: String,
+    default: null,
+  },
   referrerPaid: { type: Boolean, default: false }, // has the referral been given credits yet?
   referrer: {
     type: ObjectId,
