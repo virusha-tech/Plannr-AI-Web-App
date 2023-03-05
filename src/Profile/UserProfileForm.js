@@ -239,6 +239,7 @@ function UserProfileForm(props) {
             placeholder={placeholder}
             onChange={(e) => onChange(attr, e.value)}
             options={options}
+            isError={userProfileError[attr]}
           />
         );
       default:
@@ -258,7 +259,7 @@ function UserProfileForm(props) {
                 id={attr}
                 maxLength={maxLength || 80}
                 className={`outline-none focus:outline-none  bg-white rounded-md px-4 py-2 w-full border  focus:border-gray-400 ${
-                  error ? "border-red-400" : "border-gray-300"
+                  userProfileError[attr] ? "border-red-400" : "border-gray-300"
                 } font-regular mt-2 transition-all`}
                 onChange={(e) => onChange(attr, e.target.value)}
               />
@@ -269,7 +270,6 @@ function UserProfileForm(props) {
   };
 
   const handleNextAction = () => {
-    debugger;
     if (currentStep === 0 && Object.keys(userProfile).length != 4) {
       const errorState = {};
       if (!userProfile["ageRange"])
@@ -281,13 +281,11 @@ function UserProfileForm(props) {
         errorState["gender"] = "Selection of Gender is required";
       if (!userProfile["location"])
         errorState["location"] = "Min Length of Location is 1";
-      console.log(errorState);
       setUserProfileError({ ...errorState });
     } else if (
       currentStep === 1 &&
       Object.keys(userProfile).length != userProfileFields.length
     ) {
-      debugger;
       const errorState = {};
       if (!userProfile["industry"])
         errorState["industry"] = "Selection of Industry is required";
@@ -301,7 +299,6 @@ function UserProfileForm(props) {
         errorState["personalgoals"] = "Selection of Personal Goals is required";
       if (!userProfile["planning"])
         errorState["planning"] = "Selection of Planning Type is required";
-      console.log(errorState);
       setUserProfileError({ ...errorState });
     } else {
       if (currentStep == 1) {

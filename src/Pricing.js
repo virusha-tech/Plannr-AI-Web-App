@@ -227,7 +227,7 @@ function BasicTabs({ handleTabChange }) {
   };
 
   return (
-    <Box sx={{ width: "100%" }} className="mt-8 mb-12">
+    <Box sx={{ width: "100%" }} className="xs:mt-4 xs:mb-6 sm:m-8 sm:mb-12">
       <Flex>
         <div></div>
         <PlannerTabs
@@ -312,7 +312,7 @@ class Pricing extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeStep: 1,
+      activeStep: 2,
       subscription: "monthly",
       currency: "indianCurrency",
     };
