@@ -132,9 +132,7 @@ class Body extends Component {
             onKeyUp={this.onKeyUp}
           ></Input>
         </TabContainer>
-        <CardsBody
-          className="py-4 md:py-8 lg:py-12"
-        >
+        <CardsBody className="py-4 md:py-8 lg:py-12 m-auto">
           <Grid>
             {this[this.state.activeTab]?.map((tool, index) => {
               return (
@@ -243,13 +241,16 @@ const LinkCard = styled(Link)`
   border: 1px solid #eaecf0;
   box-shadow: 0px 1px 3px rgba(16, 24, 40, 0.1),
     0px 1px 2px rgba(16, 24, 40, 0.06);
+  height: 185px;
   border-radius: 12px;
-  height: 181px;
   padding: 28px 20px;
   /* background-color:red; */
-  &:hover{
-    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+  &:hover {
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
     transform: scale(1.05);
+  }
+  @media only screen and (max-width: 1200px) {
+    height: min-content;
   }
 `;
 
@@ -262,6 +263,10 @@ const ComingSoonCard = styled.div`
   border-radius: 12px;
   height: 181px;
   padding: 28px 20px;
+  height: 185px;
+  @media only screen and (max-width: 1200px) {
+    height: min-content;
+  }
 `;
 
 const AddBanner = styled.div`
@@ -423,6 +428,9 @@ const Image = styled.img`
 `;
 
 const Tabs = styled.ul`
+  @media only screen and (max-width: 600px) {
+    font-size: 0.675rem;
+  }
   li button.active {
     color: ${({ theme }) => {
       return theme.primary;
