@@ -285,7 +285,7 @@ function UserProfileForm(props) {
                 className={`outline-none focus:outline-none  bg-white rounded-md px-4 py-2 w-full border  focus:border-gray-400 ${
                   userProfileError[attr] ? "border-red-400" : "border-gray-300"
                 } font-regular mt-2 transition-all`}
-                onChange={(e) => onChange(attr, e.target.value)}
+                onChange={(e) => onChange(attr, e.target)}
               />
             </label>
           </>
@@ -298,6 +298,7 @@ function UserProfileForm(props) {
   };
 
   const handleNextAction = () => {
+    debugger;
     if (currentStep === 0 && Object.keys(userProfile).length != 4) {
       const errorState = {};
       if (!userProfile["ageRange"])
@@ -330,6 +331,7 @@ function UserProfileForm(props) {
       setUserProfileError({ ...errorState });
     } else {
       if (currentStep == 1) {
+        debugger;
         props.onNext(userProfile);
       } else {
         setCurrentStep((cur) => cur + 1);
@@ -340,6 +342,7 @@ function UserProfileForm(props) {
 
   const onChange = async (key, event) => {
     const value = event.value;
+    debugger;
     if (value?.length || (Array.isArray(event) && event.length > 0)) {
       if (value?.length) {
         setUserProfile((prevState) => {

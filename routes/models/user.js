@@ -56,7 +56,7 @@ const UserSchema = new Schema({
   },
   basicInfoFields: {
     type: Map,
-    of: String,
+    of: String | Object,
     default: null,
   },
   referrerPaid: { type: Boolean, default: false }, // has the referral been given credits yet?

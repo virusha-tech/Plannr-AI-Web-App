@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/static/css/main.a047b178.css",
-    "main.js": "/static/js/main.d5aa15f6.js",
-    "main.js.map": "/static/js/main.d5aa15f6.js.map",
+    "main.js": "/static/js/main.45c9d061.js",
+    "main.js.map": "/static/js/main.45c9d061.js.map",
     "static/js/1.eb65a911.chunk.js": "/static/js/1.eb65a911.chunk.js",
     "static/js/1.eb65a911.chunk.js.map": "/static/js/1.eb65a911.chunk.js.map",
     "index.html": "/index.html",
     "static/css/main.a047b178.css.map": "/static/css/main.a047b178.css.map",
-    "static/js/main.d5aa15f6.js.LICENSE.txt": "/static/js/main.d5aa15f6.js.LICENSE.txt",
+    "static/js/main.45c9d061.js.LICENSE.txt": "/static/js/main.45c9d061.js.LICENSE.txt",
     "static/media/Calendar.50e7f266.svg": "/static/media/Calendar.50e7f266.svg",
     "static/media/CompanyLogo.e26b4714.svg": "/static/media/CompanyLogo.e26b4714.svg",
     "static/media/Dashboard.f3b02e14.png": "/static/media/Dashboard.f3b02e14.png",
@@ -19,6 +19,6 @@
   },
   "entrypoints": [
     "static/css/main.a047b178.css",
-    "static/js/main.d5aa15f6.js"
+    "static/js/main.45c9d061.js"
   ]
 }
