@@ -17,7 +17,7 @@ app.post("/stripe/subscribe", async (req, res) => {
     let customer = user.customerId
       ? { customer: user.customerId }
       : { customer_email: user.email };
-    const subscription_data = trial ? { trial_period_days: 7 } : {};
+    const subscription_data = trial ? { trial_period_days: 14 } : {};
     const session = await stripe.checkout.sessions.create({
       mode: "subscription",
       payment_method_types: ["card"],

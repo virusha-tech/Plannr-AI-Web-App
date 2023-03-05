@@ -312,7 +312,7 @@ class Pricing extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeStep: 1,
+      activeStep: 2,
       subscription: "monthly",
       currency: "indianCurrency",
     };
@@ -583,7 +583,7 @@ const Personal = ({
             value={api.defaults.headers.common["x-access-token"]}
           />
           <input type="hidden" name="priceId" value={config.stripe.free} />
-          {/* <input type="hidden" name="trial" value="true" /> */}
+          <input type="hidden" name="trial" value="true" />
           <button
             type="submit"
             className={`mt-8 inset-0 bg-gradient-to-r shadow-lg flex-1 rounded-md p-4 text-white font-medium text-center text-lg transition hover:from-gray-700 hover:to-gray-800 text-enter`}
@@ -787,6 +787,8 @@ const Professional = ({
             value={api.defaults.headers.common["x-access-token"]}
           />
           <input type="hidden" name="priceId" value={config.stripe.entry} />
+          <input type="hidden" name="trial" value="true" />
+
           <button
             type="submit"
             className={`mt-8 inset-0 bg-gradient-to-r from-${
@@ -903,8 +905,9 @@ const Premium = ({
             name="token"
             value={api.defaults.headers.common["x-access-token"]}
           />
-          {/*  */}
           <input type="hidden" name="priceId" value={config.stripe.pro} />
+          <input type="hidden" name="trial" value="true" />
+
           <button
             type="submit"
             className={`mt-8 inset-0 bg-gradient-to-r from-${
