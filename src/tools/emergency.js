@@ -2,7 +2,7 @@ import { ViewListIcon } from "@heroicons/react/solid";
 
 const obj = {
   title: "Emergency Plan",
-  desc: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.",
+  desc: "An emergency preparedness plan outlines the steps needed to prepare for and respond to emergencies, such as natural disasters or personal emergencies.",
   category: "Personal",
   Icon: ViewListIcon,
   // tags: [],

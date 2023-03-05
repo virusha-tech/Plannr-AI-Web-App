@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import CompanyLogo from "./assets/CompanyLogo.png";
+import CompanyLogo from "./assets/CompanyLogo.svg";
 
 function Footer() {
   return (

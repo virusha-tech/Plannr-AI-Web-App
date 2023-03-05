@@ -315,7 +315,7 @@ class Tool extends Component {
                   disabled={this.disabled}
                   currentPrompt={this.currentPrompt}
                 >
-                  <div>
+                  <ScrollbarContainer>
                     {prompt.prompts.map((promptInput, index) => {
                       return (
                         <EntryInput
@@ -328,9 +328,12 @@ class Tool extends Component {
                         />
                       );
                     })}
-                  </div>
+                  </ScrollbarContainer>
 
-                  <div className="flex justify-end gap-6 items-center">
+                  <div
+                    className="flex justify-end gap-6 items-center"
+                    style={{ padding: "20px 50px" }}
+                  >
                     <CancelButton>Cancel</CancelButton>
                     <Button onClick={this.onGenerateClick}>Generate</Button>
                   </div>
@@ -420,6 +423,28 @@ const AlignStepper = styled.div`
   margin: 0 auto;
   @media only screen and (max-width: 1200px) {
     width: 100%;
+  }
+`;
+
+const ScrollbarContainer = styled.div`
+  height: 62vh;
+  padding: 0px 50px;
+  overflow-y: scroll;
+  &::-webkit-scrollbar {
+    width: 12px;
+    border-radius: 10px;
+    background-color: #000;
+  }
+  &::-webkit-scrollbar-track {
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+  }
+  &::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    background: ${({ theme }) => {
+      return `${theme.primary}`;
+    }};
   }
 `;
 

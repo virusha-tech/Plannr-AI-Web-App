@@ -2,7 +2,7 @@ import { ViewListIcon } from "@heroicons/react/solid";
 
 const obj = {
   title: "Financial Plan",
-  desc: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.",
+  desc: "A financial planning plan outlines the strategies and actions needed to manage finances, including budgeting, saving, investing, and planning for retirement.",
   category: "Business",
   Icon: ViewListIcon,
   // tags: [],

@@ -2,7 +2,7 @@ import { ViewListIcon } from "@heroicons/react/solid";
 
 const obj = {
   title: "Blogging Plan",
-  desc: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.",
+  desc: "A blogging plan outlines the steps needed to create and maintain a successful blog, including identifying the target audience, creating content, and promoting the blog.",
   category: "Professional",
   Icon: ViewListIcon,
   // tags: [],

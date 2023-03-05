@@ -2,7 +2,7 @@ import { ViewListIcon } from "@heroicons/react/solid";
 
 const obj = {
   title: "Relocation Plan",
-  desc: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.",
+  desc: "A relocation plan outlines the details of moving to a new location, including finding a new home, packing and transporting belongings, and settling into the new location.",
   category: "Personal",
   Icon: ViewListIcon,
   // tags: [],

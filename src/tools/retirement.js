@@ -2,7 +2,7 @@ import { ViewListIcon } from "@heroicons/react/solid";
 
 const obj = {
   title: "Retirement Plan",
-  desc: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.",
+  desc: "A retirement plan outlines financial and lifestyle goals for retirement, including saving and investing, healthcare planning, and housing decisions.",
   category: "Personal",
   Icon: ViewListIcon,
   // tags: [],

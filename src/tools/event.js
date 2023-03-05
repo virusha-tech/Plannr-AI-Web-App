@@ -2,7 +2,7 @@ import { ViewListIcon } from "@heroicons/react/solid";
 
 const obj = {
   title: "Event Plan",
-  desc: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.",
+  desc: "An event plan outlines steps for a successful event, including the purpose, budget, venue, and logistics.",
   category: "Professional",
   Icon: ViewListIcon,
   // tags: [],

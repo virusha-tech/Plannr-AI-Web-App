@@ -13,7 +13,7 @@ import styled from "styled-components";
 import Drawer from "@mui/material/Drawer";
 import PropTypes from "prop-types";
 import { NavLink, withRouter } from "react-router-dom";
-import CompanyLogo from "./assets/CompanyLogo.png";
+import CompanyLogo from "./assets/CompanyLogo.svg";
 import Select from "react-select";
 import { MenuList } from "./config";
 import User from "./assets/User.png";
@@ -165,7 +165,7 @@ class ResponsiveAppBar extends React.Component {
               }}
             >
               <StyledNavLink to="/" className="flex-none">
-                <img src={CompanyLogo} alt="Company Logo" />
+                <img src={CompanyLogo} alt="Company Logo" width="137" />
               </StyledNavLink>{" "}
             </Box>
 
@@ -386,7 +386,7 @@ class ResponsiveAppBar extends React.Component {
                                         sx={{ textAlign: "center" }}
                                       >
                                         <NestedNavListItem
-                                          ismobile='true'
+                                          ismobile="true"
                                           to={value}
                                         >
                                           {label}
@@ -405,7 +405,7 @@ class ResponsiveAppBar extends React.Component {
                         <ListItem key={menuItem.label} disablePadding>
                           <ListItemButton sx={{ textAlign: "center" }}>
                             <NavListItem
-                              ismobile='true'
+                              ismobile="true"
                               to={menuItem?.to || "test"}
                             >
                               {menuItem.label}

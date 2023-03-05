@@ -13,7 +13,8 @@ class EntryPrompt extends Component {
       <div
         className={`align-bottom md:rounded-md text-left overflow-hidden transform transition-all sm:align-middle md:mb-8  ${
           hidden ? "hidden" : ""
-        }`}
+        }`
+      }
       >
         <div className="px-6 py-6">
           {/* <div className="flex items-center">

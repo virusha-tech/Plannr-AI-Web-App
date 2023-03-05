@@ -2,7 +2,7 @@ import { ViewListIcon } from "@heroicons/react/solid";
 
 const obj = {
   title: "Marketing Plan",
-  desc: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.",
+  desc:"A marketing plan outlines the strategies and actions needed to promote and sell a product or service.",
   category: "Business",
   Icon: ViewListIcon,
   // tags: [],

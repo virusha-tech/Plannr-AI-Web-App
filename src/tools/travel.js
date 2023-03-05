@@ -2,7 +2,7 @@ import { ViewListIcon } from "@heroicons/react/solid";
 
 const obj = {
   title: "Travel Plan",
-  desc: "Quickly create a travel itinerary based on some basic details, like location, budgets, etc.",
+  desc: "A travel plan outlines the details of a trip, including destinations, accommodation, transportation, and activities.",
   category: "Personal",
   Icon: ViewListIcon,
   // tags: [],

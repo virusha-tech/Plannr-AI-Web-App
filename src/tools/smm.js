@@ -2,7 +2,7 @@ import { ViewListIcon } from "@heroicons/react/solid";
 
 const obj = {
   title: "SMM Plan",
-  desc: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.",
+  desc: "A social media marketing plan outlines the strategies and actions needed to promote a product or service using social media platforms.",
   category: "Business",
   Icon: ViewListIcon,
   // tags: [],

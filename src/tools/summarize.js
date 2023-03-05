@@ -6,7 +6,7 @@ import {
 const obj = {
 
 	title: "Summarize Points",
-	desc: "Analyze your text or documents and convey the important concepts in bullet form.",
+	desc: "A summary outlines the main points and key ideas of a text or article in a condensed and concise manner.",
 	category: "Personal",
 	Icon: ViewListIcon,
 	// tags: [],

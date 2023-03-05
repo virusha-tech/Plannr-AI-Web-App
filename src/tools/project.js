@@ -2,7 +2,7 @@ import { ViewListIcon } from "@heroicons/react/solid";
 
 const obj = {
   title: "Project Plan",
-  desc: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.",
+  desc: " A project plan outlines the tasks, resources, and timeline needed to complete a specific project",
   category: "Professional",
   Icon: ViewListIcon,
   // tags: [],

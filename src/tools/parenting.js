@@ -2,7 +2,7 @@ import { ViewListIcon } from "@heroicons/react/solid";
 
 const obj = {
   title: "Parenting Plan",
-  desc: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.",
+  desc: " A parenting plan outlines the steps needed to raise children, including setting expectations and boundaries, establishing routines, and providing support and guidance.",
   category: "Personal",
   Icon: ViewListIcon,
   // tags: [],

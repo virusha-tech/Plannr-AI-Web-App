@@ -6,6 +6,7 @@ import styled from "styled-components";
 import StepConnector, {
   stepConnectorClasses,
 } from "@mui/material/StepConnector";
+import CompanyLogo from "./assets/CompanyLogo.svg";
 
 import config from "./config";
 import { Stepper, Step, StepLabel } from "@mui/material";
@@ -30,6 +31,51 @@ const StyledStepLabel = styled(StepLabel)`
     margin: 5px;
   }
 `;
+
+const amount = {
+  personal: {
+    indianCurrency: {
+      monthly: `400`,
+      yearly: 400 * 10,
+      monthly_key: "",
+      yearly_key: "",
+    },
+    USCurrency: {
+      monthly: 39,
+      yearly: 39 * 10,
+      monthly_key: "",
+      yearly_key: "",
+    },
+  },
+  professional: {
+    indianCurrency: {
+      monthly: `600`,
+      yearly: 600 * 10,
+      monthly_key: "",
+      yearly_key: "",
+    },
+    USCurrency: {
+      monthly: 59,
+      yearly: 59 * 10,
+      monthly_key: "",
+      yearly_key: "",
+    },
+  },
+  Business: {
+    indianCurrency: {
+      monthly: `7000`,
+      yearly: 7000 * 10,
+      monthly_key: "",
+      yearly_key: "",
+    },
+    USCurrency: {
+      monthly: 449,
+      yearly: 449 * 10,
+      monthly_key: "",
+      yearly_key: "",
+    },
+  },
+};
 
 const CheckIcon = () => {
   return (
@@ -121,6 +167,44 @@ const PlannerTab = mStyled((props) => <Tab disableRipple {...props} />)(
   })
 );
 
+const StyledPlannerTab = mStyled((props) => <Tab disableRipple {...props} />)(
+  ({ theme }) => {
+    console.log(theme.palette.primary.main);
+    return {
+      textTransform: "none",
+      minWidth: 0,
+      [theme.breakpoints.up("sm")]: {
+        minWidth: 0,
+      },
+      padding: "4px",
+      marginRight: theme.spacing(1),
+      fontWeight: 600,
+      fontSize: "16px",
+      // color
+      backgroundColor: theme.palette.primary,
+      padding: "22px",
+      "&:hover": {
+        color: "white",
+        background: theme.palette.primary.main,
+        opacity: 0.7,
+        borderRadius: "6px",
+      },
+      "&.Mui-selected": {
+        color: "white",
+        background: theme.palette.primary.main,
+        boxShadow:
+          "0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06)",
+        borderRadius: "6px",
+      },
+      "&.Mui-focusVisible": {
+        backgroundColor: theme.palette.primary,
+
+        // backgroundColor: "#d1eaff",
+      },
+    };
+  }
+);
+
 const PlannerTabs = styled(Tabs)({
   border: "1px solid #F2F4F7",
   borderRadius: "8px",
@@ -165,7 +249,7 @@ function BasicTabs({ handleTabChange }) {
           onChange={(_, newValue) => handleChange("currency", newValue)}
           indicatorColor={""}
         >
-          <PlannerTab
+          <StyledPlannerTab
             value="indianCurrency"
             icon={
               <svg
@@ -185,7 +269,7 @@ function BasicTabs({ handleTabChange }) {
             }
             aria-label="Rupee"
           />
-          <PlannerTab
+          <StyledPlannerTab
             value="USCurrency"
             icon={
               <svg
@@ -219,7 +303,6 @@ const Flex = styled.div`
     flex-direction: column;
     gap: 20px;
     align-items: center;
-
   }
 `;
 
@@ -229,7 +312,7 @@ class Pricing extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeStep: 2,
+      activeStep: 1,
       subscription: "monthly",
       currency: "indianCurrency",
     };
@@ -261,6 +344,7 @@ class Pricing extends Component {
         {this.props.store.profile.status ? null : (
           <div className="border-b border-gray-300 bg-white shadow-sm ">
             <div className="container flex mx-auto px-4 md:px-28 flex select-none">
+              <img src={CompanyLogo} alt="Company Logo" width="137" />
               <div className="relative text-gray-400 focus-within:text-green-500 flex flex-1 "></div>
               <div
                 onClick={this.props.store.handleLogout}
@@ -295,13 +379,13 @@ class Pricing extends Component {
           ) : (
             <>
               <div className="container mx-auto px-8 py-4 lg:px-28 lg:py-12 lg:pb-64 select-none">
-                <>
+                <Wrapper>
                   <Header>Plans that fit your scale</Header>
                   <SubHeader>
-                    Get started with a 5-day trial for only $1. Cancel
-                    anytimeSimple, transparent pricing that grows with you.
+                    Get started with a 14-day trial for only $1. Cancel anytime
                   </SubHeader>
-                </>
+                  <Styledheader>Simple, transparent pricing that grows with you.</Styledheader>
+                </Wrapper>
                 <BasicTabs handleTabChange={this.handleTabChange} />
                 <Grid>
                   {/* {this.props.store.profile.status ? null : ( */}
@@ -316,7 +400,6 @@ class Pricing extends Component {
                       this.state.subscription === "monthly"
                     }
                   />
-                  {/* )} */}
                   <Professional
                     fromColor="green-400"
                     toColor="green-600"
@@ -354,13 +437,15 @@ const Header = styled.h1`
   font-weight: 600;
   font-size: 48px;
   line-height: 60px;
-
   text-align: center;
   letter-spacing: -0.02em;
-
   color: #101828;
   margin-bottom: 24px;
 `;
+
+const Wrapper= styled.div`
+  margin: 0 auto;
+`
 
 const SubHeader = styled.h1`
   font-family: "Inter";
@@ -369,44 +454,32 @@ const SubHeader = styled.h1`
   font-size: 20px;
   line-height: 30px;
   text-align: center;
-
-  color: #475467;
+  clip-path: polygon(0 0, 100% 0, 93% 48%, 100% 100%, 0 100%, 7% 52%);
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 40px;
+  color: white;
+  margin: 0 auto;
   margin-bottom: 12px;
+  max-width: 694px;
+  /* max-width: ; */
+  padding:5px 40px;
+  background-color: ${({ theme }) => {
+    return theme.primary;
+  }};
 `;
 
-const amount = {
-  personal: {
-    indianCurrency: {
-      monthly: `400`,
-      yearly: 400 * 10,
-    },
-    USCurrency: {
-      monthly: 39,
-      yearly: 39 * 10,
-    },
-  },
-  professional: {
-    indianCurrency: {
-      monthly: `600`,
-      yearly: 600 * 10,
-    },
-    USCurrency: {
-      monthly: 59,
-      yearly: 59 * 10,
-    },
-  },
-  Business: {
-    indianCurrency: {
-      monthly: `7000`,
-      yearly: 7000 * 10,
-    },
-    USCurrency: {
-      monthly: 449,
-      yearly: 449 * 10,
-    },
-  },
-};
+const Styledheader = styled.h3`
+ font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 30px;
+  text-align: center;
+  color: #475467;
 
+`
 const Personal = ({
   fromColor,
   toColor,
@@ -457,7 +530,7 @@ const Personal = ({
             <strong>FEATURES</strong>
           </h6>
           <span>
-            Get started with a 5-day trial for only $1. Cancel anytime
+            Get started with a 14-day trial for only $1. Cancel anytime
           </span>
         </div>
 
@@ -493,7 +566,7 @@ const Personal = ({
             <CheckIcon />
             <div>
               <span className="-700">
-                <strong>5-day trial at $1</strong>
+                <strong>14-day trial at $1</strong>
               </span>
             </div>
           </div>
@@ -661,7 +734,7 @@ const Professional = ({
             <strong>FEATURES</strong>
           </h6>
           <span>
-            Get started with a 5-day trial for only $1. Cancel anytime
+            Get started with a 14-day trial for only $1. Cancel anytime
           </span>
         </div>
 
@@ -697,7 +770,7 @@ const Professional = ({
             <CheckIcon />
             <div>
               <span className="-700">
-                <strong>5-day trial at $1</strong>
+                <strong>14-day trial at $1</strong>
               </span>
             </div>
           </div>
@@ -779,7 +852,7 @@ const Premium = ({
             <strong>FEATURES</strong>
           </h6>
           <span>
-            Get started with a 5-day trial for only $1. Cancel anytime
+            Get started with a 14-day trial for only $1. Cancel anytime
           </span>
         </div>
         <div className="divide-y divide-dashed divide-gray-300 mt-4">
@@ -814,7 +887,7 @@ const Premium = ({
             <CheckIcon />
             <div>
               <span className="-700">
-                <strong>5-day trial at $1</strong>
+                <strong>14-day trial at $1</strong>
               </span>
             </div>
           </div>
@@ -830,6 +903,7 @@ const Premium = ({
             name="token"
             value={api.defaults.headers.common["x-access-token"]}
           />
+          {/*  */}
           <input type="hidden" name="priceId" value={config.stripe.pro} />
           <button
             type="submit"

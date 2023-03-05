@@ -2,7 +2,7 @@ import { ViewListIcon } from "@heroicons/react/solid";
 
 const obj = {
   title: "Budget Plan",
-  desc: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.",
+  desc: "A budget plan outlines the income and expenses of an individual or household, with the goal of managing financial resources effectively.",
   category: "Business",
   Icon: ViewListIcon,
   // tags: [],

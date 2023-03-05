@@ -2,7 +2,7 @@ import { ViewListIcon } from "@heroicons/react/solid";
 
 const obj = {
   title: "Study Plan",
-  desc: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.",
+  desc: "A study plan outlines the schedule and materials needed to prepare for an exam or complete a course of study.",
   category: "Personal",
   Icon: ViewListIcon,
   // tags: [],

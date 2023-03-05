@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import Slider from "react-slick";
-import CompanyLogo from "../assets/CompanyLogo.png";
+import CompanyLogo from "../assets/CompanyLogo.svg";
 import Dashboard from "../assets/Dashboard.png";
 import { Helmet } from "react-helmet";
 import { Switch, Route, withRouter, Redirect, Link } from "react-router-dom";
@@ -98,7 +98,7 @@ class Auth extends Component {
     return (
       <>
         <Helmet>
-          <title>{`Login - OpenAI Template`}</title>
+          <title>{`Login - Plannr AI`}</title>
         </Helmet>
         <div className="flex">
           <Leftarea className="h-screen flex flex-col justify-between flex-1">

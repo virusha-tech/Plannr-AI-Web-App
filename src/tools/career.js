@@ -2,7 +2,7 @@ import { ViewListIcon } from "@heroicons/react/solid";
 
 const obj = {
   title: "Career Plan",
-  desc: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.",
+  desc: "A career development plan outlines the steps and goals needed to advance in a career or switch to a new field.",
   category: "Professional",
   Icon: ViewListIcon,
   // tags: [],

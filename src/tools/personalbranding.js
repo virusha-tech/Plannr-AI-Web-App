@@ -2,7 +2,7 @@ import { ViewListIcon } from "@heroicons/react/solid";
 
 const obj = {
   title: "Personal Branding Plan",
-  desc: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.",
+  desc: "A personal branding plan outlines strategies to create and maintain a personal brand by identifying strengths or social media presence, and networking.",
   category: "Professional",
   Icon: ViewListIcon,
   // tags: [],

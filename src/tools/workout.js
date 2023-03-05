@@ -2,7 +2,7 @@ import { ViewListIcon } from "@heroicons/react/solid";
 
 const obj = {
   title: "Workout Plan",
-  desc: "A workout plan outlines a schedule of exercises and activities to be performed over a specific period of time, often with the goal of improving physical fitness",
+  desc: "A workout plan is a schedule of exercises and activities to improve physical fitness or achieve specific health or fitness goals over a set period of time.",
   category: "Personal",
   Icon: ViewListIcon,
   // tags: [],

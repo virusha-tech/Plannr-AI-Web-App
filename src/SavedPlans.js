@@ -91,6 +91,9 @@ class SavedPlans extends Component {
           <GeneratingSpinner>Finding your seach History...</GeneratingSpinner>
         ) : this.state.count ? (
           <TableWrapper>
+            <Helmet>
+              <title>{`Saved Plans - Plannr AI`}</title>
+            </Helmet>
             <Heading>History..</Heading>
             <EnhancedTable
               rows={this.state.rows}
@@ -102,7 +105,7 @@ class SavedPlans extends Component {
         ) : (
           <Center>
             <Helmet>
-              <title>{`Tools - OpenAI Template`}</title>
+              <title>{`Tools - Plannr AI`}</title>
             </Helmet>
             <h1>Saved Plans</h1>
             <span>

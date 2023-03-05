@@ -2,7 +2,7 @@ import { ViewListIcon } from "@heroicons/react/solid";
 
 const obj = {
   title: "SEO Plan",
-  desc: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.",
+  desc: "An SEO plan outlines the strategies and actions needed to improve the visibility and ranking of a website in search engine results.",
   category: "Business",
   Icon: ViewListIcon,
   // tags: [],

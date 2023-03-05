@@ -2,7 +2,7 @@ import { ViewListIcon } from "@heroicons/react/solid";
 
 const obj = {
   title: "Personal Budget Plan",
-  desc: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.",
+  desc: "A personal budget plan outlines the details of an individual's income and expenses over a specific period of time to reach financial goals and manage spending habits.",
   category: "Personal",
   Icon: ViewListIcon,
   // tags: [],

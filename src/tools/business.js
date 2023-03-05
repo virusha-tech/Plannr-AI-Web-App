@@ -2,7 +2,7 @@ import { ViewListIcon } from "@heroicons/react/solid";
 
 const obj = {
   title: "Business Plan",
-  desc: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.",
+  desc: "A business plan outlines the goals and objectives of a business, as well as the strategies and actions needed to achieve those goals.",
   category: "Business",
   Icon: ViewListIcon,
   // tags: [],

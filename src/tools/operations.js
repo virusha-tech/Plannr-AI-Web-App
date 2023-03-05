@@ -2,7 +2,7 @@ import { ViewListIcon } from "@heroicons/react/solid";
 
 const obj = {
   title: "Operations Plan",
-  desc: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.",
+  desc: "An operations plan outlines strategies to manage daily business activities, including policies and procedures, personnel management, and progress tracking.",
   category: "Business",
   Icon: ViewListIcon,
   // tags: [],

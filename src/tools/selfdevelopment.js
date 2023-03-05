@@ -2,7 +2,7 @@ import { ViewListIcon } from "@heroicons/react/solid";
 
 const obj = {
   title: "Self Development Plan",
-  desc: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.",
+  desc: "A self-development plan outlines steps to improve personal skills and knowledge, including goals and resources.",
   category: "Personal",
   Icon: ViewListIcon,
   // tags: [],

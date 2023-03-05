@@ -2,7 +2,7 @@ import { ViewListIcon } from "@heroicons/react/solid";
 
 const obj = {
   title: "Product Plan",
-  desc: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.",
+  desc: "A product plan outlines the details of a product, including its features, target audience, marketing strategy, pricing, and development timeline.",
   category: "Professional",
   Icon: ViewListIcon,
   // tags: [],

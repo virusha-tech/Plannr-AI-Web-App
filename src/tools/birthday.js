@@ -2,7 +2,7 @@ import { ViewListIcon } from "@heroicons/react/solid";
 
 const obj = {
   title: "Birthday Plan",
-  desc: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.",
+  desc: "A birthday plan outlines the details of a celebration, including the venue, guest list, decorations, menu, and activities.",
   category: "Personal",
   Icon: ViewListIcon,
   // tags: [],

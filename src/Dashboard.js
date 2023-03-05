@@ -72,7 +72,7 @@ class Body extends Component {
     return (
       <Layout>
         <Helmet>
-          <title>{`Tools - OpenAI Template`}</title>
+          <title>{`Dashboard - Plannr AI`}</title>
         </Helmet>
 
         <AddBanner>
@@ -132,7 +132,9 @@ class Body extends Component {
             onKeyUp={this.onKeyUp}
           ></Input>
         </TabContainer>
-        <CardsBody className="py-4 md:py-8 lg:py-12 ">
+        <CardsBody
+          className="py-4 md:py-8 lg:py-12"
+        >
           <Grid>
             {this[this.state.activeTab]?.map((tool, index) => {
               return (
@@ -244,6 +246,11 @@ const LinkCard = styled(Link)`
   border-radius: 12px;
   height: 181px;
   padding: 28px 20px;
+  /* background-color:red; */
+  &:hover{
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+    transform: scale(1.05);
+  }
 `;
 
 const ComingSoonCard = styled.div`

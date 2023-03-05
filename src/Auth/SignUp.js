@@ -1,12 +1,13 @@
 import { observer } from "mobx-react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import GoogleLogo from "../assets/GoogleLogo.svg";
 
 export const SignUp = observer(
   ({ active, email, password, fname, lname, onChange, onSignup }) => {
     return (
       <>
-        <SignUpForm onSubmit={onSignup} className='mb-10'>
+        <SignUpForm onSubmit={onSignup} className="mb-10">
           <div>
             <div className="text-4xl font-medium text-black-900">Sign Up</div>
             <p>Create your account.</p>
@@ -61,6 +62,20 @@ export const SignUp = observer(
                 Sign Up
               </SignUpButton>
             </div>
+            <div className="flex flex-col">
+              <button
+                type="button"
+                // onClick={signUp}
+                className="text-center relative inline-flex items-center justify-center p-0.5 mt-3 text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-lg px-5 py-2.5 text-center dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800"
+              >
+                <GoogleImage
+                  className="h-4"
+                  src={GoogleLogo}
+                  alt="Google Logo"
+                />
+                Sign in with Google
+              </button>
+            </div>
           </div>
         </SignUpForm>
         <span className="flex justify-center items-center">
@@ -71,6 +86,11 @@ export const SignUp = observer(
     );
   }
 );
+
+const GoogleImage = styled.img`
+  width: 40px !important;
+  height: 24px;
+`;
 
 const SignInAnchor = styled(Link)`
   background: white;
