@@ -2,8 +2,8 @@ const dev = {
   baseURL: "http://localhost:3080/api/",
   landingPageUrl: "http://localhost:3080",
   stripe: {
-    free: "price_1MNW04SB17XWitVzEcMoqiP0",
-    entry: "price_1MNVzISB17XWitVzUeoQxSOF",
+    free: "price_1Mi9T5SB17XWitVzdwgoMZBC",
+    entry: "price_1Mi9hPSB17XWitVzPqlG0AjE",
     pro: "price_1MNuKMSB17XWitVz30mpm918",
   },
 };
@@ -12,8 +12,8 @@ const prod = {
   baseURL: "/api/",
   landingPageUrl: "https://beta.plannr.ai/",
   stripe: {
-    free: "price_1MNW04SB17XWitVzEcMoqiP0",
-    entry: "price_1MNVzISB17XWitVzUeoQxSOF",
+    free: "price_1Mi9T5SB17XWitVzdwgoMZBC",
+    entry: "price_1Mi9hPSB17XWitVzPqlG0AjE",
     pro: "price_1MNuKMSB17XWitVz30mpm918",
   },
 };
