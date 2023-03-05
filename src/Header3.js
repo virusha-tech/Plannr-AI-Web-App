@@ -321,7 +321,7 @@ class ResponsiveAppBar extends React.Component {
                     <img
                       src={CompanyLogo}
                       alt="Company Logo"
-                      style={{ margin: "auto", marginTop: "30px" }}
+                      style={{ margin: "auto", marginTop: "30px", width: "140px" }}
                     />
                   </StyledNavLink>
                 </Box>
