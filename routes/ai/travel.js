@@ -7,27 +7,34 @@ let app = express.Router();
 
 app.post("/travel", async (req, res, next) => {
   try {
-    let { city, days, traveller, budget, purpose, stay } = req.body.plan;
+    let {
+      destination,
+      purpose,
+      date,
+      traveller,
+      budget,
+      meal_Preference,
+      accomodation,
+      transportation,
+      Any_Health_or_Safety_Concerns,
+      travelStyle,
+      additionalinfo,
+    } = req.body.plan;
 
-    let prompt = `###\nCreate a detailed itinerary from the following details:\nCITY: Pondicherry\nDAYS: 3\nTRAVELLER: Solo\nBUDGET: $500\nPURPOSE: Spiritual Retreat\nSTAY: Hostel\n\nITINERARY:\nDay 1:\n\nStart your day with a visit to Aurobindo Ashram, the spiritual retreat of Pondicherry. Take some time to meditate and reflect on life in this tranquil environment.
-     Then head out for lunch at La Maison Rose, a French-style cafe that serves delicious food at an affordable price. After lunch, explore the colonial architecture of Pondicherry by taking a walk around the city’s streets and squares. Visit the iconic Sri Aurobindo Handmade Paper Factory where you can buy handmade paper products as souvenirs from your trip. 
-     In the evening, take a stroll along Promenade Beach and enjoy its serene atmosphere before heading back to your hostel for dinner and rest. \n\nRecommended Stay: The Hosteller - located near Promenade beach which is just 5 minutes away from Aurobindo Ashram\n\n\nDay 2: \nBegin your day with breakfast at Café des Arts followed by exploring Paradise Beach which is one of Pondicherry's most beautiful beaches offering stunning views of Bay of Bengal Sea. 
-     Later in the afternoon visit Arulmigu Manakula Vinayagar Temple dedicated to Lord Ganesha – it has been standing since 1666! Post temple visit go shopping in local markets like Bharathi Street Market or Nehru Street Market where you can find unique items such as handicrafts, jewelry etc., After shopping take some time off for yourself and relax at Rock Beach or spend some time admiring artworks displayed in various galleries around town such as Alliance Francaise de Pondichery Gallery & Art Centre or Lalit Kala Akademi Art Gallery . For dinner try out one of many restaurants serving traditional South Indian cuisine such as Surguru Restaurant or Hotel Saravana Bhavan \n\nRecommended Stay: Lemon Tree Amarante - located close to Paradise beach & few other attractions mentioned above\n\n  \nDay 3: \nOn last day start early morning with yoga session offered by nearby studios like Yoga Mandiram Studio or Shanti Yoga Studio followed by breakfast at Le Cafe De Flore – they serve amazing French pastries! Spend rest of morning visiting museums like Bharathidasan Museum Of Folklore And Popular Art , Puducherry Museum , Botanical Garden & Chunnambar Boat House . For lunch try out Freshly Baked Pizza At Red Sparrow Bakery followed by leisurely stroll through heritage town filled with colonial buildings known as White Town area .
-      End your bagpacking trip on high note while sipping coffee overlooking ocean view from rooftop café called La Terrasse Café Bar Lounge before heading back home ! \n\nRecommended Stay :The Windflower Resort & Spa - Located close to all attractions mentioned above\n\nCITY: ${city}\nDAYS: ${days}\nTRAVELLER: ${traveller}\nBUDGET: ${budget}\nPURPOSE: ${purpose}\nSTAY: ${stay}`;
+    let prompt = `###\nCreate a detailed and structured itinerary using the following details:\nDESTINATION: Goa\nPURPOSE: Vacation\nDATE: 05/03/2023 - 08/03/2023\nBUDGET: INR 20000\nTRAVELLERS:  Solo\nACCOMMODATION: Hostel\nTRANSPORTATION: Taxi\nMEAL PREFERENCE: Veg\nOTHER CONCERNS: None\nTRAVEL STYLE: Backpacking\nADDITIONAL INFO: Best Place to eat, Things to do, Travel tips\n\nDay 1 (5-Mar-23):\n\n- Morning: Start early in the morning from the city of origin and travel to Goa by taxi. \n- Afternoon: Check-in at the hostel (e.g. The Backpacker's Hostel in Baga for an inexpensive and comfortable stay) and freshen up.\n Explore the nearby beaches (e.g. Calangute, Baga and Anjuna) and enjoy the views.\n- Evening: Spend the evening at the beach, enjoying the sunset.\n Have dinner at a local, vegetarian-friendly restaurant (e.g. the Souza Lobo Restaurant in Anjuna)\n\nDay 2 (6-Mar-23): \n\n- Morning: Have breakfast at the hostel.\n- Afternoon: Go sightseeing in Old Goa and visit the famous churches (e.g. Se Cathedral, Basilica of Bom Jesus and Church of Our Lady of the Immaculate Conception).\n Try the local cuisine at a nearby cafe (e.g. La Plage Cafe in Anjuna).\n- Evening: Take the evening off and explore the local nightlife (e.g. Tito's Club in Baga).\n\nDay 3 (7-Mar-23):\n\n- Morning: Have breakfast at the hostel.\n- Afternoon: Spend the day at the popular beaches like Baga, Anjuna, and Calangute.\n Enjoy the evening by taking a stroll around the nearby markets (e.g. Anjuna Flea market, Mapusa Friday market) and shop for souvenirs.\n- Evening: Have dinner at a local, vegetarian-friendly restaurant (e.g. the Cafe Chocolatti in Anjuna).\n\nDay 4 (8-Mar-23):\n\n- Morning: Have breakfast at the hostel.\n- Afternoon: Spend the day exploring the old forts in Goa (e.g. Chapora Fort and Aguada Fort).\n Spend the evening at the beach, enjoying the sunset.\n- Evening: Have dinner at a local, vegetarian-friendly restaurant (e.g. the German Bakery in Anjuna).\n Pack up and check-out of the hostel. \n- Night: Travel back to the city of origin by taxi.\n\nRecommended Stays:\n- The Backpacker's Hostel in Baga\n- La Plage Cafe in Anjuna\n- Tito's Club in Baga\n- Cafe Chocolatti in Anjuna\n- German Bakery in Anjuna\n\nBest Places to Eat\n- Souza Lobo Restaurant in Anjuna\n- La Plage Cafe in Anjuna\n- Cafe Chocolatti in Anjuna\n- German Bakery in Anjuna\n\nThings to do:\n- Explore the nearby beaches (e.g. Calangute, Baga and Anjuna).\n- Go sightseeing  in Old Goa and visit the famous churches (e.g. Se Cathedral, Basilica of Bom Jesus and Church of Our Lady of the Immaculate Conception).\n- Explore the local nightlife (e.g. Tito's Club in Baga).\n- Enjoy the evening by taking a stroll around the nearby markets (e.g. Anjuna Flea market, Mapusa Friday market) and shop for souvenirs.\n- Spend the day exploring the old forts in Goa (e.g. Chapora Fort and Aguada Fort).\n\nTravel Tips:\n- Book a taxi in advance to avoid any last-minute hassle. \n- Carry enough cash and keep a track of your expenses.\n- Carry a reusable water bottle and basic medical supplies.\n- Plan your itinerary in advance and make sure to include all the essential places to visit. \n- Wear comfortable clothes and shoes.\n- Stay hydrated and take regular breaks.\n\n###\nDESTINATION:${destination} \nPURPOSE:${purpose} \nDATE:${date} \nBUDGET:${budget} \nTRAVELLERS:${traveller}  \nACCOMMODATION:${accomodation} \nTRANSPORTATION:${transportation} \nMEAL PREFERENCE:${meal_Preference} \nOTHER CONCERNS:${Any_Health_or_Safety_Concerns} \nTRAVEL STYLE:${travelStyle} \nADDITIONAL INFO:${additionalinfo.join(", ")}`;
+
+    console.log(prompt);
 
     const gptResponse = await openai.complete({
-      engine: "davinci",
+      engine: "text-davinci-003",
       prompt,
-      maxTokens: 590,
-      temperature: 0.7,
-      topP: 1,
-      frequencyPenalty: 0,
-      presencePenalty: 0,
-      bestOf: 1,
-      n: 1,
       user: req.user._id,
-      stream: false,
-      stop: ["###", "<|endoftext|>"],
+      temperature: 0.7,
+      max_tokens: 2786,
+      top_p: 1,
+      frequency_penalty: 1,
+      presence_penalty: 0,
+      stop: ["###"],
     });
 
     let output = `${gptResponse.data.choices[0].text}`;

@@ -50,7 +50,7 @@ const PlanSchema = new Schema({
   },
   planFormFields: {
     type: Map,
-    of: String,
+    of: String | Object,
   },
 });
 

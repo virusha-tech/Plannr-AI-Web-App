@@ -207,27 +207,9 @@ class Tool extends Component {
 
       console.log(this.prompts[this.currentPrompt]);
 
-      // let response = await this.props.store.api.post(this.tool.api, {
-      //   plan: {
-      //     city: postObj['destination'],
-      //     days: "10",
-      //     traveller: postObj['traveller'],
-      //     budget: postObj['budget'],
-      //     purpose: purpose["purpose"],
-      //     stay: "10",
-      //     currentPrompt: "Entry Text",
-      //   },
-      // });
-
       let response = await this.props.store.api.post(this.tool.api, {
         plan: {
-          city: "Rishikesh",
-          days: "10",
-          traveller: "Solo",
-          budget: "30000",
-          purpose: "Explore",
-          stay: "10",
-          currentPrompt: "Entry Text",
+          ...postObj
         },
       });
 
