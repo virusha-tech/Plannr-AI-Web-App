@@ -20,6 +20,10 @@ class Body extends Component {
   };
 
   changeTab = (tab) => {
+    window.gtag("event", "click", {
+      event_category: "Tabs",
+      event_label: `${tab}`,
+    });
     this.setState({ activeTab: tab });
   };
 
@@ -69,6 +73,13 @@ class Body extends Component {
     );
   }
 
+  handleUpdateClick() {
+    window.gtag("event", "click", {
+      event_category: "button",
+      event_label: `Upgrade Now`,
+    });
+  }
+
   render() {
     var today = moment();
     const specificDate = moment(this.props.store.profile.current_period_end);
@@ -94,7 +105,11 @@ class Body extends Component {
                   this.props.store.api.defaults.headers.common["x-access-token"]
                 }
               />
-              <StyledButton type="submit" className="flex-none">
+              <StyledButton
+                type="submit"
+                className="flex-none"
+                onClick={() => this.handleUpdateClick()}
+              >
                 Upgrade Now
               </StyledButton>
             </form>

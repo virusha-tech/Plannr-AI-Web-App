@@ -110,7 +110,7 @@ const userProfileFields = [
       { title: "35-44", value: "35-44", label: "35-44" },
       { title: "45-60", value: "45-60", label: "45-60" },
     ],
-    placeholder: "Select your Date Range",
+    placeholder: "Select your Age Range",
     type: "dropdown",
     required: true,
   },

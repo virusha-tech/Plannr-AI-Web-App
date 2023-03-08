@@ -20,7 +20,6 @@ import { computed } from "mobx";
 import Collapse from "@mui/material/Collapse";
 
 const drawerWidth = 240;
-const navItems = ["Home", "About", "Contact"];
 
 const customStyles = {
   control: (base, { isFocused }) => ({
@@ -43,12 +42,12 @@ const customStyles = {
     margin: "0px",
   }),
 
-  option: (styles, { data, isDisabled, isFocused, isSelected }) => {
-    // const color = chroma(data.color);
+  option: (styles, { isDisabled, isFocused, isSelected }) => {
     return {
       ...styles,
       backgroundColor: isFocused ? "#079196" : null,
-      color: "#333333",
+      color: isDisabled ? "#868080" : "#333333",
+      cursor: isDisabled ? "not-allowed" : "pointer",
     };
   },
 };
@@ -103,6 +102,7 @@ class ResponsiveAppBar extends React.Component {
         allPlans.push({
           label: `${tool.title} / ${tool.category}`,
           value: `${tool.to}`,
+          isDisabled: tool.isComingSoon ? true : false,
         });
       }
     });
@@ -127,6 +127,10 @@ class ResponsiveAppBar extends React.Component {
   };
 
   toggleDropdown(key) {
+    window.gtag("event", "click", {
+      event_category: "Button",
+      event_label: `All Plans`,
+    });
     this.setState((prevState) => {
       return {
         [key]: !prevState[key],

@@ -38,12 +38,22 @@ class Auth extends Component {
   onLogin = async (e) => {
     try {
       e.preventDefault();
+      window.gtag("event", "login", {
+        event_category: "access",
+        event_label: "Log in button clicked",
+      });
       let data = await this.props.store.api
         .post("/auth/signin", {
           email: this.email,
           password: this.password,
         })
-        .then(({ data }) => data);
+        .then(({ data }) => {
+          window.gtag("event", "loginsuccess", {
+            event_category: "access",
+            event_label: "Log in successful",
+          });
+          return data;
+        });
 
       this.props.store.loginWithDataTokenAndProfile(data, this.props.history);
     } catch (err) {
@@ -59,7 +69,12 @@ class Auth extends Component {
     try {
       e.preventDefault();
       this.errorMessage = "";
-      console.log("signup");
+
+      window.gtag("event", "signup", {
+        event_category: "access",
+        event_label: "Sign up button clicked",
+      });
+
       let data = await this.props.store.api
         .post("/auth/signup", {
           email: this.email,
@@ -68,7 +83,13 @@ class Auth extends Component {
           lname: this.lname,
           referral: this.props.store.referral,
         })
-        .then(({ data }) => data);
+        .then(({ data }) => {
+          window.gtag("event", "signupsuccess", {
+            event_category: "access",
+            event_label: "Sign up successful",
+          });
+          return data;
+        });
       console.log(`onSignup`, data);
       if (data.token && data.profile) {
         this.props.store.loginWithDataTokenAndProfile(data);
