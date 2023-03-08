@@ -39,6 +39,7 @@ import { NotificationContainer } from "react-notifications";
 import "./App.scss";
 import Auth from "./Auth/index";
 import SavedPlans from "./SavedPlans";
+import IntercomChat from "./IntercomChat";
 
 if (!window.store) {
   window.store = new AppStore();
@@ -121,6 +122,7 @@ class App extends Component {
                           component={LoginSuccess}
                         />
                       </Switch>
+                      <IntercomChat />
                     </>
                   ) : (
                     <>
