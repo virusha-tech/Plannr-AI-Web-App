@@ -88,7 +88,6 @@ class SidebarCompontent extends Component {
   }
 
   @computed get AllAuthorizedPlans() {
-    debugger;
     const allPlans = [];
     this.props.store.tools.forEach((tool) => {
       let autorisedtool = tool.permissions.some((r) =>

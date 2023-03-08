@@ -6,7 +6,7 @@ const customStyles = {
     ...base,
     border: "1px solid rgba(209, 213, 219)",
     boxShadow: "none",
-    height: "46px",
+    minHeight: "46px",
     "&:hover": {
       border: "1px solid rgba(156, 163, 175)",
     },
@@ -79,7 +79,7 @@ export default class SingleSelect extends Component {
           isMulti={this.props.isMulti}
           name="color"
           options={this.props.options}
-          menuPortalTarget={document.body}
+          // menuPortalTarget={document.body}
           styles={{ ...customStyles, ...errors }}
           onChange={this.props.onChange}
           // styles={{ menuPortal: (base) => ({ ...base,  }) }}

@@ -10,6 +10,9 @@ import { observable, makeObservable } from "mobx";
 import { CheckIcon, UserIcon, LockClosedIcon } from "@heroicons/react/outline";
 import { SignIn } from "./Signin";
 import { SignUp } from "./SignUp";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { NotificationManager } from "react-notifications";
+import { firebaseAuth } from "./firebase";
 
 @inject("store")
 @observer
@@ -65,6 +68,49 @@ class Auth extends Component {
     }
   };
 
+  async signInWithGoogle(provider, type, cb) {
+    try {
+      const result = await signInWithPopup(firebaseAuth, provider);
+      const user = result.user;
+      const fullName = user.displayName;
+      const names = fullName.split(" ");
+      const firstName = names[0];
+      const lastName = names[names.length - 1];
+      const email = user.email;
+      cb({
+        firstName,
+        lastName,
+        email,
+        password: user.uid,
+      });
+    } catch (err) {
+      NotificationManager.error("Authentication Error. Please try again");
+    }
+  }
+
+  onGoogleLogin = async () => {
+    let provider = new GoogleAuthProvider();
+    let type = "google";
+    window.gtag("event", "Google Login Start");
+    this.signInWithGoogle(provider, type, async (userInfo) => {
+      let data = await this.props.store.api
+        .post("/auth/signInWithGoogle", {
+          email: userInfo.email,
+          fname: userInfo.firstName,
+          lname: userInfo.lastName,
+          password: userInfo.password,
+        })
+        .then(({ data }) => {
+          window.gtag("event", "Google Login Success");
+          return data;
+        });
+
+      if (data.token && data.profile) {
+        this.props.store.loginWithDataTokenAndProfile(data, this.props.history);
+      }
+    });
+  };
+
   onSignup = async (e) => {
     try {
       e.preventDefault();
@@ -103,6 +149,10 @@ class Auth extends Component {
     }
   };
 
+  handleGoogleLogin() {
+    this.onGoogleLogin();
+  }
+
   render() {
     const settings = {
       dots: true,
@@ -133,6 +183,7 @@ class Auth extends Component {
                       email={this.email}
                       password={this.password}
                       signUp={this.signUpWithGoogle}
+                      onGoogleLogin={this.onGoogleLogin}
                       onChange={this.onChangeAny}
                       onLogin={this.onLogin}
                     />
@@ -145,6 +196,7 @@ class Auth extends Component {
                       lname={this.lname}
                       onChange={this.onChangeAny}
                       onSignup={this.onSignup}
+                      onGoogleLogin={this.onGoogleLogin}
                     />
                   </Route>
                   <Route>

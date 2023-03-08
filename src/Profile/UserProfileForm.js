@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import EntryDropdown from "./../Components/EntryDropdown";
-import { Button } from "@mui/material";
+import { Button, Tooltip } from "@mui/material";
 const industryList = [
   "Retail",
   "Hospitality",
@@ -98,7 +98,7 @@ const mapArraytoReactSelectorOptions = (array) => {
     };
   });
 };
-// console.log();
+
 const userProfileFields = [
   {
     title: "Age range",
@@ -199,6 +199,7 @@ const userProfileFields = [
     type: "dropdown",
     required: true,
     isMulti: true,
+    tooltipText: "Select at least 3 Interests",
   },
   {
     title: "Personal goals",
@@ -209,6 +210,8 @@ const userProfileFields = [
     type: "dropdown",
     required: true,
     isMulti: true,
+    tooltipText: "Select at least 3 Personal goals",
+
   },
 
   {
@@ -269,11 +272,6 @@ function UserProfileForm(props) {
       default:
         return (
           <>
-            <div
-              className={`text-xs absolute z-30 right-2 select-none pointer-events-none transition-all top bg-white px-2 `}
-            >
-              {value.length} chars
-            </div>
             <label
               htmlFor={attr}
               className="relative transition text-gray-600 focus-within:text-gray-800 block"
@@ -298,7 +296,6 @@ function UserProfileForm(props) {
   };
 
   const handleNextAction = () => {
-    debugger;
     if (currentStep === 0 && Object.keys(userProfile).length != 4) {
       const errorState = {};
       if (!userProfile["ageRange"])
@@ -331,7 +328,6 @@ function UserProfileForm(props) {
       setUserProfileError({ ...errorState });
     } else {
       if (currentStep == 1) {
-        debugger;
         props.onNext(userProfile);
       } else {
         setCurrentStep((cur) => cur + 1);
@@ -342,7 +338,6 @@ function UserProfileForm(props) {
 
   const onChange = async (key, event) => {
     const value = event.value;
-    debugger;
     if (value?.length || (Array.isArray(event) && event.length > 0)) {
       if (value?.length) {
         setUserProfile((prevState) => {
@@ -384,6 +379,26 @@ function UserProfileForm(props) {
                   <FlexContainer>
                     <Label className="text-gray-600 font-medium text-md">
                       {field.title}
+                      {field.tooltipText ? (
+                        <StyledTooltip title={field.tooltipText}
+                        placement='right-end'
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth={1.5}
+                            stroke="currentColor"
+                            className="w-4 h-4"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"
+                            />
+                          </svg>
+                        </StyledTooltip>
+                      ) : null}
                     </Label>
                     <div className="relative flex flex-col gap-y-3">
                       {renderCorrespondingInput({
@@ -576,4 +591,10 @@ const Label = styled.label`
   display: flex;
   align-items: center;
   color: #344054;
+`;
+
+const StyledTooltip = styled(Tooltip)`
+  margin-left: 10px;
+  position: relative;
+  top: -10px;
 `;

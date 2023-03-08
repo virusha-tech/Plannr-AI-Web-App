@@ -171,7 +171,41 @@ const signin = (req, res) => {
     });
 };
 
-app.post("/signup", checkDuplicateUsernameOrEmail, signup);
+const signInWithGoogle = async (req, res) => {
+  // Check if we already have user in MongoDB..
+  const user = await User.findOne({
+    email: req.body.email,
+  });
+
+  if (!user) {
+    // Create stripe customer account.
+    const customer = await stripe.customers.create({
+      email: `${req.body.email}`,
+      name: `${req.body.fname} ${req.body.lname}`,
+    });
+
+    const user = new User({
+      email: req.body.email,
+      fname: req.body.fname,
+      lname: req.body.lname,
+      password: bcrypt.hashSync(req.body.password, 8),
+      customerId: customer.id,
+    });
+
+    user.save((err, user) => {
+      if (err) {
+        res.status(500).json({ message: err });
+        return;
+      }
+      signin(req, res);
+    });
+  } else {
+    signin(req, res);
+  }
+};
+
+app.post("/signup", signup);
 app.post("/signin", signin);
+app.post("/signInWithGoogle", signInWithGoogle);
 
 module.exports = app;

@@ -390,7 +390,7 @@ class ResponsiveAppBar extends React.Component {
                           >
                             <List component="div" disablePadding>
                               {this.AllAuthorizedPlans.map(
-                                ({ label, value }) => {
+                                ({ label, value, isDisabled }) => {
                                   return (
                                     <ListItem key={label} disablePadding>
                                       <ListItemButton
@@ -398,7 +398,8 @@ class ResponsiveAppBar extends React.Component {
                                       >
                                         <NestedNavListItem
                                           ismobile="true"
-                                          to={value}
+                                          to={isDisabled ? "#" : value}
+                                          isDisabled={isDisabled}
                                         >
                                           {label}
                                         </NestedNavListItem>
@@ -547,8 +548,8 @@ const NestedNavListItem = styled(NavLink)`
   font-weight: 600;
   font-size: 12px;
   line-height: 18px;
-  color: #344054;
-  cursor: pointer;
+  color: ${(props) => (!!props.isDisabled ? "#868080" : "#344054")};
+  cursor: ${(props) => (!!props.isDisabled ? "not-allowed" : "pointer")};
 
   &.selected {
     background: rgba(116, 116, 116, 0.1);

@@ -4,7 +4,7 @@ import styled from "styled-components";
 import GoogleLogo from "../assets/GoogleLogo.svg";
 
 export const SignIn = observer(
-  ({ active, email, password, onChange, onLogin, landingPageUrl, signUp }) => {
+  ({ active, email, password, onChange, onLogin, landingPageUrl, onGoogleLogin }) => {
     return (
       <>
         <SignInform onSubmit={onLogin}>
@@ -58,7 +58,7 @@ export const SignIn = observer(
               </SignInButton>
               <button
                 type="button"
-                // onClick={signUp}
+                onClick={onGoogleLogin}
                 className="text-center relative inline-flex items-center justify-center p-0.5 mt-3 text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-lg px-5 py-2.5 text-center dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800"
               >
                 <GoogleImage

@@ -4,7 +4,16 @@ import styled from "styled-components";
 import GoogleLogo from "../assets/GoogleLogo.svg";
 
 export const SignUp = observer(
-  ({ active, email, password, fname, lname, onChange, onSignup }) => {
+  ({
+    active,
+    email,
+    password,
+    fname,
+    lname,
+    onChange,
+    onSignup,
+    onGoogleLogin,
+  }) => {
     return (
       <>
         <SignUpForm onSubmit={onSignup} className="mb-10">
@@ -65,7 +74,7 @@ export const SignUp = observer(
             <div className="flex flex-col">
               <button
                 type="button"
-                // onClick={signUp}
+                onClick={onGoogleLogin}
                 className="text-center relative inline-flex items-center justify-center p-0.5 mt-3 text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-lg px-5 py-2.5 text-center dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800"
               >
                 <GoogleImage
