@@ -10,6 +10,12 @@ const { ObjectId } = mongoose.Types;
 // Prepare Core Router
 let app = express.Router(); // User Subscribe
 
+// User.deleteMany({ _id: { $ne: ObjectId("63a800022e4b8b3f8b8813e5") } }).then(
+//   () => {
+//     console.log("User deleted");
+//   }
+// );
+
 app.post("/stripe/subscribe", async (req, res) => {
   const domainURL = process.env.DOMAIN;
   const { priceId, trial, plan } = req.body;

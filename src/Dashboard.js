@@ -497,12 +497,12 @@ const Input = styled.input`
   background-position: 10px 7px;
   box-sizing: border-box;
   -webkit-transition: width 0.4s ease-in-out;
-  transition: width 0.4s ease-in-out;
+  /* transition: width 0.4s ease-in-out; */
   align-self: flex-end;
-  &:focus {
-    width: 20vw;
-    padding: 12px 20px 12px 40px;
-  }
+  /* &:focus { */
+  width: 20vw;
+  padding: 12px 20px 12px 40px;
+  /* } */
 
   @media only screen and (max-width: 1200px) {
     display: none;

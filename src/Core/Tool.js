@@ -313,7 +313,7 @@ class Tool extends Component {
                   </ScrollbarContainer>
 
                   <ActionContainer className="flex justify-end gap-6 items-center">
-                    <CancelButton>Cancel</CancelButton>
+                    {/* <CancelButton>Cancel</CancelButton> */}
                     <Button onClick={this.onGenerateClick}>Generate</Button>
                   </ActionContainer>
                   {this.error && (
@@ -419,7 +419,7 @@ const ScrollbarContainer = styled.div`
     &::-webkit-scrollbar {
       width: 12px;
       border-radius: 10px;
-      background-color: #000;
+      /* background-color: white; */
       /* background-color: ${({ theme }) => {
         return `${theme.primary}`;
       }}; */

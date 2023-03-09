@@ -211,7 +211,6 @@ const userProfileFields = [
     required: true,
     isMulti: true,
     tooltipText: "Select at least 3 Personal goals",
-
   },
 
   {
@@ -245,7 +244,7 @@ const userProfileFields = [
 function UserProfileForm(props) {
   const [userProfile, setUserProfile] = useState({});
   const [userProfileError, setUserProfileError] = useState({});
-  const [currentStep, setCurrentStep] = useState(1);
+  const [currentStep, setCurrentStep] = useState(0);
 
   const renderCorrespondingInput = ({
     type,
@@ -380,8 +379,9 @@ function UserProfileForm(props) {
                     <Label className="text-gray-600 font-medium text-md">
                       {field.title}
                       {field.tooltipText ? (
-                        <StyledTooltip title={field.tooltipText}
-                        placement='right-end'
+                        <StyledTooltip
+                          title={field.tooltipText}
+                          placement="right-end"
                         >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -470,12 +470,9 @@ function UserProfileForm(props) {
       </StyledForm>
       <NextButton>
         {currentStep == 1 ? (
-          <Button
-            onClick={handleSkipAction}
-            variant="contained"
-          >
+          <SkipButton onClick={handleSkipAction} variant="contained">
             Skip
-          </Button>
+          </SkipButton>
         ) : null}
         <Button
           onClick={handleNextAction}
@@ -505,6 +502,10 @@ function UserProfileForm(props) {
 }
 
 export default UserProfileForm;
+
+const SkipButton = styled(Button)`
+  background: grey !important;
+`;
 
 const HorizontalRule = styled.div`
   height: ${(props) => (props.isLast ? "0px" : "1px")};
