@@ -47,7 +47,7 @@ const paid = async (eventType, data) => {
 
   logger.info("user fetch inside invoice");
 
-  if (object.amount_paid > 0) {
+  if (object.amount_paid > 0) { 
     if (user) {
       if (!user.referrerPaid) {
         let referrer = await User.findOne({

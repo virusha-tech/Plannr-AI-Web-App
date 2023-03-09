@@ -121,6 +121,9 @@ const obj = {
             {
               label: "Family",
             },
+            {
+              label: "Friends",
+            },
           ],
         },
         {

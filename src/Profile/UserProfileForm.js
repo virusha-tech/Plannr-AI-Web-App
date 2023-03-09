@@ -148,6 +148,11 @@ const userProfileFields = [
         value: "Master's degree",
         label: "Master's degree",
       },
+      {
+        title: "PhD.",
+        value: "PhD.",
+        label: "PhD.",
+      },
     ],
     placeholder: "Select your Education level",
     type: "dropdown",

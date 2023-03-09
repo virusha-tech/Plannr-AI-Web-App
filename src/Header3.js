@@ -235,12 +235,21 @@ class ResponsiveAppBar extends React.Component {
                         </div>
                       </SearchableDropdown>
                     );
-                  } else if (menuItem.isButton) {
+                  } else if (menuItem.label === "Help") {
                     return (
-                      <NavButton className="mr-2 text-center block rounded py-2 px-4">
+                      <NavButton
+                        className="mr-2 text-center block rounded py-2 px-4"
+                        onClick={() => {
+                          window.Intercom("show");
+                        }}
+                      >
                         {menuItem.label}
                       </NavButton>
                     );
+                  } else if (menuItem.isButton) {
+                    <NavButton className="mr-2 text-center block rounded py-2 px-4">
+                      {menuItem.label}
+                    </NavButton>;
                   } else {
                     return (
                       <NavListItem

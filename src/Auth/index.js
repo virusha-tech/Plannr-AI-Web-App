@@ -2,7 +2,9 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import Slider from "react-slick";
 import CompanyLogo from "../assets/CompanyLogo.svg";
-import Dashboard from "../assets/Dashboard.png";
+import Courasel1 from "../assets/Courasel1.png";
+import Courasel2 from "../assets/Courasel2.png";
+import Courasel3 from "../assets/Courasel3.png";
 import { Helmet } from "react-helmet";
 import { Switch, Route, withRouter, Redirect, Link } from "react-router-dom";
 import { observer, inject } from "mobx-react";
@@ -218,7 +220,7 @@ class Auth extends Component {
             <Wrapper>
               <StyledSlider {...settings}>
                 <div>
-                  <img src={Dashboard} alt="Banner1" />
+                  <img src={Courasel1} alt="Banner1" />
                   <SliderImageInfo>
                     <h3>Welcome to Plannr.ai</h3>
                     <span>
@@ -228,7 +230,7 @@ class Auth extends Component {
                   </SliderImageInfo>
                 </div>
                 <div>
-                  <img src={Dashboard} alt="Banner1" />
+                  <img src={Courasel2} alt="Banner1" />
 
                   <SliderImageInfo>
                     <h3>Unleash the Power of Planning with Plannr AI</h3>
@@ -239,7 +241,7 @@ class Auth extends Component {
                   </SliderImageInfo>
                 </div>
                 <div>
-                  <img src={Dashboard} alt="Banner1" />
+                  <img src={Courasel3} alt="Banner1" />
                   <SliderImageInfo>
                     <h3>AI-Powered Planning with Plannr</h3>
                     <span>
@@ -248,7 +250,7 @@ class Auth extends Component {
                     </span>
                   </SliderImageInfo>
                 </div>
-                <div>
+                {/* <div>
                   <img src={Dashboard} alt="Banner1" />
                   <SliderImageInfo>
                     <h3>Unlock Smarter Planning with Plannr AI</h3>
@@ -257,8 +259,8 @@ class Auth extends Component {
                       for large enterprises and organizations
                     </span>
                   </SliderImageInfo>
-                </div>
-                <div>
+                </div> */}
+                {/* <div>
                   <img src={Dashboard} alt="Banner1" />
                   <SliderImageInfo>
                     <h3>Welcome to Plannr.ai</h3>
@@ -267,7 +269,7 @@ class Auth extends Component {
                       AI-Driven Tool
                     </span>
                   </SliderImageInfo>
-                </div>
+                </div> */}
               </StyledSlider>
             </Wrapper>
           </Rightarea>
@@ -366,7 +368,7 @@ const CopyRight = styled.span`
 
 const Rightarea = styled.div`
   background: linear-gradient(45deg, #222222 0%, #424242 100%);
-  padding: 30vh 0;
+  padding: 20vh 0;
   width: 50vw;
 `;
 
