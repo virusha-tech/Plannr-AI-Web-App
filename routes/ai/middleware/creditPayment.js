@@ -36,7 +36,7 @@ const creditPayment = async (req, res, next) => {
   // Credits used in a transaction
   let price = (inputLength + outputLength) * cost;
 
-  let creditsBeforeRounding = 12 * price;
+  let creditsBeforeRounding = 1200 * price;
   let credits = Math.ceil(creditsBeforeRounding);
 
   req.locals.inputLength = inputLength;

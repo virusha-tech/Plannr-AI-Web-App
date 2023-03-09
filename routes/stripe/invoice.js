@@ -21,18 +21,24 @@ const paid = async (eventType, data) => {
 
   let credits = 0;
 
-  // 500 credits for $30
-
-  //amount_paid " 5000 //3000 //9000
-  if (object.amount_paid > 2900) {
-    credits += object.amount_paid / 12; // 416.6 //250 //750
-    logger.info("inside 2900 if" + JSON.stringify(credits));
-  }
-
-  //if for pro
-  if (object.amount_paid > 8900) {
-    credits += object.amount_paid / 12;
-    logger.info("inside 8900 if" + JSON.stringify(credits));
+  if (object.amount_paid === 0) {
+    credits+=550;
+  } else if (object.amount_paid == 9900) {
+    credits += 2000;
+  } else if (object.amount_paid == 24900) {
+    credits += 19000;
+  } else if (object.amount_paid == 99900) {
+    credits += 35000;
+  } else if (object.amount_paid == 249900) {
+    credits += 239000;
+  } else if (object.amount_paid == 5000) {
+    credits += 35000;
+  } else if (object.amount_paid == 25000) {
+    credits += 239000;
+  } else if (object.amount_paid == 500) {
+    credits += 2000;
+  } else if (object.amount_paid == 2500) {
+    credits += 19000;
   }
 
   let user = await User.findOne({
