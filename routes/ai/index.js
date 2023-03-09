@@ -18,6 +18,8 @@ app.use("/", require("./writing/intro"));
 app.use("/", require("./jobad"));
 app.use("/", require("./helloworld"));
 app.use("/", require("./travel"));
+app.use("/", require("./mealplan"));
+app.use("/", require("./workoutplan"));
 app.use("/", require("./example"));
 app.use("/", require("./subsequentQuestion"));
 

@@ -205,8 +205,6 @@ class Tool extends Component {
 
       this.setState({ activeStep: 1 });
 
-      console.log(this.prompts[this.currentPrompt]);
-
       let response = await this.props.store.api.post(this.tool.api, {
         plan: {
           ...postObj

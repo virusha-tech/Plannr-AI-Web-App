@@ -9,7 +9,6 @@ import { Helmet } from "react-helmet";
 import { Switch, Route, withRouter, Redirect, Link } from "react-router-dom";
 import { observer, inject } from "mobx-react";
 import { observable, makeObservable } from "mobx";
-import { CheckIcon, UserIcon, LockClosedIcon } from "@heroicons/react/outline";
 import { SignIn } from "./Signin";
 import { SignUp } from "./SignUp";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
