@@ -313,6 +313,7 @@ class Pricing extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      
       activeStep: 1,
       subscription: "monthly",
       currency: "indianCurrency",
