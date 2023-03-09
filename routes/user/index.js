@@ -12,8 +12,13 @@ let app = express.Router(); // User Subscribe
 
 app.post("/stripe/subscribe", async (req, res) => {
   const domainURL = process.env.DOMAIN;
-  const { priceId, trial } = req.body;
-
+  const { priceId, trial, plan } = req.body;
+  const isCardRequired = plan !== "personal";
+  let cardrequired = {};
+  console.log("isCardRequired", isCardRequired);
+  if (isCardRequired) {
+    cardrequired = { payment_method_collection: "if_required" };
+  }
   try {
     let user = await User.findOne({ _id: req.user._id });
     let customer = user.customerId
@@ -34,7 +39,7 @@ app.post("/stripe/subscribe", async (req, res) => {
       subscription_data,
       success_url: `${domainURL}signup/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${domainURL}signup/failed`,
-      payment_method_collection: "if_required",
+      ...cardrequired,
     });
     res.redirect(303, session.url);
   } catch (e) {

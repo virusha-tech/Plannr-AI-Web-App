@@ -36,42 +36,42 @@ const StyledStepLabel = styled(StepLabel)`
 const amount = {
   personal: {
     indianCurrency: {
-      monthly: `400`,
-      yearly: 400 * 10,
+      monthly: `0`,
+      yearly: 0 * 10,
       monthly_key: "",
       yearly_key: "",
     },
     USCurrency: {
-      monthly: 39,
-      yearly: 39 * 10,
+      monthly: 0,
+      yearly: 0,
       monthly_key: "",
       yearly_key: "",
     },
   },
   professional: {
     indianCurrency: {
-      monthly: `600`,
-      yearly: 600 * 10,
+      monthly: `99`,
+      yearly: `999`,
       monthly_key: "",
       yearly_key: "",
     },
     USCurrency: {
-      monthly: 59,
-      yearly: 59 * 10,
+      monthly: 5,
+      yearly: 50,
       monthly_key: "",
       yearly_key: "",
     },
   },
   Business: {
     indianCurrency: {
-      monthly: `7000`,
-      yearly: 7000 * 10,
+      monthly: `249`,
+      yearly: 2499,
       monthly_key: "",
       yearly_key: "",
     },
     USCurrency: {
-      monthly: 449,
-      yearly: 449 * 10,
+      monthly: 25,
+      yearly: 250,
       monthly_key: "",
       yearly_key: "",
     },
@@ -313,7 +313,7 @@ class Pricing extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeStep: 1,
+      activeStep: 2,
       subscription: "monthly",
       currency: "indianCurrency",
     };
@@ -404,7 +404,7 @@ class Pricing extends Component {
                 <Wrapper>
                   <Header>Plans that fit your scale</Header>
                   <SubHeader>
-                    Get started with a 14-day trial for only $1. Cancel anytime
+                    Get started with a 14-day trial. Cancel anytime
                   </SubHeader>
                   <Styledheader>
                     Simple, transparent pricing that grows with you.
@@ -552,18 +552,26 @@ const Personal = ({
           <h6 className="mt-4 mb-4 text-md -700">
             <strong>FEATURES</strong>
           </h6>
-          <span>
-            Get started with a 14-day trial for only $1. Cancel anytime
-          </span>
+          <span>Get started with a 14-day trial. Cancel anytime</span>
         </div>
 
         <div className="divide-y divide-dashed divide-gray-300 mt-4">
           <div className="py-2 flex gap-4">
             <CheckIcon />
             <div>
-              <span className="font-medium ">
-                1000 monthly credits (50K monthly words)
-              </span>
+              <span className="font-medium ">1000 monthly credits</span>
+            </div>
+          </div>
+          <div className="py-2 flex gap-4">
+            <CheckIcon />
+            <div>
+              <span className="font-medium ">50K monthly words</span>
+            </div>
+          </div>
+          <div className="py-2 flex  gap-4 items-center">
+            <CheckIcon />
+            <div>
+              <span className="font-medium ">30 Plans</span>
             </div>
           </div>
           <div className="py-2 flex  gap-4 items-center">
@@ -578,19 +586,9 @@ const Personal = ({
               <span className="font-medium  gap-4 ">One User</span>
             </div>
           </div>
-
-          <div className="py-2 flex  gap-4 items-center">
-            <CheckIcon />
-            <div>
-              <span className="font-medium ">Unlimited Plans</span>
-            </div>
-          </div>
           <div className="py-2 flex gap-4  items-center">
-            <CheckIcon />
             <div>
-              <span className="-700">
-                <strong>14-day trial at $1</strong>
-              </span>
+              <span className="font-medium  gap-4 "></span>
             </div>
           </div>
         </div>
@@ -605,13 +603,19 @@ const Personal = ({
             name="token"
             value={api.defaults.headers.common["x-access-token"]}
           />
-          <input type="hidden" name="priceId" value={config.stripe.free} />
+          <input
+            type="hidden"
+            name="priceId"
+            value={config.stripe.personal_monthly_indianCurrency}
+          />
           <input type="hidden" name="trial" value="true" />
+          <input type="hidden" name="plan" value="personal" />
+
           <button
             type="submit"
             className={`mt-8 inset-0 bg-gradient-to-r shadow-lg flex-1 rounded-md p-4 text-white font-medium text-center text-lg transition hover:from-gray-700 hover:to-gray-800 text-enter`}
           >
-            Start Trial
+            Get Started
           </button>
         </form>
       </div>
@@ -756,9 +760,7 @@ const Professional = ({
           <h6 className="mt-4 mb-4 text-md -700">
             <strong>FEATURES</strong>
           </h6>
-          <span>
-            Get started with a 14-day trial for only $1. Cancel anytime
-          </span>
+          <span>Get started with a 14-day trial. Cancel anytime</span>
         </div>
 
         <div className="divide-y divide-dashed divide-gray-300 mt-4">
@@ -771,9 +773,19 @@ const Professional = ({
           <div className="py-2 flex  gap-4 items-center">
             <CheckIcon />
             <div>
-              <span className="font-medium ">
-                3000 monthly credits (150K monthly words)
-              </span>
+              <span className="font-medium ">3000 monthly credits</span>
+            </div>
+          </div>
+          <div className="py-2 flex  gap-4 items-center">
+            <CheckIcon />
+            <div>
+              <span className="font-medium ">150K monthly words</span>
+            </div>
+          </div>
+          <div className="py-2 flex  gap-4 items-center">
+            <CheckIcon />
+            <div>
+              <span className="font-medium ">100 Plans</span>
             </div>
           </div>
           <div className="py-2 flex gap-4  items-center">
@@ -793,7 +805,7 @@ const Professional = ({
             <CheckIcon />
             <div>
               <span className="-700">
-                <strong>14-day trial at $1</strong>
+                <strong>14-day trial</strong>
               </span>
             </div>
           </div>
@@ -811,6 +823,7 @@ const Professional = ({
           />
           <input type="hidden" name="priceId" value={config.stripe.entry} />
           <input type="hidden" name="trial" value="true" />
+          <input type="hidden" name="plan" value="professional" />
 
           <button
             type="submit"
@@ -876,9 +889,7 @@ const Premium = ({
           <h6 className="mt-4 mb-4 text-md -700">
             <strong>FEATURES</strong>
           </h6>
-          <span>
-            Get started with a 14-day trial for only $1. Cancel anytime
-          </span>
+          <span>Get started with a 14-day trial. Cancel anytime</span>
         </div>
         <div className="divide-y divide-dashed divide-gray-300 mt-4">
           <div className="py-2 flex gap-4">
@@ -890,9 +901,19 @@ const Premium = ({
           <div className="py-2 flex  gap-4 items-center">
             <CheckIcon />
             <div>
-              <span className="font-medium ">
-                20000 monthly credits (1M monthly words)
-              </span>
+              <span className="font-medium ">20000 monthly credits</span>
+            </div>
+          </div>
+          <div className="py-2 flex  gap-4 items-center">
+            <CheckIcon />
+            <div>
+              <span className="font-medium ">1M monthly words</span>
+            </div>
+          </div>
+          <div className="py-2 flex  gap-4 items-center">
+            <CheckIcon />
+            <div>
+              <span className="font-medium ">250 Plans</span>
             </div>
           </div>
           <div className="py-2 flex gap-4  items-center">
@@ -912,7 +933,7 @@ const Premium = ({
             <CheckIcon />
             <div>
               <span className="-700">
-                <strong>14-day trial at $1</strong>
+                <strong>14-day trial</strong>
               </span>
             </div>
           </div>
@@ -930,6 +951,7 @@ const Premium = ({
           />
           <input type="hidden" name="priceId" value={config.stripe.pro} />
           <input type="hidden" name="trial" value="true" />
+          <input type="hidden" name="plan" value="premium" />
 
           <button
             type="submit"
