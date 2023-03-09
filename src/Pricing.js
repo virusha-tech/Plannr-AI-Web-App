@@ -785,7 +785,9 @@ const Professional = ({
             <div className="py-2 flex  gap-4 items-center">
               <CheckIcon />
               <div>
-                <span className="font-medium ">3000 monthly credits</span>
+                <span className="font-medium ">
+                  {isMonthlySubscription ? "3,000" : "36,000"} monthly credits
+                </span>
               </div>
             </div>
             <div className="py-2 flex  gap-4 items-center">
@@ -922,7 +924,10 @@ const Premium = ({
             <div className="py-2 flex  gap-4 items-center">
               <CheckIcon />
               <div>
-                <span className="font-medium ">20000 monthly credits</span>
+                <span className="font-medium ">
+                  {isMonthlySubscription ? "20,000 monthly" : "2,40,000 yearly"}{" "}
+                  credits
+                </span>
               </div>
             </div>
             <div className="py-2 flex  gap-4 items-center">

@@ -20,9 +20,10 @@ const paid = async (eventType, data) => {
   logger.info("inside invoice.paid");
 
   let credits = 0;
+  logger.info('gaurav',JSON.stringify(object));
 
   if (object.amount_paid === 0) {
-    credits+=550;
+    credits += 550;
   } else if (object.amount_paid == 9900) {
     credits += 2000;
   } else if (object.amount_paid == 24900) {
@@ -47,7 +48,7 @@ const paid = async (eventType, data) => {
 
   logger.info("user fetch inside invoice");
 
-  if (object.amount_paid > 0) { 
+  if (object.amount_paid > 0) {
     if (user) {
       if (!user.referrerPaid) {
         let referrer = await User.findOne({
