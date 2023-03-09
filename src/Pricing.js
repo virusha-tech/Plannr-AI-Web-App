@@ -38,42 +38,42 @@ const amount = {
     indianCurrency: {
       monthly: `0`,
       yearly: 0 * 10,
-      monthly_key: "",
-      yearly_key: "",
+      monthly_key: config.stripe.personal_monthly_indianCurrency,
+      yearly_key: config.stripe.personal_yearly_indianCurrency,
     },
     USCurrency: {
       monthly: 0,
       yearly: 0,
-      monthly_key: "",
-      yearly_key: "",
+      monthly_key: config.stripe.personal_monthly_USCurrency,
+      yearly_key: config.stripe.personal_yearly_USCurrency,
     },
   },
   professional: {
     indianCurrency: {
       monthly: `99`,
       yearly: `999`,
-      monthly_key: "",
-      yearly_key: "",
+      monthly_key: config.stripe.professional_monthly_indianCurrency,
+      yearly_key: config.stripe.professional_yearly_indianCurrency,
     },
     USCurrency: {
       monthly: 5,
       yearly: 50,
-      monthly_key: "",
-      yearly_key: "",
+      monthly_key: config.stripe.professional_monthly_USCurrency,
+      yearly_key: config.stripe.professional_yearly_USCurrency,
     },
   },
   Business: {
     indianCurrency: {
       monthly: `249`,
       yearly: 2499,
-      monthly_key: "",
-      yearly_key: "",
+      monthly_key: config.stripe.business_monthly_indianCurrency,
+      yearly_key: config.stripe.business_yearly_indianCurrency,
     },
     USCurrency: {
       monthly: 25,
       yearly: 250,
-      monthly_key: "",
-      yearly_key: "",
+      monthly_key: config.stripe.business_monthly_USCurrency,
+      yearly_key: config.stripe.business_yearly_USCurrency,
     },
   },
 };
@@ -413,6 +413,7 @@ class Pricing extends Component {
                 <BasicTabs handleTabChange={this.handleTabChange} />
                 <Grid>
                   {/* {this.props.store.profile.status ? null : ( */}
+
                   <Personal
                     fromColor="gray-400"
                     toColor="gray-500"
@@ -510,118 +511,120 @@ const Personal = ({
   api,
   isIndianCurrency,
   isMonthlySubscription,
-}) => (
-  <div className="flex relative ">
-    <Card
-      className={`bg-white rounded-xl transition hover:shadow-md overflow-hidden md:max-w-1lg text-gray-500 md:flex relative transform hover:scale-105  hover: flex-1`}
-    >
-      <div className="p-8 flex-1">
-        <div
-          href="#"
-          className={` block text-lg text-2xl leading-tight font-medium mb-2`}
-        >
-          Personal
-        </div>
-        <p className="mt-2  mb-2 text-md" style={{ height: "50px" }}>
-          Smarter planning for personal success
-        </p>
-
-        <div className="text-6xl  font-bold pb-4">
-          {isIndianCurrency ? (
-            <span>
-              &#8377;
-              {isMonthlySubscription
-                ? amount["personal"]["indianCurrency"]["monthly"]
-                : amount["personal"]["indianCurrency"]["yearly"]}
-            </span>
-          ) : (
-            <span>
-              &#36;
-              {isMonthlySubscription
-                ? amount["personal"]["USCurrency"]["monthly"]
-                : amount["personal"]["USCurrency"]["yearly"]}
-            </span>
-          )}
-          <span className="text-lg">
-            {isMonthlySubscription ? "/ month" : "/ year"}
-          </span>
-        </div>
-        <div className="bg-black h-px horizontalLine"></div>
-
-        <div>
-          <h6 className="mt-4 mb-4 text-md -700">
-            <strong>FEATURES</strong>
-          </h6>
-          <span>Get started with a 14-day trial. Cancel anytime</span>
-        </div>
-
-        <div className="divide-y divide-dashed divide-gray-300 mt-4">
-          <div className="py-2 flex gap-4">
-            <CheckIcon />
-            <div>
-              <span className="font-medium ">1000 monthly credits</span>
-            </div>
-          </div>
-          <div className="py-2 flex gap-4">
-            <CheckIcon />
-            <div>
-              <span className="font-medium ">50K monthly words</span>
-            </div>
-          </div>
-          <div className="py-2 flex  gap-4 items-center">
-            <CheckIcon />
-            <div>
-              <span className="font-medium ">30 Plans</span>
-            </div>
-          </div>
-          <div className="py-2 flex  gap-4 items-center">
-            <CheckIcon />
-            <div>
-              <span className="font-medium ">Access to basic plans</span>
-            </div>
-          </div>
-          <div className="py-2 flex gap-4  items-center">
-            <CheckIcon />
-            <div>
-              <span className="font-medium  gap-4 ">One User</span>
-            </div>
-          </div>
-          <div className="py-2 flex gap-4  items-center">
-            <div>
-              <span className="font-medium  gap-4 "></span>
-            </div>
-          </div>
-        </div>
-
-        <form
-          action={baseURL + "user/stripe/subscribe"}
-          method="POST"
-          className="flex flex-1"
-        >
-          <input
-            type="hidden"
-            name="token"
-            value={api.defaults.headers.common["x-access-token"]}
-          />
-          <input
-            type="hidden"
-            name="priceId"
-            value={config.stripe.personal_monthly_indianCurrency}
-          />
-          <input type="hidden" name="trial" value="true" />
-          <input type="hidden" name="plan" value="personal" />
-
-          <button
-            type="submit"
-            className={`mt-8 inset-0 bg-gradient-to-r shadow-lg flex-1 rounded-md p-4 text-white font-medium text-center text-lg transition hover:from-gray-700 hover:to-gray-800 text-enter`}
+}) => {
+  let key = isIndianCurrency
+    ? isMonthlySubscription
+      ? amount["personal"]["indianCurrency"]["monthly_key"]
+      : amount["personal"]["indianCurrency"]["yearly_key"]
+    : isMonthlySubscription
+    ? amount["personal"]["USCurrency"]["monthly_key"]
+    : amount["personal"]["USCurrency"]["yearly_key"];
+  // console.log(key);
+  return (
+    <div className="flex relative ">
+      <Card
+        className={`bg-white rounded-xl transition hover:shadow-md overflow-hidden md:max-w-1lg text-gray-500 md:flex relative transform hover:scale-105  hover: flex-1`}
+      >
+        <div className="p-8 flex-1">
+          <div
+            href="#"
+            className={` block text-lg text-2xl leading-tight font-medium mb-2`}
           >
-            Get Started
-          </button>
-        </form>
-      </div>
-    </Card>
-  </div>
-);
+            Personal
+          </div>
+          <p className="mt-2  mb-2 text-md" style={{ height: "50px" }}>
+            Smarter planning for personal success
+          </p>
+
+          <div className="text-6xl  font-bold pb-4">
+            {isIndianCurrency ? (
+              <span>
+                &#8377;
+                {isMonthlySubscription
+                  ? amount["personal"]["indianCurrency"]["monthly"]
+                  : amount["personal"]["indianCurrency"]["yearly"]}
+              </span>
+            ) : (
+              <span>
+                &#36;
+                {isMonthlySubscription
+                  ? amount["personal"]["USCurrency"]["monthly"]
+                  : amount["personal"]["USCurrency"]["yearly"]}
+              </span>
+            )}
+            <span className="text-lg">
+              {isMonthlySubscription ? "/ month" : "/ year"}
+            </span>
+          </div>
+          <div className="bg-black h-px horizontalLine"></div>
+
+          <div>
+            <h6 className="mt-4 mb-4 text-md -700">
+              <strong>FEATURES</strong>
+            </h6>
+            <span>Get started with a 14-day trial. Cancel anytime</span>
+          </div>
+
+          <div className="divide-y divide-dashed divide-gray-300 mt-4">
+            <div className="py-2 flex gap-4">
+              <CheckIcon />
+              <div>
+                <span className="font-medium ">1000 monthly credits</span>
+              </div>
+            </div>
+            <div className="py-2 flex gap-4">
+              <CheckIcon />
+              <div>
+                <span className="font-medium ">50K monthly words</span>
+              </div>
+            </div>
+            <div className="py-2 flex  gap-4 items-center">
+              <CheckIcon />
+              <div>
+                <span className="font-medium ">30 Plans</span>
+              </div>
+            </div>
+            <div className="py-2 flex  gap-4 items-center">
+              <CheckIcon />
+              <div>
+                <span className="font-medium ">Access to basic plans</span>
+              </div>
+            </div>
+            <div className="py-2 flex gap-4  items-center">
+              <CheckIcon />
+              <div>
+                <span className="font-medium  gap-4 ">One User</span>
+              </div>
+            </div>
+            <p style={{ height: "41px", border: "none" }}></p>
+            <p style={{ height: "41px", border: "none" }}></p>
+          </div>
+
+          <form
+            action={baseURL + "user/stripe/subscribe"}
+            method="POST"
+            className="flex flex-1"
+          >
+            <input
+              type="hidden"
+              name="token"
+              value={api.defaults.headers.common["x-access-token"]}
+            />
+            <input type="hidden" name="priceId" value={key} />
+            {/* <input type="hidden" name="trial" value="true" /> */}
+            <input type="hidden" name="plan" value="personal" />
+            <button
+              type="submit"
+              className={`mt-8 inset-0 bg-gradient-to-r shadow-lg flex-1 rounded-md p-4 text-white font-medium text-center text-lg transition hover:from-gray-700 hover:to-gray-800 text-enter`}
+            >
+              Get Started
+            </button>
+          </form>
+        </div>
+      </Card>
+    </div>
+  );
+};
 
 const Card = styled.div`
   > div {
@@ -716,130 +719,140 @@ const Professional = ({
   api,
   isIndianCurrency,
   isMonthlySubscription,
-}) => (
-  <div className="flex relative ">
-    <ProCard
-      className={`bg-white rounded-xl transition hover:shadow-md overflow-hidden md:max-w-1lg text-gray-500 border- hover:border-${
-        fromColor ? fromColor : "blue-400"
-      } md:flex relative transform hover:scale-105  hover: flex-1`}
-    >
-      <div className="p-8 flex-1">
-        <div
-          href="#"
-          className={` block text-lg text-2xl leading-tight font-medium mb-2`}
-        >
-          Professional
-        </div>
-        <p className="mt-2  mb-2 text-md" style={{ height: "50px" }}>
-          Advanced planning for professional excellence
-        </p>
-        <div className="text-6xl  font-bold pb-4">
-          {isIndianCurrency ? (
-            <span>
-              &#8377;
-              {isMonthlySubscription
-                ? amount["professional"]["indianCurrency"]["monthly"]
-                : amount["professional"]["indianCurrency"]["yearly"]}
-            </span>
-          ) : (
-            <span>
-              &#36;
-              {isMonthlySubscription
-                ? amount["professional"]["USCurrency"]["monthly"]
-                : amount["professional"]["USCurrency"]["yearly"]}
-            </span>
-          )}
-          <span className="text-lg">
-            {isMonthlySubscription ? "/ month" : "/ year"}
-          </span>
-        </div>
+}) => {
+  let key = isIndianCurrency
+    ? isMonthlySubscription
+      ? amount["professional"]["indianCurrency"]["monthly_key"]
+      : amount["professional"]["indianCurrency"]["yearly_key"]
+    : isMonthlySubscription
+    ? amount["professional"]["USCurrency"]["monthly_key"]
+    : amount["professional"]["USCurrency"]["yearly_key"];
 
-        <div className="bg-black h-px horizontalLine"></div>
-
-        <div>
-          <h6 className="mt-4 mb-4 text-md -700">
-            <strong>FEATURES</strong>
-          </h6>
-          <span>Get started with a 14-day trial. Cancel anytime</span>
-        </div>
-
-        <div className="divide-y divide-dashed divide-gray-300 mt-4">
-          <div className="py-2 flex gap-4">
-            <CheckIcon />
-            <div>
-              <span className="font-medium ">Everything in Personal</span>
-            </div>
-          </div>
-          <div className="py-2 flex  gap-4 items-center">
-            <CheckIcon />
-            <div>
-              <span className="font-medium ">3000 monthly credits</span>
-            </div>
-          </div>
-          <div className="py-2 flex  gap-4 items-center">
-            <CheckIcon />
-            <div>
-              <span className="font-medium ">150K monthly words</span>
-            </div>
-          </div>
-          <div className="py-2 flex  gap-4 items-center">
-            <CheckIcon />
-            <div>
-              <span className="font-medium ">100 Plans</span>
-            </div>
-          </div>
-          <div className="py-2 flex gap-4  items-center">
-            <CheckIcon />
-            <div>
-              <span className="font-medium  gap-4 ">One User</span>
-            </div>
-          </div>
-
-          <div className="py-2 flex  gap-4 items-center">
-            <CheckIcon />
-            <div>
-              <span className="font-medium ">Basic Integrations</span>
-            </div>
-          </div>
-          <div className="py-2 flex gap-4  items-center">
-            <CheckIcon />
-            <div>
-              <span className="-700">
-                <strong>14-day trial</strong>
-              </span>
-            </div>
-          </div>
-        </div>
-
-        <form
-          action={baseURL + "user/stripe/subscribe"}
-          method="POST"
-          className="flex flex-1"
-        >
-          <input
-            type="hidden"
-            name="token"
-            value={api.defaults.headers.common["x-access-token"]}
-          />
-          <input type="hidden" name="priceId" value={config.stripe.entry} />
-          <input type="hidden" name="trial" value="true" />
-          <input type="hidden" name="plan" value="professional" />
-
-          <button
-            type="submit"
-            className={`mt-8 inset-0 bg-gradient-to-r from-${
-              fromColor ? fromColor : "green-400"
-            } to-${
-              toColor ? toColor : "blue-500"
-            } shadow-lg flex-1 rounded-md p-4 text-white font-medium text-center text-lg transition hover:from-gray-700 hover:to-gray-800 text-enter`}
+  return (
+    <div className="flex relative ">
+      <ProCard
+        className={`bg-white rounded-xl transition hover:shadow-md overflow-hidden md:max-w-1lg text-gray-500 border- hover:border-${
+          fromColor ? fromColor : "blue-400"
+        } md:flex relative transform hover:scale-105  hover: flex-1`}
+      >
+        <div className="p-8 flex-1">
+          <div
+            href="#"
+            className={` block text-lg text-2xl leading-tight font-medium mb-2`}
           >
-            Start Trial
-          </button>
-        </form>
-      </div>
-    </ProCard>
-  </div>
-);
+            Professional
+          </div>
+          <p className="mt-2  mb-2 text-md" style={{ height: "50px" }}>
+            Advanced planning for professional excellence
+          </p>
+          <div className="text-6xl  font-bold pb-4">
+            {isIndianCurrency ? (
+              <span>
+                &#8377;
+                {isMonthlySubscription
+                  ? amount["professional"]["indianCurrency"]["monthly"]
+                  : amount["professional"]["indianCurrency"]["yearly"]}
+              </span>
+            ) : (
+              <span>
+                &#36;
+                {isMonthlySubscription
+                  ? amount["professional"]["USCurrency"]["monthly"]
+                  : amount["professional"]["USCurrency"]["yearly"]}
+              </span>
+            )}
+            <span className="text-lg">
+              {isMonthlySubscription ? "/ month" : "/ year"}
+            </span>
+          </div>
+
+          <div className="bg-black h-px horizontalLine"></div>
+
+          <div>
+            <h6 className="mt-4 mb-4 text-md -700">
+              <strong>FEATURES</strong>
+            </h6>
+            <span>Get started with a 14-day trial. Cancel anytime</span>
+          </div>
+
+          <div className="divide-y divide-dashed divide-gray-300 mt-4">
+            <div className="py-2 flex gap-4">
+              <CheckIcon />
+              <div>
+                <span className="font-medium ">Everything in Personal</span>
+              </div>
+            </div>
+            <div className="py-2 flex  gap-4 items-center">
+              <CheckIcon />
+              <div>
+                <span className="font-medium ">3000 monthly credits</span>
+              </div>
+            </div>
+            <div className="py-2 flex  gap-4 items-center">
+              <CheckIcon />
+              <div>
+                <span className="font-medium ">150K monthly words</span>
+              </div>
+            </div>
+            <div className="py-2 flex  gap-4 items-center">
+              <CheckIcon />
+              <div>
+                <span className="font-medium ">100 Plans</span>
+              </div>
+            </div>
+            <div className="py-2 flex gap-4  items-center">
+              <CheckIcon />
+              <div>
+                <span className="font-medium  gap-4 ">One User</span>
+              </div>
+            </div>
+
+            <div className="py-2 flex  gap-4 items-center">
+              <CheckIcon />
+              <div>
+                <span className="font-medium ">Basic Integrations</span>
+              </div>
+            </div>
+            <div className="py-2 flex gap-4  items-center">
+              <CheckIcon />
+              <div>
+                <span className="-700">
+                  <strong>14-day trial</strong>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <form
+            action={baseURL + "user/stripe/subscribe"}
+            method="POST"
+            className="flex flex-1"
+          >
+            <input
+              type="hidden"
+              name="token"
+              value={api.defaults.headers.common["x-access-token"]}
+            />
+            <input type="hidden" name="priceId" value={key} />
+            <input type="hidden" name="trial" value="true" />
+            <input type="hidden" name="plan" value="professional" />
+
+            <button
+              type="submit"
+              className={`mt-8 inset-0 bg-gradient-to-r from-${
+                fromColor ? fromColor : "green-400"
+              } to-${
+                toColor ? toColor : "blue-500"
+              } shadow-lg flex-1 rounded-md p-4 text-white font-medium text-center text-lg transition hover:from-gray-700 hover:to-gray-800 text-enter`}
+            >
+              Start Trial
+            </button>
+          </form>
+        </div>
+      </ProCard>
+    </div>
+  );
+};
 
 const Premium = ({
   fromColor,
@@ -848,126 +861,135 @@ const Premium = ({
   api,
   isIndianCurrency,
   isMonthlySubscription,
-}) => (
-  <div className="flex relative ">
-    <Card
-      //  background: ;
-      className={`bg-white rounded-xl transition hover:shadow-md overflow-hidden md:max-w-1lg text-gray-500 border- hover:border-${"#05BBC2"} md:flex relative transform hover:scale-105  hover: flex-1`}
-    >
-      <div className="p-8 flex-1">
-        <div
-          href="#"
-          className={` block text-lg text-2xl leading-tight font-medium mb-2`}
-        >
-          Business
-        </div>
-        <p className="mt-2  mb-2 text-md" style={{ height: "50px" }}>
-          Strategic planning made smarter for business succes
-        </p>
-        <div className="text-6xl  font-bold pb-4 ">
-          {isIndianCurrency ? (
-            <span>
-              &#8377;
-              {isMonthlySubscription
-                ? amount["Business"]["indianCurrency"]["monthly"]
-                : amount["Business"]["indianCurrency"]["yearly"]}
-            </span>
-          ) : (
-            <span>
-              &#36;
-              {isMonthlySubscription
-                ? amount["Business"]["USCurrency"]["monthly"]
-                : amount["Business"]["USCurrency"]["yearly"]}
-            </span>
-          )}
-          <span className="text-lg">
-            {isMonthlySubscription ? "/ month" : "/ year"}
-          </span>
-        </div>
-        <div className="bg-black h-px horizontalLine"></div>
-        <div>
-          <h6 className="mt-4 mb-4 text-md -700">
-            <strong>FEATURES</strong>
-          </h6>
-          <span>Get started with a 14-day trial. Cancel anytime</span>
-        </div>
-        <div className="divide-y divide-dashed divide-gray-300 mt-4">
-          <div className="py-2 flex gap-4">
-            <CheckIcon />
-            <div>
-              <span className="font-medium ">Everything in Professional</span>
-            </div>
-          </div>
-          <div className="py-2 flex  gap-4 items-center">
-            <CheckIcon />
-            <div>
-              <span className="font-medium ">20000 monthly credits</span>
-            </div>
-          </div>
-          <div className="py-2 flex  gap-4 items-center">
-            <CheckIcon />
-            <div>
-              <span className="font-medium ">1M monthly words</span>
-            </div>
-          </div>
-          <div className="py-2 flex  gap-4 items-center">
-            <CheckIcon />
-            <div>
-              <span className="font-medium ">250 Plans</span>
-            </div>
-          </div>
-          <div className="py-2 flex gap-4  items-center">
-            <CheckIcon />
-            <div>
-              <span className="font-medium  gap-4 ">20 users</span>
-            </div>
-          </div>
-
-          <div className="py-2 flex  gap-4 items-center">
-            <CheckIcon />
-            <div>
-              <span className="font-medium ">Advanced Integrations</span>
-            </div>
-          </div>
-          <div className="py-2 flex gap-4  items-center">
-            <CheckIcon />
-            <div>
-              <span className="-700">
-                <strong>14-day trial</strong>
-              </span>
-            </div>
-          </div>
-        </div>
-
-        <form
-          action={baseURL + "user/stripe/subscribe"}
-          method="POST"
-          className="flex flex-1"
-        >
-          <input
-            type="hidden"
-            name="token"
-            value={api.defaults.headers.common["x-access-token"]}
-          />
-          <input type="hidden" name="priceId" value={config.stripe.pro} />
-          <input type="hidden" name="trial" value="true" />
-          <input type="hidden" name="plan" value="premium" />
-
-          <button
-            type="submit"
-            className={`mt-8 inset-0 bg-gradient-to-r from-${
-              fromColor ? fromColor : "green-400"
-            } to-${
-              toColor ? toColor : "blue-500"
-            } shadow-lg flex-1 rounded-md p-4 text-white font-medium text-center text-lg transition hover:from-gray-700 hover:to-gray-800 text-enter`}
+}) => {
+  let key = isIndianCurrency
+    ? isMonthlySubscription
+      ? amount["Business"]["indianCurrency"]["monthly_key"]
+      : amount["Business"]["indianCurrency"]["yearly_key"]
+    : isMonthlySubscription
+    ? amount["Business"]["USCurrency"]["monthly_key"]
+    : amount["Business"]["USCurrency"]["yearly_key"];
+  return (
+    <div className="flex relative ">
+      <Card
+        //  background: ;
+        className={`bg-white rounded-xl transition hover:shadow-md overflow-hidden md:max-w-1lg text-gray-500 border- hover:border-${"#05BBC2"} md:flex relative transform hover:scale-105  hover: flex-1`}
+      >
+        <div className="p-8 flex-1">
+          <div
+            href="#"
+            className={` block text-lg text-2xl leading-tight font-medium mb-2`}
           >
-            Start Trial
-          </button>
-        </form>
-      </div>
-    </Card>
-  </div>
-);
+            Business
+          </div>
+          <p className="mt-2  mb-2 text-md" style={{ height: "50px" }}>
+            Strategic planning made smarter for business succes
+          </p>
+          <div className="text-6xl  font-bold pb-4 ">
+            {isIndianCurrency ? (
+              <span>
+                &#8377;
+                {isMonthlySubscription
+                  ? amount["Business"]["indianCurrency"]["monthly"]
+                  : amount["Business"]["indianCurrency"]["yearly"]}
+              </span>
+            ) : (
+              <span>
+                &#36;
+                {isMonthlySubscription
+                  ? amount["Business"]["USCurrency"]["monthly"]
+                  : amount["Business"]["USCurrency"]["yearly"]}
+              </span>
+            )}
+            <span className="text-lg">
+              {isMonthlySubscription ? "/ month" : "/ year"}
+            </span>
+          </div>
+          <div className="bg-black h-px horizontalLine"></div>
+          <div>
+            <h6 className="mt-4 mb-4 text-md -700">
+              <strong>FEATURES</strong>
+            </h6>
+            <span>Get started with a 14-day trial. Cancel anytime</span>
+          </div>
+          <div className="divide-y divide-dashed divide-gray-300 mt-4">
+            <div className="py-2 flex gap-4">
+              <CheckIcon />
+              <div>
+                <span className="font-medium ">Everything in Professional</span>
+              </div>
+            </div>
+            <div className="py-2 flex  gap-4 items-center">
+              <CheckIcon />
+              <div>
+                <span className="font-medium ">20000 monthly credits</span>
+              </div>
+            </div>
+            <div className="py-2 flex  gap-4 items-center">
+              <CheckIcon />
+              <div>
+                <span className="font-medium ">1M monthly words</span>
+              </div>
+            </div>
+            <div className="py-2 flex  gap-4 items-center">
+              <CheckIcon />
+              <div>
+                <span className="font-medium ">250 Plans</span>
+              </div>
+            </div>
+            <div className="py-2 flex gap-4  items-center">
+              <CheckIcon />
+              <div>
+                <span className="font-medium  gap-4 ">20 users</span>
+              </div>
+            </div>
+
+            <div className="py-2 flex  gap-4 items-center">
+              <CheckIcon />
+              <div>
+                <span className="font-medium ">Advanced Integrations</span>
+              </div>
+            </div>
+            <div className="py-2 flex gap-4  items-center">
+              <CheckIcon />
+              <div>
+                <span className="-700">
+                  <strong>14-day trial</strong>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <form
+            action={baseURL + "user/stripe/subscribe"}
+            method="POST"
+            className="flex flex-1"
+          >
+            <input
+              type="hidden"
+              name="token"
+              value={api.defaults.headers.common["x-access-token"]}
+            />
+            <input type="hidden" name="priceId" value={key} />
+            <input type="hidden" name="trial" value="true" />
+            <input type="hidden" name="plan" value="premium" />
+
+            <button
+              type="submit"
+              className={`mt-8 inset-0 bg-gradient-to-r from-${
+                fromColor ? fromColor : "green-400"
+              } to-${
+                toColor ? toColor : "blue-500"
+              } shadow-lg flex-1 rounded-md p-4 text-white font-medium text-center text-lg transition hover:from-gray-700 hover:to-gray-800 text-enter`}
+            >
+              Start Trial
+            </button>
+          </form>
+        </div>
+      </Card>
+    </div>
+  );
+};
 
 const Grid = ({ children }) => (
   <div className="grid grid-cols-1 gap-12 mt-4 xl:grid-cols-3 ">{children}</div>

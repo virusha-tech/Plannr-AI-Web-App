@@ -13,10 +13,9 @@ let app = express.Router(); // User Subscribe
 app.post("/stripe/subscribe", async (req, res) => {
   const domainURL = process.env.DOMAIN;
   const { priceId, trial, plan } = req.body;
-  const isCardRequired = plan !== "personal";
+  const isCardNotRequired = plan === "personal";
   let cardrequired = {};
-  console.log("isCardRequired", isCardRequired);
-  if (isCardRequired) {
+  if (isCardNotRequired) {
     cardrequired = { payment_method_collection: "if_required" };
   }
   try {
