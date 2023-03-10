@@ -46,9 +46,8 @@ export const Output = inject("store")(
                     <div
                       className={`mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-${
                         output ? "green" : "gray"
-                      }-300 sm:mx-0 sm:h-10 sm:w-10 bg-gradient-to-r from-${
-                        fromColor ? fromColor : "green-400"
-                      } to-${toColor ? toColor : "blue-500"}`}
+                      }-300 sm:mx-0 sm:h-10 sm:w-10 bg-gradient-to-r 
+                      `}
                     >
                       {Icon ? (
                         <Icon

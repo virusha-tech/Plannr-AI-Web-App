@@ -204,7 +204,7 @@ const signInWithGoogle = async (req, res) => {
   }
 };
 
-app.post("/signup", signup);
+app.post("/signup", checkDuplicateUsernameOrEmail,signup);
 app.post("/signin", signin);
 app.post("/signInWithGoogle", signInWithGoogle);
 

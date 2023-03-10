@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import Slider from "react-slick";
 import CompanyLogo from "../assets/CompanyLogo.svg";
-import Courasel1 from "../assets/Courasel1.png";
-import Courasel2 from "../assets/Courasel2.png";
-import Courasel3 from "../assets/Courasel3.png";
+import Courasel1 from "../assets/Courasel1.svg";
+import Courasel2 from "../assets/Courasel2.svg";
+import Courasel3 from "../assets/Courasel3.svg";
 import { Helmet } from "react-helmet";
 import { Switch, Route, withRouter, Redirect, Link } from "react-router-dom";
 import { observer, inject } from "mobx-react";
@@ -219,56 +219,45 @@ class Auth extends Component {
             <Wrapper>
               <StyledSlider {...settings}>
                 <div>
-                  <img src={Courasel1} alt="Banner1" />
+                  <img
+                    src={Courasel1}
+                    alt="Banner1"
+                    style={{ height: "300px" }}
+                  />
                   <SliderImageInfo>
-                    <h3>Welcome to Plannr.ai</h3>
+                    <h3>Say “Hello” to Plannr AI</h3>
                     <span>
                       Take Your Planning to the Next Level with Our Advanced
                       AI-Driven Tool
                     </span>
                   </SliderImageInfo>
                 </div>
-                <div>
-                  <img src={Courasel2} alt="Banner1" />
 
-                  <SliderImageInfo>
-                    <h3>Unleash the Power of Planning with Plannr AI</h3>
-                    <span>
-                      Revolutionize your planning process with our cutting-edge
-                      AI-powered tool
-                    </span>
-                  </SliderImageInfo>
-                </div>
                 <div>
-                  <img src={Courasel3} alt="Banner1" />
+                  <img
+                    src={Courasel2}
+                    alt="Banner1"
+                    style={{ height: "300px" }}
+                  />
                   <SliderImageInfo>
-                    <h3>AI-Powered Planning with Plannr</h3>
+                    <h3>AI-Powered Planning with Plannr AI</h3>
                     <span>
                       Streamline your planning process with Plannr's advanced AI
                       technology, tailored to meet your specific needs
                     </span>
                   </SliderImageInfo>
                 </div>
-                {/* <div>
-                  <img src={Dashboard} alt="Banner1" />
+                <div>
+                  <img
+                    src={Courasel3}
+                    alt="Banner1"
+                    style={{ height: "300px" }}
+                  />
                   <SliderImageInfo>
-                    <h3>Unlock Smarter Planning with Plannr AI</h3>
-                    <span>
-                      Revolutionize the way you plan with our AI-powered tool
-                      for large enterprises and organizations
-                    </span>
+                    <h3>Unleash the power of Planning with Plannr AI</h3>
+                    <span>Unleash the power of Planning with Plannr AI</span>
                   </SliderImageInfo>
-                </div> */}
-                {/* <div>
-                  <img src={Dashboard} alt="Banner1" />
-                  <SliderImageInfo>
-                    <h3>Welcome to Plannr.ai</h3>
-                    <span>
-                      Take Your Planning to the Next Level with Our Advanced
-                      AI-Driven Tool
-                    </span>
-                  </SliderImageInfo>
-                </div> */}
+                </div>
               </StyledSlider>
             </Wrapper>
           </Rightarea>

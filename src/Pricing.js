@@ -570,13 +570,13 @@ const Personal = ({
             <div className="py-2 flex gap-4">
               <CheckIcon />
               <div>
-                <span className="font-medium ">1000 monthly credits</span>
+                <span className="font-medium ">1000 credits</span>
               </div>
             </div>
             <div className="py-2 flex gap-4">
               <CheckIcon />
               <div>
-                <span className="font-medium ">50K monthly words</span>
+                <span className="font-medium ">50K words</span>
               </div>
             </div>
             <div className="py-2 flex  gap-4 items-center">
@@ -787,14 +787,14 @@ const Professional = ({
               <CheckIcon />
               <div>
                 <span className="font-medium ">
-                  {isMonthlySubscription ? "3,000" : "36,000"} monthly credits
+                  {isMonthlySubscription ? "3,000" : "36,000"} credits
                 </span>
               </div>
             </div>
             <div className="py-2 flex  gap-4 items-center">
               <CheckIcon />
               <div>
-                <span className="font-medium ">150K monthly words</span>
+                <span className="font-medium ">150K words</span>
               </div>
             </div>
             <div className="py-2 flex  gap-4 items-center">
@@ -926,7 +926,7 @@ const Premium = ({
               <CheckIcon />
               <div>
                 <span className="font-medium ">
-                  {isMonthlySubscription ? "20,000 monthly" : "2,40,000 yearly"}{" "}
+                  {isMonthlySubscription ? "20,000" : "2,40,000"}{" "}
                   credits
                 </span>
               </div>
@@ -934,7 +934,7 @@ const Premium = ({
             <div className="py-2 flex  gap-4 items-center">
               <CheckIcon />
               <div>
-                <span className="font-medium ">1M monthly words</span>
+                <span className="font-medium ">1M words</span>
               </div>
             </div>
             <div className="py-2 flex  gap-4 items-center">
