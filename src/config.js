@@ -84,13 +84,19 @@ export const MenuList = [
     exact: true,
   },
   {
-    label: "Whats new?",
+    label: "Support",
     // to: "/whats-new",
     isButton: true,
     exact: true,
   },
 ];
 
+// {
+//   label: "Whats new?",
+//   // to: "/whats-new",
+//   isButton: true,
+//   exact: true,
+// },
 console.log('REACTAPP',process.env.NODE_ENV)
 const config = process.env.NODE_ENV === "development" ? dev : prod;
 

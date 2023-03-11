@@ -563,7 +563,7 @@ const Personal = ({
             <h6 className="mt-4 mb-4 text-md -700">
               <strong>FEATURES</strong>
             </h6>
-            <span>Get started with a 14-day trial. Cancel anytime</span>
+            <span className='mb-4'>Start today and create plans for free, forever!</span>
           </div>
 
           <div className="divide-y divide-dashed divide-gray-300 mt-4">

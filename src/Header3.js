@@ -246,6 +246,18 @@ class ResponsiveAppBar extends React.Component {
                         {menuItem.label}
                       </NavButton>
                     );
+                  } else if (menuItem.label === "Support") {
+                    return (
+                      <NavButton className="mr-2 text-center block rounded py-2 px-4">
+                        <a
+                          href="https://plannr-help.freshdesk.com/support/home"
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          {menuItem.label}
+                        </a>
+                      </NavButton>
+                    );
                   } else if (menuItem.isButton) {
                     <NavButton className="mr-2 text-center block rounded py-2 px-4">
                       {menuItem.label}
