@@ -114,6 +114,7 @@ class MyEditor extends React.Component {
 
   exportDocument = async () => {
     const content = this.quillRef.current?.getEditor().root.innerHTML;
+    // TODO: Mac
     const converted = await htmlToDocx(content);
     FileSaver.saveAs(converted, "document.docx");
   };

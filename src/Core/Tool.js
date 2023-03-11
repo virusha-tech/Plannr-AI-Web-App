@@ -1,33 +1,18 @@
 import React, { Component } from "react";
-import {
-  PencilIcon,
-  ClockIcon,
-  InformationCircleIcon,
-  DuplicateIcon,
-} from "@heroicons/react/outline";
-
 import { Helmet } from "react-helmet";
-
-import Header from "../Components/Header";
-import Body, { Grid, Col } from "../Components/Body";
 import Button from "../Components/Button";
-import Output from "../Components/Output";
-import Countdown from "react-countdown";
 import { withRouter } from "react-router-dom";
-
 import { observable, makeObservable, computed } from "mobx";
 import { observer, inject } from "mobx-react";
 
 import EntryTabs from "../Components/EntryTabs";
 import EntryPrompt from "../Components/EntryPrompt";
 import EntryInput from "../Components/EntryInput";
-import EntryN from "../Components/EntryN";
+// import EntryN from "../Components/EntryN";
 import { Stepper, Step, StepLabel } from "@mui/material";
 import Filter from "bad-words";
 import styled from "styled-components";
-import Footer from "../Footer";
 import { getSteps, serialize } from "../tools/utils";
-import { Editor } from "draft-js";
 import MyEditor from "./Editor/index";
 import GeneratingSpinner from "./Editor/GeneratingSpinner";
 import { Layout } from "../Layout";

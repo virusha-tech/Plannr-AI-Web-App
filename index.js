@@ -2,14 +2,16 @@ const express = require('express');
 const morgan = require('morgan');
 const bodyParser = require('body-parser')
 const cors = require('cors')
+const dotenv = require('dotenv');
+dotenv.config({ path: `.env.${process.env.NODE_ENV || 'development'}` });
 
-require('dotenv-flow').config();
+// console.log(process.env.NODE_ENV)
 
 require('./routes/middlewares/mongo');
 
 const app = express()
 const port = 3080
-
+// console.log(process.env.MONGO_DATABASE);
 app.use(morgan('dev'))
 app.use(cors())
 app.use((req, res, next) => {

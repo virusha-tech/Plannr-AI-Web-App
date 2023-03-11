@@ -5,18 +5,18 @@ const dev = {
     // free: "price_1Mi9T5SB17XWitVzdwgoMZBC",
     // entry: "price_1Mi9hPSB17XWitVzPqlG0AjE",
     // pro: "price_1MNuKMSB17XWitVz30mpm918",
-    personal_monthly_indianCurrency: "price_1MjlezSB17XWitVzjlHbMFo0",
-    personal_yearly_indianCurrency: "price_1MjlsPSB17XWitVzO7nfuR0L",
-    personal_monthly_USCurrency: "price_1Mjmo5SB17XWitVzOWGF46lI",
-    personal_yearly_USCurrency: "price_1MjmrnSB17XWitVzt54hNcyX",
-    professional_monthly_indianCurrency: "price_1MjloISB17XWitVzRMdsiWlL",
-    professional_yearly_indianCurrency: "price_1MjltcSB17XWitVzBXac84uD",
-    professional_monthly_USCurrency: "price_1MjmpJSB17XWitVzU47CB0yZ",
-    professional_yearly_USCurrency: "price_1MjmsiSB17XWitVz2uK64BeF",
-    business_monthly_indianCurrency: "price_1MjlrISB17XWitVzFR2eGEjB",
-    business_yearly_indianCurrency: "price_1MjlwqSB17XWitVzB379fdK9",
-    business_monthly_USCurrency: "price_1MjmqJSB17XWitVzRcdyZO9C",
-    business_yearly_USCurrency: "price_1MjmtVSB17XWitVzZVsv2Hgw",
+    personal_monthly_indianCurrency: "price_1Mi9T5SB17XWitVzdwgoMZBC",
+    personal_yearly_indianCurrency: "price_1Mi9T5SB17XWitVzdwgoMZBC",
+    personal_monthly_USCurrency: "price_1Mi9T5SB17XWitVzdwgoMZBC",
+    personal_yearly_USCurrency: "price_1Mi9T5SB17XWitVzdwgoMZBC",
+    professional_monthly_indianCurrency: "price_1Mi9T5SB17XWitVzdwgoMZBC",
+    professional_yearly_indianCurrency: "price_1Mi9T5SB17XWitVzdwgoMZBC",
+    professional_monthly_USCurrency: "price_1Mi9T5SB17XWitVzdwgoMZBC",
+    professional_yearly_USCurrency: "price_1Mi9T5SB17XWitVzdwgoMZBC",
+    business_monthly_indianCurrency: "price_1Mi9T5SB17XWitVzdwgoMZBC",
+    business_yearly_indianCurrency: "price_1Mi9T5SB17XWitVzdwgoMZBC",
+    business_monthly_USCurrency: "price_1Mi9T5SB17XWitVzdwgoMZBC",
+    business_yearly_USCurrency: "price_1Mi9T5SB17XWitVzdwgoMZBC",
   },
 };
 
@@ -91,6 +91,7 @@ export const MenuList = [
   },
 ];
 
+console.log('REACTAPP',process.env.NODE_ENV)
 const config = process.env.NODE_ENV === "development" ? dev : prod;
 
 export default config;
