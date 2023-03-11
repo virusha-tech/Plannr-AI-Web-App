@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/static/css/main.a047b178.css",
-    "main.js": "/static/js/main.f2cf7e8b.js",
-    "main.js.map": "/static/js/main.f2cf7e8b.js.map",
+    "main.js": "/static/js/main.284316c2.js",
+    "main.js.map": "/static/js/main.284316c2.js.map",
     "static/js/1.de19eda8.chunk.js": "/static/js/1.de19eda8.chunk.js",
     "static/js/1.de19eda8.chunk.js.map": "/static/js/1.de19eda8.chunk.js.map",
     "index.html": "/index.html",
     "static/css/main.a047b178.css.map": "/static/css/main.a047b178.css.map",
-    "static/js/main.f2cf7e8b.js.LICENSE.txt": "/static/js/main.f2cf7e8b.js.LICENSE.txt",
+    "static/js/main.284316c2.js.LICENSE.txt": "/static/js/main.284316c2.js.LICENSE.txt",
     "static/media/Calendar.50e7f266.svg": "/static/media/Calendar.50e7f266.svg",
     "static/media/CompanyLogo.e26b4714.svg": "/static/media/CompanyLogo.e26b4714.svg",
     "static/media/Courasel1.c744aa16.svg": "/static/media/Courasel1.c744aa16.svg",
@@ -16,11 +16,12 @@
     "static/media/GoogleLogo.60a7b90d.svg": "/static/media/GoogleLogo.60a7b90d.svg",
     "static/media/Hand.42b06cac.svg": "/static/media/Hand.42b06cac.svg",
     "static/media/SearchIcon.b04370b9.svg": "/static/media/SearchIcon.b04370b9.svg",
+    "static/media/bulb.c54313fa.jpeg": "/static/media/bulb.c54313fa.jpeg",
     "static/media/notifications.css": "/static/media/notification.c5d9251e.ttf",
     "static/media/pattern-dots.svg": "/static/media/pattern-dots.dba411dc.svg"
   },
   "entrypoints": [
     "static/css/main.a047b178.css",
-    "static/js/main.f2cf7e8b.js"
+    "static/js/main.284316c2.js"
   ]
 }
