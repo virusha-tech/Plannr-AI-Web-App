@@ -13,8 +13,5 @@ RUN npm install
 # Copy the rest of the app's code to the container
 COPY . .
 
-# Build the app
-RUN npm run build
-
 # Set the default command for the container to run the app
-CMD [ "npm", "start" ]
+CMD [ "npm", "run", "api-prod" ]
