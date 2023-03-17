@@ -79,3 +79,6 @@ I've released videos to cover some of the bugs and fixes. If you are running new
 - Some instances people mention nodemon not working. You can also install it gobally. You can run npm install nodemon -g to do this.
 
 - I recommend using the node and npm versions I listed ealier, as these provide for the best installation environment.
+
+# Dockerfile
+- Dockerfile for creating docker image
