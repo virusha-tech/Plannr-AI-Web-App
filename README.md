@@ -81,4 +81,4 @@ I've released videos to cover some of the bugs and fixes. If you are running new
 - I recommend using the node and npm versions I listed ealier, as these provide for the best installation environment.
 
 # Dockerfile
-- Dockerfile for creating docker image
+- Dockerfile for creating docker image and running the container
