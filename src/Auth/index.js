@@ -47,6 +47,10 @@ class Auth extends Component {
         event_category: "access",
         event_label: "Log in button clicked",
       });
+      mixpanel.track("Client Log in Start", {
+        email: this.email,
+      });
+
       let data = await this.props.store.api
         .post("/auth/signin", {
           email: this.email,
@@ -58,7 +62,7 @@ class Auth extends Component {
             event_label: "Log in successful",
           });
 
-          mixpanel.track("Log in", {
+          mixpanel.track("Client Log in Success", {
             fname: data["profile"]["fname"],
             lname: data["profile"]["lname"],
             email: data["profile"]["email"],
@@ -69,6 +73,9 @@ class Auth extends Component {
 
       this.props.store.loginWithDataTokenAndProfile(data, this.props.history);
     } catch (err) {
+      mixpanel.track("Client Log in Error", {
+        email: this.email,
+      });
       console.log(err);
       console.log(err?.response?.data?.message);
       if (err?.response?.data?.message) {
@@ -94,6 +101,7 @@ class Auth extends Component {
       });
     } catch (err) {
       NotificationManager.error("Authentication Error. Please try again");
+      mixpanel.track("Client Google Sign Up Error");
     }
   }
 
@@ -101,6 +109,7 @@ class Auth extends Component {
     let provider = new GoogleAuthProvider();
     let type = "google";
     window.gtag("event", "Google Login Start");
+    mixpanel.track("Client Google Login Start");
     this.signInWithGoogle(provider, type, async (userInfo) => {
       let data = await this.props.store.api
         .post("/auth/signInWithGoogle", {
@@ -110,6 +119,11 @@ class Auth extends Component {
           password: userInfo.password,
         })
         .then(({ data }) => {
+          mixpanel.track("Client Google Login Success", {
+            email: userInfo.email,
+            fname: userInfo.firstName,
+            lname: userInfo.lastName,
+          });
           window.gtag("event", "Google Login Success");
           return data;
         });
@@ -130,6 +144,12 @@ class Auth extends Component {
         event_label: "Sign up button clicked",
       });
 
+      mixpanel.track("Client Sign Up Start", {
+        email: this.email,
+        fname: this.fname,
+        lname: this.lname,
+      });
+
       let data = await this.props.store.api
         .post("/auth/signup", {
           email: this.email,
@@ -143,14 +163,23 @@ class Auth extends Component {
             event_category: "access",
             event_label: "Sign up successful",
           });
+          mixpanel.track("Client Sign Up Success", {
+            email: this.email,
+            fname: this.fname,
+            lname: this.lname,
+          });
           return data;
         });
-      console.log(`onSignup`, data);
       if (data.token && data.profile) {
         this.props.store.loginWithDataTokenAndProfile(data);
       }
     } catch (err) {
       console.log(err);
+      mixpanel.track("Client Sign Up Error", {
+        email: this.email,
+        fname: this.fname,
+        lname: this.lname,
+      });
       console.log(err?.response?.data?.message);
       if (err?.response?.data?.message) {
         this.errorMessage = err?.response?.data?.message;
