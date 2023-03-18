@@ -17,5 +17,8 @@ COPY . .
 # Build the app
 # RUN npm run build
 
+# Install the serve command globally
+RUN npm install -g serve
+
 # Set the default command for the container to run the app
-CMD [ "npm", "start" ]
+CMD ["serve", "-s", "build"]
