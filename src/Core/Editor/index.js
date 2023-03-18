@@ -7,14 +7,37 @@ import "./index.css";
 import styled from "styled-components";
 import { Button } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
-
-import * as FileSaver from "file-saver";
-import htmlToDocx from "html-to-docx";
+import pdfMake from "pdfmake/build/pdfmake";
 import { NotificationManager } from "react-notifications";
 import { observer, inject } from "mobx-react";
 import { observable, makeObservable } from "mobx";
 import { withRouter } from "react-router-dom";
 import { Helmet } from "react-helmet";
+import pdfFonts from "pdfmake/build/vfs_fonts";
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
+
+function createWordDocument(htmlContent) {
+  var blob = new Blob(
+    [
+      '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Word Document</title></head><body>' +
+        htmlContent +
+        "</body></html>",
+    ],
+    { type: "application/msword" }
+  );
+  saveWordAs(blob, "document.doc");
+}
+
+function saveWordAs(blob, filename) {
+  if (window.navigator.msSaveOrOpenBlob) {
+    window.navigator.msSaveOrOpenBlob(blob, filename);
+  } else {
+    var link = document.createElement("a");
+    link.href = window.URL.createObjectURL(blob);
+    link.download = filename;
+    link.click();
+  }
+}
 
 @inject("store")
 @observer
@@ -114,9 +137,7 @@ class MyEditor extends React.Component {
 
   exportDocument = async () => {
     const content = this.quillRef.current?.getEditor().root.innerHTML;
-    // TODO: Mac
-    const converted = await htmlToDocx(content);
-    FileSaver.saveAs(converted, "document.docx");
+    createWordDocument(content);
   };
 
   exportAsPDF = async () => {
