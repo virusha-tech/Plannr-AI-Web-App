@@ -3,6 +3,8 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const dotenv = require('dotenv');
+// const mixpanel = require('mixpanel');
+//  {debug: true} -> For dev
 dotenv.config({ path: `.env.${process.env.NODE_ENV || 'development'}` });
 
 // console.log(process.env.NODE_ENV)

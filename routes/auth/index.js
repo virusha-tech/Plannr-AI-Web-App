@@ -5,9 +5,11 @@ const bcrypt = require("bcryptjs");
 const stripe = require("../middlewares/stripe");
 const express = require("express");
 const Plan = require("../models/plan");
-
 // Prepare Core Router
 let app = express.Router();
+var Mixpanel = require('mixpanel');
+
+var mixpanel = Mixpanel.init('<YOUR_TOKEN>');
 
 const checkDuplicateUsernameOrEmail = async (req, res, next) => {
   // Username
@@ -65,6 +67,11 @@ const checkDuplicateUsernameOrEmail = async (req, res, next) => {
 };
 
 const signup = async (req, res) => {
+  mixpanel.track("Server Custom_SignUp_First_Time", {
+    email: req.body.email,
+    name: `${req.body.fname} ${req.body.lname}`,
+  });
+
   const customer = await stripe.customers.create({
     email: `${req.body.email}`,
     name: `${req.body.fname} ${req.body.lname}`,
@@ -100,6 +107,10 @@ const signup = async (req, res) => {
       res.status(500).json({ message: err });
       return;
     }
+    mixpanel.track("Server Custom_SignUp_Success", {
+      email: req.body.email,
+      name: `${req.body.fname} ${req.body.lname}`,
+    });
     signin(req, res);
   });
 };
@@ -163,7 +174,9 @@ const signin = (req, res) => {
         ...user.toObject(),
       };
       delete profile.password;
-
+      mixpanel.track("Server User_Login_Success", {
+        email: user.email,
+      });
       res.status(200).json({
         token,
         profile,
@@ -182,6 +195,10 @@ const signInWithGoogle = async (req, res) => {
     const customer = await stripe.customers.create({
       email: `${req.body.email}`,
       name: `${req.body.fname} ${req.body.lname}`,
+    });
+
+    mixpanel.track("Server Google_SignUp_First_Time", {
+      email: req.body.email,
     });
 
     const user = new User({
@@ -204,7 +221,7 @@ const signInWithGoogle = async (req, res) => {
   }
 };
 
-app.post("/signup", checkDuplicateUsernameOrEmail,signup);
+app.post("/signup", checkDuplicateUsernameOrEmail, signup);
 app.post("/signin", signin);
 app.post("/signInWithGoogle", signInWithGoogle);
 
