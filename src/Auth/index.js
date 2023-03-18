@@ -14,6 +14,7 @@ import { SignUp } from "./SignUp";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { NotificationManager } from "react-notifications";
 import { firebaseAuth } from "./firebase";
+import mixpanel from "mixpanel-browser";
 
 @inject("store")
 @observer
@@ -56,6 +57,13 @@ class Auth extends Component {
             event_category: "access",
             event_label: "Log in successful",
           });
+
+          mixpanel.track("Log in", {
+            fname: data["profile"]["fname"],
+            lname: data["profile"]["lname"],
+            email: data["profile"]["email"],
+          });
+
           return data;
         });
 
