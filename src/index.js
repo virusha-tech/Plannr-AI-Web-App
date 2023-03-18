@@ -4,6 +4,9 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import "react-notifications/lib/notifications.css";
 import "./index.css";
+import mixpanel from "mixpanel-browser";
+//  {debug: true} -> For dev
+mixpanel.init("21f42c6e5bf4444d40583b6a127d0707");
 
 ReactDOM.render(
   <React.StrictMode>
