@@ -7,7 +7,9 @@ const express = require("express");
 const Plan = require("../models/plan");
 // Prepare Core Router
 let app = express.Router();
-const mixpanel = require("mixpanel");
+var Mixpanel = require('mixpanel');
+
+var mixpanel = Mixpanel.init('<YOUR_TOKEN>');
 
 const checkDuplicateUsernameOrEmail = async (req, res, next) => {
   // Username
