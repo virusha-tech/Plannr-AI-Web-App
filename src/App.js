@@ -92,7 +92,6 @@ class App extends Component {
                           exact
                           component={SavedPlans}
                         />
-                        <Route path="/" exact component={Dashboard} />
                         <Route path="/search" exact component={Search} />
 
                         <Route path="/ai/">
@@ -121,6 +120,7 @@ class App extends Component {
                           path="/signup/success"
                           component={LoginSuccess}
                         />
+                        <Route path="/" component={Dashboard} />
                       </Switch>
                       <IntercomChat />
                     </>
