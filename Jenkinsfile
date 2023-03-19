@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    options {
+        docker.withDockerCmd(['sudo', 'docker'])
+    }
     stages {
         stage('Build') {
             steps {
