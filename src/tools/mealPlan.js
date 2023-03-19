@@ -13,6 +13,7 @@ const obj = {
 
   to: "/ai/mealplan",
   api: "/ai/mealplan",
+  isRecommendationsAvailable: false,
 
   output: {
     title: "Meal Plan",

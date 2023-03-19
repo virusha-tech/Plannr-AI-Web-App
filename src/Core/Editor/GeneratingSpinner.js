@@ -11,12 +11,16 @@ export default function GeneratingSpinner(props) {
       style={{ display: "grid", placeItems: "center", height: "70vh" }}
     >
       <Center>
-        <CircularProgress size={80} color="primary" />
-        <img src={LoaderBulb} width="100" alt='loader_logo' />
+        {props.showLoader ? (
+          <CircularProgress size={80} color="primary" />
+        ) : null}
+        <img src={LoaderBulb} width="100" alt="loader_logo" />
         {props.children ?? (
           <div>
-            <p style={{textAlign:'center'}}>"Awesome! Plannr AI is whipping up your personalized plan.</p>
-            <p style={{textAlign:'center'}}>
+            <p style={{ textAlign: "center" }}>
+              "Awesome! Plannr AI is whipping up your personalized plan.
+            </p>
+            <p style={{ textAlign: "center" }}>
               Hang tight, it usually only takes 2-3 mins. Remember, good things
               come to those who wait! 🚀"
             </p>

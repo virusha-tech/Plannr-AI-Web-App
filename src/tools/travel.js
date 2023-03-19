@@ -7,6 +7,7 @@ const obj = {
   Icon: ViewListIcon,
   // tags: [],
   permissions: ["user"],
+  isRecommendationsAvailable: true,
 
   fromColor: "gray-500",
   toColor: "gray-500",
@@ -66,6 +67,16 @@ const obj = {
         //   // min: 1,
         //   // example: "Udaipur",
         // },
+        {
+          title: "Source",
+          attr: "source",
+          value: "",
+          placeholder: "",
+          maxLength: 80,
+          error: "",
+          min: 1,
+          required: true,
+        },
         {
           title: "Destination",
           attr: "destination",

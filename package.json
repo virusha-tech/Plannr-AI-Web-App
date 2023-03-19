@@ -67,7 +67,7 @@
     "winston": "^3.8.2"
   },
   "scripts": {
-    "start": "react-app-rewired start",
+    "start": "FAST_REFRESH=false react-app-rewired start",
     "react": "react-app-rewired start",
     "build": "react-app-rewired build",
     "test": "react-app-rewired test",

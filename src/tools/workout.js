@@ -7,6 +7,7 @@ const obj = {
   Icon: ViewListIcon,
   // tags: [],
   permissions: ["user"],
+  isRecommendationsAvailable: true,
 
   fromColor: "green-500",
   toColor: "blue-500",

@@ -47,7 +47,7 @@ if (!window.store) {
 
 // Define what main theme will look like
 const theme = {
-  primary: "#079196",
+  primary: "#079196", // #cb1313
   primary_gradient: "linear-gradient(0deg, #04adb4, #04adb4)",
   secondary_gradient: "linear-gradient(0deg, #05bbc2, #05bbc2)",
   gray: "#475467",
@@ -60,7 +60,7 @@ const theme = {
 const materialtheme = createTheme({
   palette: {
     primary: {
-      main: "#079196",
+      main: "#079196", // #cb1313
     },
   },
 });

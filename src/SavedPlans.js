@@ -88,7 +88,9 @@ class SavedPlans extends Component {
     return (
       <Layout>
         {this.state.isLoading ? (
-          <GeneratingSpinner>Finding your seach History...</GeneratingSpinner>
+          <GeneratingSpinner
+          showLoader={true}
+          >Finding your seach History...</GeneratingSpinner>
         ) : this.state.count ? (
           <TableWrapper>
             <Helmet>
