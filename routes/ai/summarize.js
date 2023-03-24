@@ -19,7 +19,7 @@ app.post('/personal/summarize', async (req, res, next) => {
 	let inputRaw = `TEXT: ${content}\nKEY POINTS: 1.`
 	prompt += inputRaw
 
-	const gptResponse = await openai.complete({
+	const gptResponse = await openai.createCompletion({
 		engine: 'curie',
 		prompt,
 		maxTokens: 150,

@@ -242,13 +242,17 @@ class ResponsiveAppBar extends React.Component {
                         onClick={() => {
                           window.Intercom("show");
                         }}
+                        key={menuItem.label}
                       >
                         {menuItem.label}
                       </NavButton>
                     );
                   } else if (menuItem.label === "Support") {
                     return (
-                      <NavButton className="mr-2 text-center block rounded py-2 px-4">
+                      <NavButton
+                        className="mr-2 text-center block rounded py-2 px-4"
+                        key={menuItem.label}
+                      >
                         <a
                           href="https://plannr-help.freshdesk.com/support/home"
                           target="_blank"
@@ -259,7 +263,10 @@ class ResponsiveAppBar extends React.Component {
                       </NavButton>
                     );
                   } else if (menuItem.isButton) {
-                    <NavButton className="mr-2 text-center block rounded py-2 px-4">
+                    <NavButton
+                      className="mr-2 text-center block rounded py-2 px-4"
+                      key={menuItem.label}
+                    >
                       {menuItem.label}
                     </NavButton>;
                   } else {
@@ -420,7 +427,7 @@ class ResponsiveAppBar extends React.Component {
                                         <NestedNavListItem
                                           ismobile="true"
                                           to={isDisabled ? "#" : value}
-                                          isDisabled={isDisabled}
+                                          isdisabled={isDisabled}
                                         >
                                           {label}
                                         </NestedNavListItem>
@@ -569,8 +576,8 @@ const NestedNavListItem = styled(NavLink)`
   font-weight: 600;
   font-size: 12px;
   line-height: 18px;
-  color: ${(props) => (!!props.isDisabled ? "#868080" : "#344054")};
-  cursor: ${(props) => (!!props.isDisabled ? "not-allowed" : "pointer")};
+  color: ${(props) => (!!props.isdisabled ? "#868080" : "#344054")};
+  cursor: ${(props) => (!!props.isdisabled ? "not-allowed" : "pointer")};
 
   &.selected {
     background: rgba(116, 116, 116, 0.1);

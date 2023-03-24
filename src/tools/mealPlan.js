@@ -3,6 +3,9 @@ import { ViewListIcon } from "@heroicons/react/solid";
 const obj = {
   title: "Meal Plan",
   desc: "A meal plan outlines the types and quantities of food to be consumed over a specific period of time, often with the goal of achieving a specific health or fitness goal.",
+  additionalSystemTextForChatBot:
+  "You are an AI assistant that is an expert with Meal/Nutrition Plans. You know about everything related to the above Meal Plan and things that are related to the above plan. You can provide advice related to the above meal Plan. If someone is asking anything which is outside meal related query than please respond with the phrase \"I'm just  your Meal assistant. I can't help with that.\"",
+  
   category: "Personal",
   Icon: ViewListIcon,
   // tags: [],

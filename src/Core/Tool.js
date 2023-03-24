@@ -350,6 +350,9 @@ class Tool extends Component {
                   <MyEditor
                     {...this.state.editorOutput}
                     title={this.tool.title}
+                    additionalSystemTextForChatBot={
+                      this.tool.additionalSystemTextForChatBot
+                    }
                   />
                 </>
               )}
@@ -427,11 +430,7 @@ function TabPanel(props) {
       {...other}
       style={{ background: "white" }}
     >
-      {value === index && (
-        <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
+      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
     </div>
   );
 }

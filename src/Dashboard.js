@@ -11,7 +11,8 @@ import styled from "styled-components";
 import { TabList } from "./config";
 import SearchIcon from "./assets/SearchIcon.svg";
 import { Layout } from "./Layout";
-import { Chip } from "../node_modules/@mui/material/index";
+import { Chip } from "@mui/material";
+
 @inject("store")
 @observer
 class Body extends Component {
@@ -227,15 +228,17 @@ export const Tool = ({
       to={`${isComingSoon ? "#" : to || "/"}`}
       className="flex relative gap-5"
     >
-      <div>
+      <AvatarWrapper>
         <img width="36px" height="36px" src={User} alt="Avatar" />
-      </div>
+      </AvatarWrapper>
       <div className="flex gap-2 flex-col	">
         <CardTitle
-          className={`uppercase ${group} tracking-wide text-sm font-semibold leading-none flex justify-between`}
+          className={`uppercase ${group} tracking-wide text-sm font-semibold leading-none flex justify-between items-center`}
         >
           <span> {group || "New"} </span>
-          {isComingSoon ? <Chip color="info" label="COMING SOON" /> : null}
+          {isComingSoon ? (
+            <Chip color="info" size="medium" label="COMING SOON" />
+          ) : null}
         </CardTitle>
         <CardSubTitle
           href="#"
@@ -248,15 +251,17 @@ export const Tool = ({
     </LinkCard>
   ) : (
     <ComingSoonCard className="flex relative gap-5">
-      <div>
+      <AvatarWrapper>
         <img width="36px" height="36px" src={User} alt="Avatar" />
-      </div>
+      </AvatarWrapper>
       <div className="flex gap-2 flex-col	">
         <CardTitle
-          className={`uppercase ${group} tracking-wide text-sm font-semibold leading-none flex justify-between`}
+          className={`uppercase ${group} tracking-wide text-sm font-semibold leading-none flex justify-between items-center`}
         >
           <span> {group || "New"} </span>
-          {isComingSoon ? <Chip color="primary" label="COMING SOON" /> : null}
+          {isComingSoon ? (
+            <Chip color="primary" size="medium" label="COMING SOON" />
+          ) : null}
         </CardTitle>
         <CardSubTitle
           href="#"
@@ -340,11 +345,7 @@ const QuestionBanner = styled.div`
 
 const StyledButton = styled.button`
   padding: 10px 16px;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
+  width: max-content;
   height: 40px;
   background: #05bbc2;
   border: 1px solid #04adb4;
@@ -383,6 +384,12 @@ const Header = styled.div`
     font-size: 30px;
     line-height: 38px;
     color: #101828;
+  }
+`;
+
+const AvatarWrapper = styled.div`
+  @media screen and (max-width: 600px) {
+    display: none;
   }
 `;
 
@@ -455,6 +462,9 @@ const FreeTrial = styled.div`
   font-size: 16px;
   line-height: 28px;
   color: #939393;
+  @media only screen and (max-width: 600px) {
+    font-size: 14px;
+  }
 `;
 
 const Image = styled.img`
