@@ -1,13 +1,14 @@
 {
   "files": {
-    "main.css": "/static/css/main.a047b178.css",
-    "main.js": "/static/js/main.fdf03a04.js",
-    "main.js.map": "/static/js/main.fdf03a04.js.map",
+    "main.css": "/static/css/main.47466d30.css",
+    "main.js": "/static/js/main.e2b6968d.js",
+    "main.js.map": "/static/js/main.e2b6968d.js.map",
     "static/js/1.00652fbf.chunk.js": "/static/js/1.00652fbf.chunk.js",
     "static/js/1.00652fbf.chunk.js.map": "/static/js/1.00652fbf.chunk.js.map",
     "index.html": "/index.html",
-    "static/css/main.a047b178.css.map": "/static/css/main.a047b178.css.map",
-    "static/js/main.fdf03a04.js.LICENSE.txt": "/static/js/main.fdf03a04.js.LICENSE.txt",
+    "static/css/main.47466d30.css.map": "/static/css/main.47466d30.css.map",
+    "static/js/main.e2b6968d.js.LICENSE.txt": "/static/js/main.e2b6968d.js.LICENSE.txt",
+    "static/media/Bot.74801902.svg": "/static/media/Bot.74801902.svg",
     "static/media/Calendar.50e7f266.svg": "/static/media/Calendar.50e7f266.svg",
     "static/media/CompanyLogo.e26b4714.svg": "/static/media/CompanyLogo.e26b4714.svg",
     "static/media/Courasel1.c744aa16.svg": "/static/media/Courasel1.c744aa16.svg",
@@ -21,7 +22,7 @@
     "static/media/pattern-dots.svg": "/static/media/pattern-dots.dba411dc.svg"
   },
   "entrypoints": [
-    "static/css/main.a047b178.css",
-    "static/js/main.fdf03a04.js"
+    "static/css/main.47466d30.css",
+    "static/js/main.e2b6968d.js"
   ]
 }
