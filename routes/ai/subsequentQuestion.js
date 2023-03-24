@@ -5,44 +5,18 @@ let app = express.Router();
 
 app.post("/subsequentQuestion", async (req, res, next) => {
   try {
-    let { question: prompt } = req.body;
-    const gptResponse = await openai.complete({
-      engine: "davinci",
-      prompt,
-      maxTokens: 100,
-      temperature: 0.2,
-      topP: 1,
-      frequencyPenalty: 1,
-      presencePenalty: 0,
-      bestOf: 1,
-      n: 1,
-      user: req.user._id,
-      stream: false,
-      stop: ["###", "<|endoftext|>"],
+    let { conversation } = req.body;
+    console.log(conversation);
+    const gptResponse = await openai.createChatCompletion({
+      model: "gpt-3.5-turbo",
+      messages: conversation,
     });
 
-    let output = `${gptResponse.data.choices[0].text}`;
+    console.log(gptResponse);
 
-    //remove the first character from output
-    output = output.substring(1, output.length);
-
-    // If the output string ends with one or more hashtags, remove all of them
-    if (output.endsWith('"')) {
-      output = output.substring(0, output.length - 1);
-    }
-
-    // If the output string ends with one or more hashtags, remove all of them
-    if (output.endsWith('"')) {
-      output = output.substring(0, output.length - 1);
-    }
-
-    // remove a single new line at the end of output if there is one
-    if (output.endsWith("\n")) {
-      output = output.substring(0, output.length - 1);
-    }
+    let output = `${gptResponse.data.choices[0].message.content}`;
 
     res.send({
-      question: prompt,
       answer: output,
     });
   } catch (err) {

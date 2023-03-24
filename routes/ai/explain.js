@@ -31,7 +31,7 @@ app.post('/personal/explain', async (req, res, next) => {
 
 
   
-		const gptResponse = await openai.complete({
+		const gptResponse = await openai.createCompletion({
 			engine: 'davinci',
 			prompt,
 			maxTokens: 128,

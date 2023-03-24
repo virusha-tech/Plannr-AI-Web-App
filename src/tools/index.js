@@ -58,6 +58,4 @@ const TOOLS = [
   budget,
 ];
 
-console.log("TOOLS.length => ", TOOLS.length);
-
 export default TOOLS;

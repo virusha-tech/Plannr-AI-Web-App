@@ -41,8 +41,7 @@
     "mongoose-sequence": "^5.3.1",
     "morgan": "^1.10.0",
     "node-sass": "^4.14.1",
-    "openai-api": "^1.2.3",
-    "pdfmake": "^0.2.7",
+    "openai": "^3.2.1",
     "quill-to-pdf": "^1.0.7",
     "react": "^17.0.2",
     "react-countdown": "^2.3.2",
@@ -64,10 +63,11 @@
     "tailwindcss": "^2.2.7",
     "uuid": "^8.3.2",
     "web-vitals": "^1.0.1",
-    "winston": "^3.8.2"
+    "winston": "^3.8.2",
+    "react-simple-chatbot": "^0.6.1"
   },
   "scripts": {
-    "start": "react-app-rewired start",
+    "start": "FAST_REFRESH=false react-app-rewired start",
     "react": "react-app-rewired start",
     "build": "react-app-rewired build",
     "test": "react-app-rewired test",

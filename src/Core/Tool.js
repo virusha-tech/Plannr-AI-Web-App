@@ -5,6 +5,8 @@ import { withRouter } from "react-router-dom";
 import { observable, makeObservable, computed } from "mobx";
 import { observer, inject } from "mobx-react";
 
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
 import EntryTabs from "../Components/EntryTabs";
 import EntryPrompt from "../Components/EntryPrompt";
 import EntryInput from "../Components/EntryInput";
@@ -16,6 +18,11 @@ import { getSteps, serialize } from "../tools/utils";
 import MyEditor from "./Editor/index";
 import GeneratingSpinner from "./Editor/GeneratingSpinner";
 import { Layout } from "../Layout";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
+import TravelRecomendations from "./Recommendations/Travel";
+// import axios from "axios";
+
 let filterBadWords = new Filter();
 
 @inject("store")
@@ -41,9 +48,11 @@ class Tool extends Component {
     super(props);
     this.state = {
       activeStep: 0,
+      activeTab: 0,
       editorOutput: { answer: "" },
     };
     this.getEditorOutput = this.getEditorOutput.bind(this);
+    this.handleChange = this.handleChange.bind(this);
     this.steps = getSteps();
     makeObservable(this);
     this.tool = this.props.store.getToolByUrl(this.props.location.pathname);
@@ -57,6 +66,10 @@ class Tool extends Component {
 
   handleCurrentPrompt = (val) => {
     this.currentPrompt = val;
+  };
+
+  handleChange = (event, newValue) => {
+    this.setState({ activeTab: newValue });
   };
 
   @computed get isGenerateButtonDisabled() {
@@ -192,7 +205,7 @@ class Tool extends Component {
 
       let response = await this.props.store.api.post(this.tool.api, {
         plan: {
-          ...postObj
+          ...postObj,
         },
       });
 
@@ -250,87 +263,182 @@ class Tool extends Component {
         <Helmet>
           <title>{`${this.tool.title} Tool - Plannr AI`}</title>
         </Helmet>
-        <StyledContainer>
-          <AlignStepper>
-            <StyledStepper activeStep={this.state.activeStep}>
-              {this.steps.map((label, index) => {
-                return (
-                  <Step key={label}>
-                    <StyledStepLabel>{label}</StyledStepLabel>
-                  </Step>
-                );
-              })}
-            </StyledStepper>
-          </AlignStepper>
-          {this.state.activeStep == 0 ? (
-            <StyledForm>
-              <StyledSubHeading className="px-6 py-6">
-                {this.tool.title}
-              </StyledSubHeading>
-              <EntryTabs
-                prompts={this.prompts}
-                currentPrompt={this.currentPrompt}
-                onChange={this.handleCurrentPrompt}
-              />
-              {this.prompts.map((prompt, index) => (
-                <EntryPrompt
-                  prompt={prompt}
-                  key={index}
-                  index={index}
-                  disabled={this.disabled}
-                  currentPrompt={this.currentPrompt}
-                >
-                  <ScrollbarContainer>
-                    {prompt.prompts.map((promptInput, index) => {
-                      return (
-                        <EntryInput
-                          isLast={index === prompt.prompts.length - 1}
-                          prompt={promptInput}
-                          key={index}
-                          language={this.language}
-                          index={index}
-                          disabled={this.disabled}
-                        />
-                      );
-                    })}
-                  </ScrollbarContainer>
 
-                  <ActionContainer className="flex justify-end gap-6 items-center">
-                    {/* <CancelButton>Cancel</CancelButton> */}
-                    <Button onClick={this.onGenerateClick}>Generate</Button>
-                  </ActionContainer>
-                  {this.error && (
-                    <div className="mt-4">
-                      <label
-                        className={`${
-                          this.error ? "text-red-400" : "text-gray-400"
-                        } font-medium transition-all`}
-                      >
-                        {this.error}
-                      </label>
-                    </div>
-                  )}
-                </EntryPrompt>
-              ))}
-            </StyledForm>
-          ) : !this.state.editorOutput.answer.length ? (
-            <GeneratingSpinner />
-          ) : (
-            <>
-              <MyEditor {...this.state.editorOutput} title={this.tool.title} />
-            </>
-          )}
-        </StyledContainer>
+        <Box sx={{ width: "100%" }}>
+          <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+            <Tabs value={this.state.activeTab} onChange={this.handleChange}>
+              <StyledTab
+                label="Plan"
+                isselected={(this.state.activeTab === 0).toString()}
+              />
+              {this.tool.isRecommendationsAvailable ? (
+                <StyledTab
+                  label="Recommendations"
+                  isselected={(this.state.activeTab === 1).toString()}
+                />
+              ) : null}
+            </Tabs>
+          </Box>
+          <TabPanel value={this.state.activeTab} index={0}>
+            <StyledContainer>
+              <AlignStepper>
+                <StyledStepper activeStep={this.state.activeStep}>
+                  {this.steps.map((label, index) => {
+                    return (
+                      <Step key={label}>
+                        <StyledStepLabel>{label}</StyledStepLabel>
+                      </Step>
+                    );
+                  })}
+                </StyledStepper>
+              </AlignStepper>
+              {this.state.activeStep == 0 ? (
+                <StyledForm>
+                  <StyledSubHeading className="px-6 py-6">
+                    {this.tool.title}
+                  </StyledSubHeading>
+                  <EntryTabs
+                    prompts={this.prompts}
+                    currentPrompt={this.currentPrompt}
+                    onChange={this.handleCurrentPrompt}
+                  />
+                  {this.prompts.map((prompt, index) => (
+                    <EntryPrompt
+                      prompt={prompt}
+                      key={index}
+                      index={index}
+                      disabled={this.disabled}
+                      currentPrompt={this.currentPrompt}
+                    >
+                      <ScrollbarContainer>
+                        {prompt.prompts.map((promptInput, index) => {
+                          return (
+                            <EntryInput
+                              isLast={index === prompt.prompts.length - 1}
+                              prompt={promptInput}
+                              key={index}
+                              language={this.language}
+                              index={index}
+                              disabled={this.disabled}
+                            />
+                          );
+                        })}
+                      </ScrollbarContainer>
+
+                      <ActionContainer className="flex justify-end gap-6 items-center">
+                        {/* <CancelButton>Cancel</CancelButton> */}
+                        <Button onClick={this.onGenerateClick}>Generate</Button>
+                      </ActionContainer>
+                      {this.error && (
+                        <div className="mt-4">
+                          <label
+                            className={`${
+                              this.error ? "text-red-400" : "text-gray-400"
+                            } font-medium transition-all`}
+                          >
+                            {this.error}
+                          </label>
+                        </div>
+                      )}
+                    </EntryPrompt>
+                  ))}
+                </StyledForm>
+              ) : !this.state.editorOutput.answer.length ? (
+                <GeneratingSpinner showLoader={true} />
+              ) : (
+                <>
+                  <MyEditor
+                    {...this.state.editorOutput}
+                    title={this.tool.title}
+                    additionalSystemTextForChatBot={
+                      this.tool.additionalSystemTextForChatBot
+                    }
+                  />
+                </>
+              )}
+            </StyledContainer>
+          </TabPanel>
+          <TabPanel value={this.state.activeTab} index={1}>
+            {/* {!this.state.editorOutput.answer.length ? ( */}
+            <GeneratingSpinner showLoader={false}>
+              {/* We will give our recommendations once you build plan */}
+              COMING SOON
+            </GeneratingSpinner>
+            {/* ) : (
+              <PlanRecomendations
+                planName={this.tool.title}
+                inputs={this.prompts[0].prompts}
+              />
+            )} */}
+          </TabPanel>
+        </Box>
       </Layout>
     );
   }
 }
 
+// const options = {
+//   method: "GET",
+//   url: "https://skyscanner50.p.rapidapi.com/api/v1/searchAirport",
+//   params: { query: "london" },
+//   headers: {
+//     "X-RapidAPI-Key": "48595c0b43msh693580d29aa597fp1dc724jsn7e6e83c5ba4b",
+//     "X-RapidAPI-Host": "skyscanner50.p.rapidapi.com",
+//   },
+// };
+
+// axios
+//   .request(options)
+//   .then(function (response) {
+//     console.log(response.data);
+//   })
+//   .catch(function (error) {
+//     console.error(error);
+//   });
+// console.log("response.data");
+
+const PlanRecomendations = ({ planName, inputs }) => {
+  const renderCorrespondingPlanRecomendations = () => {
+    switch (planName) {
+      case "Travel Plan":
+        return <TravelRecomendations inputs={inputs} />;
+      default:
+        return null;
+    }
+  };
+
+  return <h1>{renderCorrespondingPlanRecomendations()}</h1>;
+};
+
+const StyledTab = styled(Tab)`
+  background: ${(props) =>
+    props.isselected === "true" ? props.theme.primary : "transparent"};
+  color: ${(props) =>
+    props.isselected === "true" ? "white !important" : "#667085 !important"};
+  border-radius: 6px 6px 0px 0px;
+`;
+
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+      style={{ background: "white" }}
+    >
+      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
+    </div>
+  );
+}
+
 //
 const StyledContainer = styled.div`
-  background: #fafafa;
+  background: white;
   padding: 0px 10px;
-  background: #fafafa;
   min-height: 83vh;
 `;
 
@@ -348,7 +456,7 @@ const StyledForm = styled.div`
   width: 50vw;
   margin: 0 auto;
   /* padding-top: 8vh; */
-  background: #fafafa;
+  background: white;
   @media only screen and (max-width: 1200px) {
     width: 100%;
   }
@@ -396,7 +504,8 @@ const ActionContainer = styled.div`
 
 const ScrollbarContainer = styled.div`
   @media only screen and (min-width: 1200px) {
-    height: 62vh;
+    /* height: 62vh; */
+    height: 54vh;
     padding: 0px 50px;
     overflow-y: scroll;
     &::-webkit-scrollbar {

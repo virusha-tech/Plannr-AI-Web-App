@@ -25,10 +25,10 @@ app.post("/travel", async (req, res, next) => {
       ", "
     )}`;
 
-    console.log(prompt);
+    // console.log(prompt);
 
-    const gptResponse = await openai.complete({
-      engine: "text-davinci-003",
+    const gptResponse = await openai.createCompletion({
+      model: "text-davinci-003",
       prompt,
       user: req.user._id,
       temperature: 0.7,
@@ -40,7 +40,6 @@ app.post("/travel", async (req, res, next) => {
     });
 
     let output = `${gptResponse.data.choices[0].text}`;
-
     //remove the first character from output
     output = output.substring(1, output.length);
 
@@ -58,11 +57,9 @@ app.post("/travel", async (req, res, next) => {
     if (output.endsWith("\n")) {
       output = output.substring(0, output.length - 1);
     }
-
     req.locals.input = prompt;
     req.locals.output = output;
     req.locals.planName = "Travel Plan";
-
     next();
   } catch (err) {
     console.log(err.response);
