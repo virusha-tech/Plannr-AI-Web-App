@@ -39,4 +39,8 @@ const Image = styled.img`
   width: 140px;
   height: 32px;
   margin-right: 60px;
+
+  @media only screen and (max-width: 1200px) {
+    width: 90px;
+  }
 `;

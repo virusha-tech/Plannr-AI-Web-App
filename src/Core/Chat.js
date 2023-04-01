@@ -104,7 +104,7 @@ class Tool extends Component {
        
         this.prompts[this.currentPrompt].prompts.forEach((prompt, promptIndex) => {
             if(prompt.min){
-                if(prompt.value.length < prompt.min){
+                if(prompt.value?.length < prompt.min){
                     shouldReturn = true
                     prompt.error = `${prompt.title} needs to meet the minimum ${prompt.min} characters`;
                 }
@@ -205,7 +205,7 @@ class Tool extends Component {
                 return false;
             }
            
-            prompt.value = prompt.value.trim()
+            prompt.value = prompt.value?.trim()
 
             if(filterBadWords.isProfane(prompt.value)){
                 prompt.error = "Unsafe content , please try different language"

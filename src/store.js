@@ -5,6 +5,8 @@ import FuzzySet from "fuzzyset";
 import Filter from "bad-words";
 
 import TOOLS from "./tools";
+import FREE_TOOLS from "./tools/previewTools";
+
 import config from "./config";
 
 let filterBadWords = new Filter();
@@ -33,6 +35,9 @@ class appStore {
 
   editor;
   @observable editorOutput = "";
+
+  // CHATS!
+  @observable chatLogs = [];
 
   constructor() {
     makeObservable(this);
@@ -105,6 +110,14 @@ class appStore {
     localStorage.setItem("referral", JSON.stringify(referral));
   };
 
+  setChatLogs = (log) => {
+    this.chatLogs = [...this.chatLogs, ...log];
+  };
+
+  initializeChatLogs = (log) => {
+    this.chatLogs = [...log];
+  };
+
   initReferral = async () => {
     const referral = localStorage.getItem("referral");
     this.referral = referral;
@@ -117,6 +130,10 @@ class appStore {
     if (data.profile.status) {
       history.push("/");
     }
+  };
+
+  loginAsGuest = (guestProfile) => {
+    this.setProfile(guestProfile);
   };
 
   refreshTokenAndProfile = async () => {
@@ -171,9 +188,16 @@ class appStore {
   getToolByTitle = (title) => {
     return TOOLS.find((tool) => tool.title === title);
   };
-  getToolByUrl = (url) => {
+  getToolByUrl = (url, isPreview = false) => {
+    if (isPreview) {
+      return FREE_TOOLS.find((tool) => tool.to === url);
+    }
     return TOOLS.find((tool) => tool.to === url);
   };
+
+  // getToolByUrl = (url) => {
+  //   return TOOLS.find((tool) => tool.to === url);
+  // };
 
   @observable error = "";
   checkPrompt = ({ value, attr }) => {
@@ -237,10 +261,10 @@ class appStore {
       return;
     }
     navigator.clipboard.writeText(output).then(
-      function () {
+      function() {
         console.log("Async: Copying to clipboard was successful!");
       },
-      function (err) {
+      function(err) {
         console.error("Async: Could not copy text: ", err);
       }
     );

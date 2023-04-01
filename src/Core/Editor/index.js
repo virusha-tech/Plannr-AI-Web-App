@@ -6,15 +6,12 @@ import React from "react";
 import "./index.css";
 import styled from "styled-components";
 import { Button } from "@mui/material";
-import CircularProgress from "@mui/material/CircularProgress";
-import pdfMake from "pdfmake/build/pdfmake";
 import { NotificationManager } from "react-notifications";
 import { observer, inject } from "mobx-react";
 import { observable, makeObservable } from "mobx";
 import { withRouter } from "react-router-dom";
 import { Helmet } from "react-helmet";
-import pdfFonts from "pdfmake/build/vfs_fonts";
-pdfMake.vfs = pdfFonts.pdfMake.vfs;
+import ContextChatBot from "./ContextChatBot";
 
 function createWordDocument(htmlContent) {
   var blob = new Blob(
@@ -153,7 +150,8 @@ class MyEditor extends React.Component {
   handleDownload = () => {
     const fileName = "document.docx";
     const blob = new Blob([this.state.editorText], {
-      type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      type:
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
     });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
@@ -190,111 +188,70 @@ class MyEditor extends React.Component {
         <Helmet>
           <title>{`${this.props.title} Output - Plannr AI`}</title>
         </Helmet>
-        <ReactQuill
-          ref={this.quillRef}
-          readOnly={this.state.readOnly}
-          preserveWhitespace={true}
-          placeholder="Generating your plan..."
-        />
-        <div className="action-container">
-          <DownloadButton
-            className="button"
-            disabled={this.state.readOnly}
-            onClick={this.exportDocument}
-          >
-            Download Doc
-          </DownloadButton>
-          <DownloadButton
-            disabled={this.state.readOnly}
-            className="button"
-            onClick={this.exportAsPDF}
-          >
-            Download PDF
-          </DownloadButton>
-          <DownloadButton
-            disabled={this.state.readOnly}
-            className="button"
-            onClick={this.saveDocument}
-          >
-            Save for Later
-          </DownloadButton>
-        </div>
-
-        <FollowUpQuestionWrapper>
-          <h1>Do you have follow up questions?</h1>
-          <span>Ask from AI here?</span>
-          <QuestionContainer>
-            <input
-              type="text"
-              name="question"
-              placeholder="Type your question here"
-              value={this.state.question}
-              onChange={this.handleChange}
+        <Wrapper>
+          <LeftWrapper>
+            <h1>Plan</h1>
+            <ReactQuill
+              ref={this.quillRef}
+              readOnly={this.state.readOnly}
+              preserveWhitespace={true}
+              placeholder="Generating your plan..."
             />
-
-            <button
-              type="submit"
-              className="button"
-              color="white"
-              disabled={this.state.readOnly}
-              onClick={this.handleSubmit}
-            >
-              {this.state.isLoadingAnswer ? (
-                <CircularProgress size={24} />
-              ) : this.state.answer.length ? (
-                "Done"
-              ) : (
-                "Submit"
-              )}
-            </button>
-          </QuestionContainer>
-          <AnswersContainer>
-            <textarea
-              type="text"
-              name="answer"
-              readOnly={this.state.answer.length == 0}
-              placeholder="Results here"
-              onChange={this.handleChange}
-              value={this.state.answer}
-            />
-          </AnswersContainer>
-          <ActionButtons>
-            <StyledButton
-              variant="outlined"
-              disabled={this.state.readOnly}
-              startIcon={
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="w-6 h-6"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M12 19.5v-15m0 0l-6.75 6.75M12 4.5l6.75 6.75"
-                  />
-                </svg>
+            <div className="action-container">
+              <DownloadButton
+                className="button"
+                disabled={this.props.isFreeVersion || this.state.readOnly}
+                onClick={this.exportDocument}
+              >
+                Download Doc
+              </DownloadButton>
+              <DownloadButton
+                disabled={this.props.isFreeVersion || this.state.readOnly}
+                className="button"
+                onClick={this.exportAsPDF}
+              >
+                Download PDF
+              </DownloadButton>
+              <DownloadButton
+                disabled={this.props.isFreeVersion || this.state.readOnly}
+                className="button"
+                onClick={this.saveDocument}
+              >
+                Save for Later
+              </DownloadButton>
+            </div>
+          </LeftWrapper>
+          <RightWrapper>
+            <ContextChatBot
+              store={this.props.store}
+              initialContext={this.props.answer}
+              additionalSystemTextForChatBot={
+                this.props.additionalSystemTextForChatBot
               }
-              onClick={this.appendText}
-            >
-              Add Result to Itinerary above
-            </StyledButton>
-            <RegenerateButton
-              className="button"
-              onClick={this.handleSubmit}
-              disabled={this.state.readOnly}
-            >
-              Regenerate Result
-            </RegenerateButton>
-          </ActionButtons>
-        </FollowUpQuestionWrapper>
+            />
+          </RightWrapper>
+        </Wrapper>
       </>
     );
   }
 }
+
+const Wrapper = styled.div`
+  display: flex;
+  gap: 30px;
+  h1 {
+    font-size: 30px;
+    margin-bottom: 10px;
+  }
+`;
+
+const LeftWrapper = styled.div`
+  flex: 0.6;
+`;
+
+const RightWrapper = styled.div`
+  flex: 0.4;
+`;
 
 const StyledButton = styled(Button)`
   background: #05bbc2 !important;

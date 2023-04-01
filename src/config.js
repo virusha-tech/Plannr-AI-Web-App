@@ -1,5 +1,6 @@
 const dev = {
   baseURL: "http://localhost:3080/api/",
+  baseDomain:"https://dev.plannr.ai/",
   landingPageUrl: "http://localhost:3080",
   stripe: {
     // free: "price_1Mi9T5SB17XWitVzdwgoMZBC",
@@ -22,6 +23,7 @@ const dev = {
 
 const prod = {
   baseURL: "/api/",
+  baseDomain:"https://beta.plannr.ai/",
   landingPageUrl: "https://beta.plannr.ai/",
   stripe: {
     // free: "price_1MjlezSB17XWitVzjlHbMFo0",

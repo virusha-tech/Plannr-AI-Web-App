@@ -192,8 +192,8 @@ export const EnhancedTable = (props) => {
     });
   };
 
-  const handleClick = (output, api) => {
-    props.handleOutput(output, api);
+  const handleClick = (output, api, planFormFields) => {
+    props.handleOutput(output, api, planFormFields);
   };
 
   return (
@@ -223,7 +223,7 @@ export const EnhancedTable = (props) => {
                         scope="row"
                         align="center"
                       >
-                        {`Plannr_${array.length - index}`}
+                        {`Plannr_${props.count - page * rowsPerPage - index}`}
                       </StyledTableCell>
                       <StyledTableCell align="center">
                         {row.planName}
@@ -237,7 +237,9 @@ export const EnhancedTable = (props) => {
                       <StyledTableCell align="center">
                         <Button
                           variant="outlined"
-                          onClick={() => handleClick(row.output, row.api)}
+                          onClick={() =>
+                            handleClick(row.output, row.api, row.planFormFields)
+                          }
                         >
                           View Plan
                         </Button>

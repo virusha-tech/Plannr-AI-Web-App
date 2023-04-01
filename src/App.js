@@ -40,6 +40,7 @@ import "./App.scss";
 import Auth from "./Auth/index";
 import SavedPlans from "./SavedPlans";
 import IntercomChat from "./IntercomChat";
+import Preview from "./Preview";
 
 if (!window.store) {
   window.store = new AppStore();
@@ -47,7 +48,7 @@ if (!window.store) {
 
 // Define what main theme will look like
 const theme = {
-  primary: "#079196",
+  primary: "#079196", // #cb1313
   primary_gradient: "linear-gradient(0deg, #04adb4, #04adb4)",
   secondary_gradient: "linear-gradient(0deg, #05bbc2, #05bbc2)",
   gray: "#475467",
@@ -55,12 +56,21 @@ const theme = {
   professional: "#D99F21",
   business: "#336EE9",
   programming: "red",
+  background: "#f5f8fb",
+  fontFamily: "Helvetica Neue",
+  headerBgColor: "#079196",
+  headerFontColor: "#FFFFFF",
+  headerFontSize: "18px",
+  botBubbleColor: "#EBFAF8",
+  botFontColor: "#475467",
+  userBubbleColor: "#05BBC2",
+  userFontColor: "#FFFFFF",
 };
 
 const materialtheme = createTheme({
   palette: {
     primary: {
-      main: "#079196",
+      main: "#079196", // #cb1313
     },
   },
 });
@@ -92,7 +102,6 @@ class App extends Component {
                           exact
                           component={SavedPlans}
                         />
-                        <Route path="/" exact component={Dashboard} />
                         <Route path="/search" exact component={Search} />
 
                         <Route path="/ai/">
@@ -121,6 +130,7 @@ class App extends Component {
                           path="/signup/success"
                           component={LoginSuccess}
                         />
+                        <Route path="/" component={Dashboard} />
                       </Switch>
                       <IntercomChat />
                     </>
@@ -142,6 +152,13 @@ class App extends Component {
               ) : (
                 <>
                   <Switch>
+                    <Route
+                      path="/travel"
+                      exact
+                      render={(props) => {
+                        return <Preview {...props} />;
+                      }}
+                    />
                     <Route path="/" exact>
                       <Redirect to="/login" />
                     </Route>
