@@ -90,7 +90,7 @@ export default class SingleSelect extends Component {
           // menuPortalTarget={document.body}
           styles={{ ...customStyles, ...errors }}
           value={
-            this.props.initialValue.length
+            this.props.initialValue?.length
               ? mapValuetoReactSelectObj(this.props.initialValue)
               : null
           }
