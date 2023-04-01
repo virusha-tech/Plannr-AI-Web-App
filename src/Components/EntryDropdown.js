@@ -1,6 +1,9 @@
 import React, { Component, Fragment } from "react";
 import Select from "react-select";
-import { mapValuetoReactSelectObj } from "../Profile/UserProfileForm";
+import {
+  mapArraytoReactSelectorOptions,
+  mapValuetoReactSelectObj,
+} from "../Profile/UserProfileForm";
 
 const customStyles = {
   control: (base, { isFocused }) => ({
@@ -90,7 +93,11 @@ export default class SingleSelect extends Component {
           // menuPortalTarget={document.body}
           styles={{ ...customStyles, ...errors }}
           value={
-            this.props.initialValue?.length
+            Array.isArray(this.props.initialValue)
+              ? this.props.initialValue.length
+                ? mapArraytoReactSelectorOptions(this.props.initialValue)
+                : null
+              : this.props.initialValue.length
               ? mapValuetoReactSelectObj(this.props.initialValue)
               : null
           }

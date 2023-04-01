@@ -97,7 +97,7 @@ export const mapValuetoReactSelectObj = (val) => {
   };
 };
 
-const mapArraytoReactSelectorOptions = (array) => {
+export const mapArraytoReactSelectorOptions = (array) => {
   return array.map((arr) => {
     return {
       title: arr,
