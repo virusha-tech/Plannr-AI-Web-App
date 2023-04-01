@@ -11,7 +11,7 @@ import EntryTabs from "../Components/EntryTabs";
 import EntryPrompt from "../Components/EntryPrompt";
 import EntryInput from "../Components/EntryInput";
 // import EntryN from "../Components/EntryN";
-import { Stepper, Step, StepLabel } from "@mui/material";
+import { Stepper, Step, StepButton } from "@mui/material";
 import Filter from "bad-words";
 import styled from "styled-components";
 import { getSteps, serialize } from "../tools/utils";
@@ -21,7 +21,6 @@ import { Layout } from "../Layout";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import TravelRecomendations from "./Recommendations/Travel";
-// import axios from "axios";
 
 let filterBadWords = new Filter();
 
@@ -81,7 +80,7 @@ class Tool extends Component {
   }
 
   @computed get disabled() {
-    if (this.prompts[this.currentPrompt].prompts[0].value.length < 1) {
+    if (this.prompts[this.currentPrompt].prompts[0].value?.length < 1) {
       return true;
     }
 
@@ -104,13 +103,13 @@ class Tool extends Component {
     let shouldReturn = false;
     this.prompts[this.currentPrompt].prompts.forEach((prompt, promptIndex) => {
       if (prompt.min) {
-        if (prompt.value.length < prompt.min) {
+        if (prompt.value?.length < prompt.min) {
           shouldReturn = true;
           prompt.error = `${prompt.title} needs to meet the minimum ${prompt.min} characters`;
         }
       } else {
         if (prompt.required) {
-          if (!prompt.value.length) {
+          if (!prompt.value?.length) {
             shouldReturn = true;
             prompt.error = `Selection of ${prompt.title} field is required`;
           }
@@ -141,7 +140,7 @@ class Tool extends Component {
         return false;
       }
 
-      prompt.value = prompt.value.trim();
+      prompt.value = prompt.value?.trim();
 
       if (filterBadWords.isProfane(prompt.value)) {
         prompt.error = "Unsafe content , please try different language";
@@ -240,6 +239,9 @@ class Tool extends Component {
       );
       if (output_id) this.getEditorOutput(output_id);
       else {
+        this.prompts[this.currentPrompt].prompts.forEach((prompt) => {
+          prompt.value = "";
+        });
         this.setState({
           activeStep: 0,
           editorOutput: { answer: "" },
@@ -252,10 +254,27 @@ class Tool extends Component {
     const output_id = new URLSearchParams(this.props.location.search).get(
       "output_id"
     );
+    const formFields = JSON.parse(
+      new URLSearchParams(this.props.location.search).get("formFields")
+    );
+
     if (output_id) {
       this.getEditorOutput(output_id);
+      this.prompts[this.currentPrompt].prompts.forEach(
+        (prompt, promptIndex) => {
+          prompt.value = formFields[prompt.attr];
+        }
+      );
     }
   }
+
+  handleStep = (step) => () => {
+    let back = {};
+    this.prompts[this.currentPrompt].prompts.forEach((prompt) => {
+      back[prompt.attr] = prompt.value;
+    });
+    this.setState({ activeStep: step });
+  };
 
   render() {
     return (
@@ -263,8 +282,7 @@ class Tool extends Component {
         <Helmet>
           <title>{`${this.tool.title} Tool - Plannr AI`}</title>
         </Helmet>
-
-        <Box sx={{ width: "100%" }}>
+        <StyledToolContainer sx={{ width: "100%" }}>
           <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
             <Tabs value={this.state.activeTab} onChange={this.handleChange}>
               <StyledTab
@@ -273,8 +291,14 @@ class Tool extends Component {
               />
               {this.tool.isRecommendationsAvailable ? (
                 <StyledTab
-                  label="Recommendations"
+                  label="Execute"
                   isselected={(this.state.activeTab === 1).toString()}
+                />
+              ) : null}
+              {this.tool.isTrackingAvailable ? (
+                <StyledTab
+                  label="Track"
+                  isselected={(this.state.activeTab === 2).toString()}
                 />
               ) : null}
             </Tabs>
@@ -286,7 +310,12 @@ class Tool extends Component {
                   {this.steps.map((label, index) => {
                     return (
                       <Step key={label}>
-                        <StyledStepLabel>{label}</StyledStepLabel>
+                        <StyledStepLabel
+                          color="inherit"
+                          onClick={this.handleStep(index)}
+                        >
+                          {label}
+                        </StyledStepLabel>
                       </Step>
                     );
                   })}
@@ -371,12 +400,21 @@ class Tool extends Component {
               />
             )} */}
           </TabPanel>
-        </Box>
+          <TabPanel value={this.state.activeTab} index={2}>
+            <GeneratingSpinner showLoader={false}>
+              COMING SOON
+            </GeneratingSpinner>
+          </TabPanel>
+        </StyledToolContainer>
       </Layout>
     );
   }
 }
 
+const StyledToolContainer = styled(Box)`
+  box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px,
+    rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+`;
 // const options = {
 //   method: "GET",
 //   url: "https://skyscanner50.p.rapidapi.com/api/v1/searchAirport",
@@ -412,7 +450,9 @@ const PlanRecomendations = ({ planName, inputs }) => {
 
 const StyledTab = styled(Tab)`
   background: ${(props) =>
-    props.isselected === "true" ? props.theme.primary : "transparent"};
+    props.isselected === "true"
+      ? `${props.theme.primary} !important`
+      : "transparent"};
   color: ${(props) =>
     props.isselected === "true" ? "white !important" : "#667085 !important"};
   border-radius: 6px 6px 0px 0px;
@@ -477,7 +517,7 @@ const StyledStepper = styled(Stepper)`
   background: inherit !important;
 `;
 
-const StyledStepLabel = styled(StepLabel)`
+const StyledStepLabel = styled(StepButton)`
   .MuiStepLabel-label {
     font-size: 24px;
     padding: 10px;

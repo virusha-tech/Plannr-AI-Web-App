@@ -89,6 +89,14 @@ const interests = [
   "Automotive and Transportation",
 ];
 
+export const mapValuetoReactSelectObj = (val) => {
+  return {
+    title: val,
+    value: val,
+    label: val,
+  };
+};
+
 const mapArraytoReactSelectorOptions = (array) => {
   return array.map((arr) => {
     return {

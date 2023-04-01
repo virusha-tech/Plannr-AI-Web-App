@@ -73,6 +73,7 @@ class EntryInput extends Component {
             onChange={(e) => this.onChange(e.value)}
             options={this.props.prompt.options}
             isError={this.props.prompt.error}
+            initialValue={this.props.prompt.value || ''}
           />
         );
       case "dateRange":
@@ -80,6 +81,7 @@ class EntryInput extends Component {
           <DateRange
             onChange={this.onChange}
             isError={this.props.prompt.error}
+            initialValue={this.props.prompt.value}
           />
         );
       case "code":
@@ -110,9 +112,8 @@ class EntryInput extends Component {
             name={this.props.prompt.attr}
             id={this.props.prompt.attr}
             {...this.props.prompt}
-            className={`outline-none focus:outline-none text-${
-              this.props.size || "lg"
-            } bg-white rounded-md ${
+            className={`outline-none focus:outline-none text-${this.props
+              .size || "lg"} bg-white rounded-md ${
               this.props.size ? "px-2 py-2" : "px-4 py-4"
             }  min-w-full border border-gray-300 font-regular focus:border-gray-400 ${
               this.props.prompt.error ? "border-red-400" : "border-gray-300"
@@ -127,6 +128,7 @@ class EntryInput extends Component {
             name={this.props.prompt.attr}
             onChange={this.onChange}
             isError={this.props.prompt.error}
+            initialValue={this.props.prompt.value || []}
           />
         );
       case "radiogroup":
@@ -136,6 +138,7 @@ class EntryInput extends Component {
             name={this.props.prompt.attr}
             onChange={this.onChange}
             isError={this.props.prompt.error}
+            initialValue={this.props.prompt.value}
           />
         );
       default:
@@ -159,9 +162,9 @@ class EntryInput extends Component {
                   maxLength={this.props.prompt.maxLength || 80}
                   {...this.props.prompt}
                   autoFocus={this.props.index === 0}
-                  className={`outline-none focus:outline-none text-${
-                    this.props.size || "lg"
-                  } bg-white rounded-md px-4 py-2 w-full border  focus:border-gray-400 ${
+                  className={`outline-none focus:outline-none text-${this.props
+                    .size ||
+                    "lg"} bg-white rounded-md px-4 py-2 w-full border  focus:border-gray-400 ${
                     this.props.prompt.error
                       ? "border-red-400"
                       : "border-gray-300"

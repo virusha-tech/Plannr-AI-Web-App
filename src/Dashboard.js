@@ -344,7 +344,8 @@ const QuestionBanner = styled.div`
 `;
 
 const StyledButton = styled.button`
-  padding: 10px 16px;
+  padding: 0px 14px;
+  box-sizing: content-box;
   width: max-content;
   height: 40px;
   background: #05bbc2;

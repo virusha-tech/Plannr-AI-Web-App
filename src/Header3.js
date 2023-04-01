@@ -240,7 +240,8 @@ class ResponsiveAppBar extends React.Component {
                       <NavButton
                         className="mr-2 text-center block rounded py-2 px-4"
                         onClick={() => {
-                          window.Intercom("show");
+                          // window.Intercom("show");
+                          window.gist.chat("open");
                         }}
                         key={menuItem.label}
                       >

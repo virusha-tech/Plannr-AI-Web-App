@@ -1,9 +1,24 @@
+import { useEffect } from "react";
 import { useState } from "react";
 import { Radio, RadioGroup as Group } from "react-radio-group";
 import styled from "styled-components";
 
-const RadioGroup = ({ name, radioItemList, onChange, isError }) => {
-  const [selectedValue, setSelectedValue] = useState(null);
+const RadioGroup = ({
+  name,
+  radioItemList,
+  onChange,
+  isError,
+  initialValue,
+}) => {
+  const [selectedValue, setSelectedValue] = useState(
+    initialValue ? initialValue : null
+  );
+
+  useEffect(() => {
+    if (!initialValue) {
+      setSelectedValue(null);
+    }
+  }, [initialValue]);
 
   const handleChange = (value) => {
     setSelectedValue(value);
