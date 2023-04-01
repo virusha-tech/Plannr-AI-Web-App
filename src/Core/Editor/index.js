@@ -200,20 +200,20 @@ class MyEditor extends React.Component {
             <div className="action-container">
               <DownloadButton
                 className="button"
-                disabled={this.state.readOnly}
+                disabled={this.props.isFreeVersion || this.state.readOnly}
                 onClick={this.exportDocument}
               >
                 Download Doc
               </DownloadButton>
               <DownloadButton
-                disabled={this.state.readOnly}
+                disabled={this.props.isFreeVersion || this.state.readOnly}
                 className="button"
                 onClick={this.exportAsPDF}
               >
                 Download PDF
               </DownloadButton>
               <DownloadButton
-                disabled={this.state.readOnly}
+                disabled={this.props.isFreeVersion || this.state.readOnly}
                 className="button"
                 onClick={this.saveDocument}
               >

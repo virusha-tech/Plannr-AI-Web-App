@@ -2,11 +2,11 @@ import styled from "styled-components";
 import Footer from "./Footer";
 import Header from "./Header3";
 
-export const Layout = (props) => {
+export const Layout = ({ isFreeVersion, children }) => {
   return (
     <>
-      <Header />
-      <MainContainer>{props.children}</MainContainer>
+      <Header isFreeVersion={isFreeVersion} />
+      <MainContainer>{children}</MainContainer>
       <Footer />
     </>
   );

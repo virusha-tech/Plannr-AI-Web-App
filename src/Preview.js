@@ -1,18 +1,27 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { Component } from "react";
+import Tool from "./Core/Tool";
+import { observer, inject } from "mobx-react";
 
-function Preview(props) {
-  console.log(props);
+@inject("store")
+@observer
+class Preview extends Component {
+  constructor(props) {
+    super(props);
+  }
 
-  return (
-    <div>
-      Preview
-      {/* <Link to="https://dev.plannr.ai/">Home</Link> */}
-      <Link to="https://beta.plannr.ai/">Go to subdomain</Link>
-      <a href="https://beta.plannr.ai/">Go to subdomain</a>
-      {/* <button onClick={}>Check our more services</button> */}
-    </div>
-  );
+  async componentDidMount() {
+    let res = await this.props.store.api.get(`/free/guest`);
+    this.props.store.loginAsGuest(res.data);
+  }
+
+  render() {
+    return (
+      <div>
+        <Tool {...this.props} isFreeVersion={true} />
+        {/* <a href="https://beta.plannr.ai/">Go to subdomain</a> */}
+      </div>
+    );
+  }
 }
 
 export default Preview;

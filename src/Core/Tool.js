@@ -54,7 +54,10 @@ class Tool extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.steps = getSteps();
     makeObservable(this);
-    this.tool = this.props.store.getToolByUrl(this.props.location.pathname);
+    this.tool = this.props.store.getToolByUrl(
+      this.props.location.pathname,
+      this.props.isFreeVersion
+    );
 
     if (!this.tool) {
       window.location.href = "/";
@@ -214,6 +217,8 @@ class Tool extends Component {
             output_id: response.data.output_id,
           }),
         });
+      } else if (response.data.output) {
+        this.setState({ editorOutput: { answer: response.data.output } });
       }
       this.loading = false;
     } catch (error) {
@@ -278,7 +283,7 @@ class Tool extends Component {
 
   render() {
     return (
-      <Layout>
+      <Layout isFreeVersion={this.props.isFreeVersion}>
         <Helmet>
           <title>{`${this.tool.title} Tool - Plannr AI`}</title>
         </Helmet>
@@ -379,6 +384,7 @@ class Tool extends Component {
                   <MyEditor
                     {...this.state.editorOutput}
                     title={this.tool.title}
+                    isFreeVersion={this.props.isFreeVersion}
                     additionalSystemTextForChatBot={
                       this.tool.additionalSystemTextForChatBot
                     }
@@ -479,7 +485,8 @@ function TabPanel(props) {
 const StyledContainer = styled.div`
   background: white;
   padding: 0px 10px;
-  min-height: 83vh;
+  min-height: 70vh;
+  max-height: 100vh;
 `;
 
 const CancelButton = styled.button`
@@ -545,7 +552,8 @@ const ActionContainer = styled.div`
 const ScrollbarContainer = styled.div`
   @media only screen and (min-width: 1200px) {
     /* height: 62vh; */
-    height: 54vh;
+    max-height: 54vh;
+    min-height: 30vh;
     padding: 0px 50px;
     overflow-y: scroll;
     &::-webkit-scrollbar {

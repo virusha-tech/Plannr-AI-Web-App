@@ -1,5 +1,8 @@
 const express = require("express");
 const rateLimit = require("express-rate-limit");
+const requestIp = require("request-ip");
+const db = require("./models");
+const Ip = db.ip;
 
 const apiLimiter = rateLimit({
   windowMs: 10 * 60 * 1000, // 10 minutes
@@ -13,8 +16,38 @@ const openai = require("./middlewares/openai");
 
 // Webhooks and things
 app.use("/stripe", require("./stripe"));
-
 app.use("/", apiLimiter);
+
+app.use("/free", requestIp.mw());
+
+app.get("/free/guest", function(req, res) {
+  const ipAddress = req.clientIp;
+
+  Ip.findOne({ ipAddress }, (err, existingIp) => {
+    if (err) {
+      console.error(err);
+      res.send({ err });
+    } else if (existingIp) {
+      const { credits } = existingIp;
+      console.log("IP already exists in database");
+      res.send({ fname: "Guest", credits });
+    } else {
+      const credits = 1000;
+      const newIp = new Ip({ ipAddress, credits });
+      newIp.save((err) => {
+        if (err) {
+          console.error(err);
+        } else {
+          console.log("New IP saved to database");
+          res.send({ fname: "Guest", credits });
+        }
+      });
+    }
+  });
+});
+
+app.use("/free", require("./free"));
+app.use("/ai", require("./ai/subsequentQuestion"));
 
 // Signup and Authentication
 app.use("/auth", require("./auth"));

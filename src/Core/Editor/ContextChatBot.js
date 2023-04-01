@@ -90,7 +90,7 @@ const ExampleDBPedia = React.memo(
         <h1>Research</h1>
         <ChatBot
           // recognitionEnable={true}
-          contentStyle={{ height: "58vh" }}
+          contentStyle={{ height: "48vh" }}
           style={{ height: "100%" }}
           botAvatar={Bot}
           width="98%"
