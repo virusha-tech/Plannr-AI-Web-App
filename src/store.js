@@ -34,6 +34,9 @@ class appStore {
   editor;
   @observable editorOutput = "";
 
+  // CHATS!
+  @observable chatLogs = [];
+
   constructor() {
     makeObservable(this);
     this.init();
@@ -103,6 +106,14 @@ class appStore {
   setReferral = async (referral) => {
     this.referral = referral;
     localStorage.setItem("referral", JSON.stringify(referral));
+  };
+
+  setChatLogs = (log) => {
+    this.chatLogs = [...this.chatLogs, ...log];
+  };
+
+  initializeChatLogs = (log) => {
+    this.chatLogs = [...log];
   };
 
   initReferral = async () => {
@@ -237,10 +248,10 @@ class appStore {
       return;
     }
     navigator.clipboard.writeText(output).then(
-      function () {
+      function() {
         console.log("Async: Copying to clipboard was successful!");
       },
-      function (err) {
+      function(err) {
         console.error("Async: Could not copy text: ", err);
       }
     );

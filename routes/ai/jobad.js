@@ -35,7 +35,7 @@ app.post("/business/jobad", async (req, res, next) => {
     prompt += inputRaw;
   }
 
-  const gptResponse = await openai.complete({
+  const gptResponse = await openai.createCompletion({
     engine: "davinci",
     prompt,
     maxTokens: 250,

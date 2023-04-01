@@ -1,14 +1,30 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import { toJS } from "mobx";
 
 class MultplieCheckbox extends React.Component {
   constructor(props) {
     super(props);
+    const initialValue = new Map();
+    toJS(props.initialValue).forEach((label) => {
+      initialValue.set(label, true);
+    });
     this.state = {
-      checkedItems: new Map(),
+      checkedItems: initialValue,
     };
     this.handleChange = this.handleChange.bind(this);
+  }
+
+  componentDidUpdate(prevProps) {
+    if (
+      !this.props.initialValue.length &&
+      prevProps.initialValue.length != this.props.initialValue.length
+    ) {
+      this.setState({
+        checkedItems: new Map(),
+      });
+    }
   }
 
   handleChange(e) {

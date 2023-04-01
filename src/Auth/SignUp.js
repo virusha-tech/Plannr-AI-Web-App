@@ -82,7 +82,7 @@ export const SignUp = observer(
                   src={GoogleLogo}
                   alt="Google Logo"
                 />
-                Sign in with Google
+                Continue with Google
               </button>
             </div>
           </div>

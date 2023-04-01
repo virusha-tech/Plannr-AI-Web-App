@@ -3,12 +3,14 @@ import { ViewListIcon } from "@heroicons/react/solid";
 const obj = {
   title: "Travel Plan",
   desc: "A travel plan outlines the details of a trip, including destinations, accommodation, transportation, and activities.",
+  additionalSystemTextForChatBot:
+  "You are an AI assistant that is an expert with Travel Plans. You know about everything related to the above Travel Plan and things that are related to the above plan. You can provide advice related to the above Travel Plan. If someone is asking anything which is outside travel related query than please respond with the phrase \"I'm just  your Travel assistant. I can't help with that.\"",
   category: "Personal",
   Icon: ViewListIcon,
   // tags: [],
   permissions: ["user"],
   isRecommendationsAvailable: true,
-
+  isTrackingAvailable:true,
   fromColor: "gray-500",
   toColor: "gray-500",
 

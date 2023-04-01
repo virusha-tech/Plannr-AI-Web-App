@@ -55,6 +55,15 @@ const theme = {
   professional: "#D99F21",
   business: "#336EE9",
   programming: "red",
+  background: "#f5f8fb",
+  fontFamily: "Helvetica Neue",
+  headerBgColor: "#079196",
+  headerFontColor: "#FFFFFF",
+  headerFontSize: "18px",
+  botBubbleColor: "#EBFAF8",
+  botFontColor: "#475467",
+  userBubbleColor: "#05BBC2",
+  userFontColor: "#FFFFFF",
 };
 
 const materialtheme = createTheme({

@@ -89,7 +89,15 @@ const interests = [
   "Automotive and Transportation",
 ];
 
-const mapArraytoReactSelectorOptions = (array) => {
+export const mapValuetoReactSelectObj = (val) => {
+  return {
+    title: val,
+    value: val,
+    label: val,
+  };
+};
+
+export const mapArraytoReactSelectorOptions = (array) => {
   return array.map((arr) => {
     return {
       title: arr,
@@ -250,7 +258,7 @@ function UserProfileForm(props) {
   const [userProfile, setUserProfile] = useState({});
   const [userProfileError, setUserProfileError] = useState({});
   const [currentStep, setCurrentStep] = useState(0);
-
+  console.log(userProfile);
   const renderCorrespondingInput = ({
     type,
     attr,
@@ -271,6 +279,7 @@ function UserProfileForm(props) {
             options={options}
             isMulti={isMulti}
             isError={userProfileError[attr]}
+            initialValue={userProfile[attr] || ""}
           />
         );
       default:
