@@ -7,7 +7,9 @@ function Preview(props) {
   return (
     <div>
       Preview
-      <Link to="https://dev.plannr.ai/">Home</Link>
+      {/* <Link to="https://dev.plannr.ai/">Home</Link> */}
+      <Link to="https://beta.plannr.ai/">Go to subdomain</Link>
+      <a href="https://beta.plannr.ai/">Go to subdomain</a>
       {/* <button onClick={}>Check our more services</button> */}
     </div>
   );
