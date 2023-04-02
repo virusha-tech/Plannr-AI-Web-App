@@ -7,31 +7,66 @@ import styled from "styled-components";
 
 class DateRange extends Component {
   pickerRef = React.createRef(null);
-
   componentDidMount() {
-    this.pickerRef.current = new DateRangePicker(this.picker, {
-      startDate: new Date(),
-      endDate: new Date(),
-      alwaysShowCalendars: true,
-      autoUpdateInput: false,
-      cancelButtonClasses: "date-picker-cancelbutton",
-      applyButtonClasses: "date-picker-applybutton",
-      rangeColors: ["red", "green", "yellow"],
-      locale: {
-        format: "DD/MM/YYYY",
-      },
-      // ranges: {
-      //   Today: [moment(), moment()],
-      //   Yesterday: [moment().subtract(1, "days"), moment().subtract(1, "days")],
-      //   "Last 7 Days": [moment().subtract(6, "days"), moment()],
-      //   "Last 30 Days": [moment().subtract(29, "days"), moment()],
-      //   "This Month": [moment().startOf("month"), moment().endOf("month")],
-      //   "Last Month": [
-      //     moment().subtract(1, "month").startOf("month"),
-      //     moment().subtract(1, "month").endOf("month"),
-      //   ],
-      // },
-    });
+    if (!this.props.initialValue) {
+      this.picker.value = this.props.initialValue;
+      this.pickerRef.current = new DateRangePicker(this.picker, {
+        startDate: new Date(),
+        endDate: new Date(),
+        alwaysShowCalendars: true,
+        autoUpdateInput: false,
+        cancelButtonClasses: "date-picker-cancelbutton",
+        applyButtonClasses: "date-picker-applybutton",
+        rangeColors: ["red", "green", "yellow"],
+        locale: {
+          format: "DD/MM/YYYY",
+        },
+        // ranges: {
+        //   Today: [moment(), moment()],
+        //   Yesterday: [moment().subtract(1, "days"), moment().subtract(1, "days")],
+        //   "Last 7 Days": [moment().subtract(6, "days"), moment()],
+        //   "Last 30 Days": [moment().subtract(29, "days"), moment()],
+        //   "This Month": [moment().startOf("month"), moment().endOf("month")],
+        //   "Last Month": [
+        //     moment().subtract(1, "month").startOf("month"),
+        //     moment().subtract(1, "month").endOf("month"),
+        //   ],
+        // },
+      });
+    } else {
+      const [sd, ed] = this.props.initialValue.split(" - ");
+      this.pickerRef.current = new DateRangePicker(this.picker, {
+        startDate: moment(sd, "DD/MM/YYYY").toDate(),
+        endDate: moment(ed, "DD/MM/YYYY").toDate(),
+        alwaysShowCalendars: true,
+        autoUpdateInput: false,
+        cancelButtonClasses: "date-picker-cancelbutton",
+        applyButtonClasses: "date-picker-applybutton",
+        rangeColors: ["red", "green", "yellow"],
+        locale: {
+          format: "DD/MM/YYYY",
+        },
+        ranges: {
+          Today: [moment(), moment()],
+          Yesterday: [
+            moment().subtract(1, "days"),
+            moment().subtract(1, "days"),
+          ],
+          "Last 7 Days": [moment().subtract(6, "days"), moment()],
+          "Last 30 Days": [moment().subtract(29, "days"), moment()],
+          "This Month": [moment().startOf("month"), moment().endOf("month")],
+          "Last Month": [
+            moment()
+              .subtract(1, "month")
+              .startOf("month"),
+            moment()
+              .subtract(1, "month")
+              .endOf("month"),
+          ],
+        },
+      });
+      this.picker.value = this.props.initialValue;
+    }
 
     this.pickerRef.current.element.on("apply.daterangepicker", (ev, picker) => {
       this.picker.value =
@@ -53,12 +88,29 @@ class DateRange extends Component {
     );
   }
 
+  componentDidUpdate() {
+    if (!this.props.initialValue) {
+      this.picker.value = this.props.initialValue;
+      this.pickerRef.current = new DateRangePicker(this.picker, {
+        startDate: new Date(),
+        endDate: new Date(),
+        alwaysShowCalendars: true,
+        autoUpdateInput: false,
+        cancelButtonClasses: "date-picker-cancelbutton",
+        applyButtonClasses: "date-picker-applybutton",
+        rangeColors: ["red", "green", "yellow"],
+        locale: {
+          format: "DD/MM/YYYY",
+        },
+      });
+    }
+  }
+
   render() {
     return (
       <DateWrapper
-        className={`outline-none focus:outline-none text-${
-          this.props?.size || "lg"
-        }  bg-white rounded-md  w-full border focus-within:border-gray-400 ${
+        className={`outline-none focus:outline-none text-${this.props?.size ||
+          "lg"}  bg-white rounded-md  w-full border focus-within:border-gray-400 ${
           this.props?.isError ? "border-red-400" : "border-gray-300"
         } font-regular px-4 mt-2  transition-all`}
       >

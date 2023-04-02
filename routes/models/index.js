@@ -10,6 +10,8 @@ db.history = require("./history");
 db.tool = require("./tool");
 db.plan = require("./plan");
 db.output = require("./output");
+db.ip = require("./ip");
+
 
 
 module.exports = db;

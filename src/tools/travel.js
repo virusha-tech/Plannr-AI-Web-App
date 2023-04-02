@@ -10,7 +10,7 @@ const obj = {
   // tags: [],
   permissions: ["user"],
   isRecommendationsAvailable: true,
-
+  isTrackingAvailable:true,
   fromColor: "gray-500",
   toColor: "gray-500",
 

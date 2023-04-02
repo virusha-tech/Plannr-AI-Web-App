@@ -5,6 +5,8 @@ import FuzzySet from "fuzzyset";
 import Filter from "bad-words";
 
 import TOOLS from "./tools";
+import FREE_TOOLS from "./tools/previewTools";
+
 import config from "./config";
 
 let filterBadWords = new Filter();
@@ -130,6 +132,10 @@ class appStore {
     }
   };
 
+  loginAsGuest = (guestProfile) => {
+    this.setProfile(guestProfile);
+  };
+
   refreshTokenAndProfile = async () => {
     try {
       console.log("in refresh token");
@@ -182,9 +188,16 @@ class appStore {
   getToolByTitle = (title) => {
     return TOOLS.find((tool) => tool.title === title);
   };
-  getToolByUrl = (url) => {
+  getToolByUrl = (url, isPreview = false) => {
+    if (isPreview) {
+      return FREE_TOOLS.find((tool) => tool.to === url);
+    }
     return TOOLS.find((tool) => tool.to === url);
   };
+
+  // getToolByUrl = (url) => {
+  //   return TOOLS.find((tool) => tool.to === url);
+  // };
 
   @observable error = "";
   checkPrompt = ({ value, attr }) => {

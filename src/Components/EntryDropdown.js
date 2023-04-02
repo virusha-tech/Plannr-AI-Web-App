@@ -1,5 +1,9 @@
 import React, { Component, Fragment } from "react";
 import Select from "react-select";
+import {
+  mapArraytoReactSelectorOptions,
+  mapValuetoReactSelectObj,
+} from "../Profile/UserProfileForm";
 
 const customStyles = {
   control: (base, { isFocused }) => ({
@@ -39,13 +43,16 @@ export const errorStyles = {
 };
 
 export default class SingleSelect extends Component {
-  state = {
-    isClearable: true,
-    isDisabled: false,
-    isLoading: false,
-    isRtl: false,
-    isSearchable: true,
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      isClearable: true,
+      isDisabled: false,
+      isLoading: false,
+      isRtl: false,
+      isSearchable: true,
+    };
+  }
 
   toggleClearable = () =>
     this.setState((state) => ({ isClearable: !state.isClearable }));
@@ -57,8 +64,13 @@ export default class SingleSelect extends Component {
   toggleSearchable = () =>
     this.setState((state) => ({ isSearchable: !state.isSearchable }));
   render() {
-    const { isClearable, isSearchable, isDisabled, isLoading, isRtl } =
-      this.state;
+    const {
+      isClearable,
+      isSearchable,
+      isDisabled,
+      isLoading,
+      isRtl,
+    } = this.state;
 
     const errors = this.props.isError ? errorStyles : {};
 
@@ -70,7 +82,6 @@ export default class SingleSelect extends Component {
             this.props.isMulti ? "basic-multi-select" : "basic-single"
           } focus-within:border-gray-400 border-gray-300`}
           classNamePrefix="select"
-          // defaultValue={this.props.options[0]}
           isDisabled={isDisabled}
           isLoading={isLoading}
           isClearable={false}
@@ -81,6 +92,15 @@ export default class SingleSelect extends Component {
           options={this.props.options}
           // menuPortalTarget={document.body}
           styles={{ ...customStyles, ...errors }}
+          value={
+            Array.isArray(this.props.initialValue)
+              ? this.props.initialValue.length
+                ? mapArraytoReactSelectorOptions(this.props.initialValue)
+                : null
+              : this.props.initialValue.length
+              ? mapValuetoReactSelectObj(this.props.initialValue)
+              : null
+          }
           onChange={this.props.onChange}
           // styles={{ menuPortal: (base) => ({ ...base,  }) }}
         />

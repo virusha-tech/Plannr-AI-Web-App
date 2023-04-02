@@ -8,7 +8,15 @@ import moment from "moment";
 import GeneratingSpinner from "./Core/Editor/GeneratingSpinner";
 import { EnhancedTable } from "./TestDb";
 
-function createData(created, credits, id, planName, output, api) {
+function createData(
+  created,
+  credits,
+  id,
+  planName,
+  output,
+  api,
+  planFormFields
+) {
   return {
     created: moment(created).format("D MMM, YYYY"),
     credits,
@@ -16,6 +24,7 @@ function createData(created, credits, id, planName, output, api) {
     planName,
     output,
     api,
+    planFormFields,
   };
 }
 
@@ -39,9 +48,12 @@ class SavedPlans extends Component {
     this.props.history.push("/");
   };
 
-  handleOutput = (output, api) => {
-    console.log(api);
-    this.props.history.push(`${api.substring(4)}?output_id=${output}`);
+  handleOutput = (output, api, planFormFields) => {
+    this.props.history.push(
+      `${api.substring(4)}?output_id=${output}&formFields=${JSON.stringify(
+        planFormFields
+      )}`
+    );
   };
 
   componentDidMount() {
@@ -51,8 +63,24 @@ class SavedPlans extends Component {
       );
 
       const rows = plans.data.docs.map((plan) => {
-        const { created, credits, id, planName, output, api } = plan;
-        return createData(created, credits, id, planName, output, api);
+        const {
+          created,
+          credits,
+          id,
+          planName,
+          output,
+          api,
+          planFormFields,
+        } = plan;
+        return createData(
+          created,
+          credits,
+          id,
+          planName,
+          output,
+          api,
+          planFormFields
+        );
       });
 
       this.setState({
@@ -69,8 +97,24 @@ class SavedPlans extends Component {
       `/getMyPlans?page=${pageNumber + 1}&pageSize=${pageSize}`
     );
     const rows = plans.data.docs.map((plan) => {
-      const { created, credits, _id, api, output } = plan;
-      return createData(created, credits, _id, api, output);
+      const {
+        created,
+        credits,
+        id,
+        planName,
+        output,
+        api,
+        planFormFields,
+      } = plan;
+      return createData(
+        created,
+        credits,
+        id,
+        planName,
+        output,
+        api,
+        planFormFields
+      );
     });
 
     this.setState(
@@ -88,9 +132,9 @@ class SavedPlans extends Component {
     return (
       <Layout>
         {this.state.isLoading ? (
-          <GeneratingSpinner
-          showLoader={true}
-          >Finding your seach History...</GeneratingSpinner>
+          <GeneratingSpinner showLoader={true}>
+            Finding your seach History...
+          </GeneratingSpinner>
         ) : this.state.count ? (
           <TableWrapper>
             <Helmet>

@@ -7,13 +7,14 @@ import Divider from "@mui/material/Divider";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
+import { Button, Alert } from "@mui/material";
 import styled from "styled-components";
 import Drawer from "@mui/material/Drawer";
 import PropTypes from "prop-types";
 import { NavLink, withRouter } from "react-router-dom";
 import CompanyLogo from "./assets/CompanyLogo.svg";
 import Select from "react-select";
-import { MenuList } from "./config";
+import config, { MenuList } from "./config";
 import User from "./assets/User.png";
 import { observer, inject } from "mobx-react";
 import { computed } from "mobx";
@@ -152,6 +153,18 @@ class ResponsiveAppBar extends React.Component {
   render() {
     return (
       <AppBar position="static">
+        {this.props.isFreeVersion ? (
+          <Alert severity="info">
+            Explore our complete product to check all PlannrAI Services &nbsp;
+            <a
+              href={config.baseDomain}
+              style={{ color: "red", textDecoration: "underline" }}
+            >
+              Click
+            </a>
+          </Alert>
+        ) : null}
+
         <HeaderWrapper>
           <Toolbar
             disableGutters
@@ -200,107 +213,111 @@ class ResponsiveAppBar extends React.Component {
               </svg>
             </IconButton>
 
-            <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-              <NavList className="flex flex-grow">
-                {MenuList.map((menuItem, index) => {
-                  if (menuItem.label === "All Plans") {
-                    return (
-                      <SearchableDropdown
-                        ref={this.setWrapperRef}
-                        key={menuItem.label}
-                      >
+            {!this.props.isFreeVersion ? (
+              <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+                <NavList className="flex flex-grow">
+                  {MenuList.map((menuItem, index) => {
+                    if (menuItem.label === "All Plans") {
+                      return (
+                        <SearchableDropdown
+                          ref={this.setWrapperRef}
+                          key={menuItem.label}
+                        >
+                          <NavButton
+                            className="mr-2 text-center block rounded py-2 px-4"
+                            onClick={() => this?.toggleDropdown("isOpen")}
+                          >
+                            {menuItem.label}
+                          </NavButton>
+                          <div
+                            className={`dropdown ${
+                              this?.state.isOpen ? "open" : ""
+                            }`}
+                          >
+                            <Select
+                              options={this?.AllAuthorizedPlans}
+                              // value={this?.state.selectedOption}
+                              onChange={this?.handleSelect}
+                              autoFocus={true}
+                              menuIsOpen={true}
+                              classNamePrefix="select"
+                              styles={customStyles}
+                              isSearchable={true}
+                              maxMenuHeight={200}
+                              // menuPortalTarget={menuPortalTarget}
+                            />
+                          </div>
+                        </SearchableDropdown>
+                      );
+                    } else if (menuItem.label === "Help") {
+                      return (
                         <NavButton
                           className="mr-2 text-center block rounded py-2 px-4"
-                          onClick={() => this?.toggleDropdown("isOpen")}
+                          onClick={() => {
+                            // window.Intercom("show");
+                            window.gist.chat("open");
+                          }}
+                          key={menuItem.label}
                         >
                           {menuItem.label}
                         </NavButton>
-                        <div
-                          className={`dropdown ${
-                            this?.state.isOpen ? "open" : ""
-                          }`}
+                      );
+                    } else if (menuItem.label === "Support") {
+                      return (
+                        <NavButton
+                          className="mr-2 text-center block rounded py-2 px-4"
+                          key={menuItem.label}
                         >
-                          <Select
-                            options={this?.AllAuthorizedPlans}
-                            // value={this?.state.selectedOption}
-                            onChange={this?.handleSelect}
-                            autoFocus={true}
-                            menuIsOpen={true}
-                            classNamePrefix="select"
-                            styles={customStyles}
-                            isSearchable={true}
-                            maxMenuHeight={200}
-                            // menuPortalTarget={menuPortalTarget}
-                          />
-                        </div>
-                      </SearchableDropdown>
-                    );
-                  } else if (menuItem.label === "Help") {
-                    return (
+                          <a
+                            href="https://plannr-help.freshdesk.com/support/home"
+                            target="_blank"
+                            rel="noreferrer"
+                          >
+                            {menuItem.label}
+                          </a>
+                        </NavButton>
+                      );
+                    } else if (menuItem.isButton) {
                       <NavButton
                         className="mr-2 text-center block rounded py-2 px-4"
-                        onClick={() => {
-                          window.Intercom("show");
-                        }}
                         key={menuItem.label}
                       >
                         {menuItem.label}
-                      </NavButton>
-                    );
-                  } else if (menuItem.label === "Support") {
-                    return (
-                      <NavButton
-                        className="mr-2 text-center block rounded py-2 px-4"
-                        key={menuItem.label}
-                      >
-                        <a
-                          href="https://plannr-help.freshdesk.com/support/home"
-                          target="_blank"
-                          rel="noreferrer"
+                      </NavButton>;
+                    } else {
+                      return (
+                        <NavListItem
+                          to={menuItem.to}
+                          key={menuItem.label}
+                          exact={menuItem.exact}
+                          className="mr-2 text-center block rounded py-2 px-4"
+                          activeClassName="selected"
                         >
                           {menuItem.label}
-                        </a>
-                      </NavButton>
-                    );
-                  } else if (menuItem.isButton) {
-                    <NavButton
-                      className="mr-2 text-center block rounded py-2 px-4"
-                      key={menuItem.label}
-                    >
-                      {menuItem.label}
-                    </NavButton>;
-                  } else {
-                    return (
-                      <NavListItem
-                        to={menuItem.to}
-                        key={menuItem.label}
-                        exact={menuItem.exact}
-                        className="mr-2 text-center block rounded py-2 px-4"
-                        activeClassName="selected"
-                      >
-                        {menuItem.label}
-                      </NavListItem>
-                    );
-                  }
-                })}
-              </NavList>
-            </Box>
+                        </NavListItem>
+                      );
+                    }
+                  })}
+                </NavList>
+              </Box>
+            ) : null}
 
             <Box sx={{ flexGrow: 0 }}>
-              <NavLink to="/my-profile">
-                <Profile className="flex items-center gap-x-1">
-                  <img width="36px" height="36px" src={User} alt="Avatar" />
-                  <div className="flex flex-col">
-                    <span className="greeting">
-                      Hi, {this?.props?.store.profile.fname}
-                    </span>
-                    <span className="credits">
-                      {this?.props?.store.profile.credits} Credits
-                    </span>
-                  </div>
-                </Profile>
-              </NavLink>
-
+              <>
+                <NavLink to={this.props.isFreeVersion ? "#" : "/my-profile"}>
+                  <Profile className="flex items-center gap-x-1">
+                    <img width="36px" height="36px" src={User} alt="Avatar" />
+                    <div className="flex flex-col">
+                      <span className="greeting">
+                        Hi, {this?.props?.store.profile.fname}
+                      </span>
+                      <span className="credits">
+                        {this?.props?.store.profile.credits} Credits
+                      </span>
+                    </div>
+                  </Profile>
+                </NavLink>
+              </>
               {/* <Tooltip title="Open settings">
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                     <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
@@ -365,107 +382,109 @@ class ResponsiveAppBar extends React.Component {
                   </StyledNavLink>
                 </Box>
                 <Divider />
-                <List>
-                  {MenuList.map((menuItem) => {
-                    if (menuItem.label === "All Plans") {
-                      return (
-                        <div key={menuItem.label}>
-                          <StyledListItemButton
-                            onClick={(ev) => {
-                              ev.stopPropagation();
-                              this.toggleDropdown("isOpenAllPlansInMobile");
-                            }}
-                          >
-                            <StyledListItemText>
-                              {menuItem.label}
-                            </StyledListItemText>
-                            {this.state.isOpenAllPlansInMobile ? (
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                strokeWidth={1.5}
-                                stroke="currentColor"
-                                className="w-6 h-6"
-                              >
-                                <path
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  d="M4.5 15.75l7.5-7.5 7.5 7.5"
-                                />
-                              </svg>
-                            ) : (
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                strokeWidth={1.5}
-                                stroke="currentColor"
-                                className="w-6 h-6"
-                              >
-                                <path
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  d="M19.5 8.25l-7.5 7.5-7.5-7.5"
-                                />
-                              </svg>
-                            )}
-                          </StyledListItemButton>
-                          <Collapse
-                            in={this.state.isOpenAllPlansInMobile}
-                            timeout="auto"
-                            unmountOnExit
-                          >
-                            <List component="div" disablePadding>
-                              {this.AllAuthorizedPlans.map(
-                                ({ label, value, isDisabled }) => {
-                                  return (
-                                    <ListItem key={label} disablePadding>
-                                      <ListItemButton
-                                        sx={{ textAlign: "center" }}
-                                      >
-                                        <NestedNavListItem
-                                          ismobile="true"
-                                          to={isDisabled ? "#" : value}
-                                          isdisabled={isDisabled}
-                                        >
-                                          {label}
-                                        </NestedNavListItem>
-                                      </ListItemButton>
-                                    </ListItem>
-                                  );
-                                }
-                              )}
-                            </List>
-                          </Collapse>
-                        </div>
-                      );
-                    } else if (menuItem.isButton) {
-                      return (
-                        <div key={menuItem.label}>
-                          <StyledListItemButton>
-                            <StyledListItemText>
-                              {menuItem.label}
-                            </StyledListItemText>
-                          </StyledListItemButton>
-                        </div>
-                      );
-                    } else {
-                      return (
-                        <ListItem key={menuItem.label} disablePadding>
-                          <ListItemButton sx={{ textAlign: "center" }}>
-                            <NavListItem
-                              ismobile="true"
-                              to={menuItem?.to || "test"}
+                {!this.props.isFreeVersion ? (
+                  <List>
+                    {MenuList.map((menuItem) => {
+                      if (menuItem.label === "All Plans") {
+                        return (
+                          <div key={menuItem.label}>
+                            <StyledListItemButton
+                              onClick={(ev) => {
+                                ev.stopPropagation();
+                                this.toggleDropdown("isOpenAllPlansInMobile");
+                              }}
                             >
-                              {menuItem.label}
-                            </NavListItem>
-                          </ListItemButton>
-                        </ListItem>
-                      );
-                    }
-                  })}
-                </List>
+                              <StyledListItemText>
+                                {menuItem.label}
+                              </StyledListItemText>
+                              {this.state.isOpenAllPlansInMobile ? (
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  strokeWidth={1.5}
+                                  stroke="currentColor"
+                                  className="w-6 h-6"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M4.5 15.75l7.5-7.5 7.5 7.5"
+                                  />
+                                </svg>
+                              ) : (
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  strokeWidth={1.5}
+                                  stroke="currentColor"
+                                  className="w-6 h-6"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M19.5 8.25l-7.5 7.5-7.5-7.5"
+                                  />
+                                </svg>
+                              )}
+                            </StyledListItemButton>
+                            <Collapse
+                              in={this.state.isOpenAllPlansInMobile}
+                              timeout="auto"
+                              unmountOnExit
+                            >
+                              <List component="div" disablePadding>
+                                {this.AllAuthorizedPlans.map(
+                                  ({ label, value, isDisabled }) => {
+                                    return (
+                                      <ListItem key={label} disablePadding>
+                                        <ListItemButton
+                                          sx={{ textAlign: "center" }}
+                                        >
+                                          <NestedNavListItem
+                                            ismobile="true"
+                                            to={isDisabled ? "#" : value}
+                                            isdisabled={isDisabled}
+                                          >
+                                            {label}
+                                          </NestedNavListItem>
+                                        </ListItemButton>
+                                      </ListItem>
+                                    );
+                                  }
+                                )}
+                              </List>
+                            </Collapse>
+                          </div>
+                        );
+                      } else if (menuItem.isButton) {
+                        return (
+                          <div key={menuItem.label}>
+                            <StyledListItemButton>
+                              <StyledListItemText>
+                                {menuItem.label}
+                              </StyledListItemText>
+                            </StyledListItemButton>
+                          </div>
+                        );
+                      } else {
+                        return (
+                          <ListItem key={menuItem.label} disablePadding>
+                            <ListItemButton sx={{ textAlign: "center" }}>
+                              <NavListItem
+                                ismobile="true"
+                                to={menuItem?.to || "test"}
+                              >
+                                {menuItem.label}
+                              </NavListItem>
+                            </ListItemButton>
+                          </ListItem>
+                        );
+                      }
+                    })}
+                  </List>
+                ) : null}
               </Box>
               {/* {this.renderListItemsInDrawer()} */}
             </Drawer>
