@@ -130,7 +130,10 @@ class App extends Component {
                           path="/signup/success"
                           component={LoginSuccess}
                         />
-                        <Route path="/" component={Dashboard} />
+                        <Route path="/dashboard" component={Dashboard} />
+                        <Route path="/">
+                          <Redirect to="/dashboard" />
+                        </Route>
                       </Switch>
                       <IntercomChat />
                     </>
@@ -154,6 +157,13 @@ class App extends Component {
                   <Switch>
                     <Route
                       path="/travel"
+                      exact
+                      render={(props) => {
+                        return <Preview {...props} />;
+                      }}
+                    />
+                    <Route
+                      path="/workout"
                       exact
                       render={(props) => {
                         return <Preview {...props} />;

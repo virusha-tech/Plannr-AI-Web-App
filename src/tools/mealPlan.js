@@ -17,6 +17,7 @@ const obj = {
   to: "/ai/mealplan",
   api: "/ai/mealplan",
   isRecommendationsAvailable: false,
+  subsequentQuestion: "/ai/subsequentQuestion",
 
   output: {
     title: "Meal Plan",

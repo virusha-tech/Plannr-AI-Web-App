@@ -2,14 +2,16 @@ import { ViewListIcon } from "@heroicons/react/solid";
 
 const obj = {
   title: "Workout Plan",
-  desc: "A workout plan is a schedule of exercises and activities to improve physical fitness or achieve specific health or fitness goals over a set period of time.",
+  desc:
+    "A workout plan is a schedule of exercises and activities to improve physical fitness or achieve specific health or fitness goals over a set period of time.",
   additionalSystemTextForChatBot:
-  "You are an AI assistant that is an expert with Workout/Health/Nutrition Plans. You know about everything related to the above Travel Plan and things that are related to the above plan. You can provide advice related to the above Workout Plan. If someone is asking anything which is outside workout/health related query than please respond with the phrase \"I'm just  your Workout assistant. I can't help with that.\"",
+    "You are an AI assistant that is an expert with Workout/Health/Nutrition Plans. You know about everything related to the above Travel Plan and things that are related to the above plan. You can provide advice related to the above Workout Plan. If someone is asking anything which is outside workout/health related query than please respond with the phrase \"I'm just  your Workout assistant. I can't help with that.\"",
   category: "Personal",
   Icon: ViewListIcon,
   // tags: [],
   permissions: ["user"],
   isRecommendationsAvailable: true,
+  subsequentQuestion: "/ai/subsequentQuestion",
 
   fromColor: "green-500",
   toColor: "blue-500",
@@ -27,7 +29,8 @@ const obj = {
   prompts: [
     {
       title: "Entry Text",
-      desc: "A sentence or paragraph you wish to understand in bullet point form.",
+      desc:
+        "A sentence or paragraph you wish to understand in bullet point form.",
       // n: 1,
       prompts: [
         {

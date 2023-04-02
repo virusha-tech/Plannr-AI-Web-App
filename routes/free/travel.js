@@ -7,7 +7,7 @@ let app = express.Router();
 
 app.post("/travel", async (req, res, next) => {
   try {
-    let { destination, days, date } = req.body.plan;
+    let { destination, days, startDate,traveller, budget} = req.body.plan;
 
     let conversation = [
       {
@@ -18,17 +18,16 @@ app.post("/travel", async (req, res, next) => {
 
     conversation.push({
       role: "user",
-      content: `Please provide a ${days}-day travel itinerary for a trip to a popular tourist destination in ${destination} starting date of my trip is ${date}, with a focus on exploring its natural attractions, historical sites, and local culture. The itinerary should include daily activities with morning, afternoon, and evening plans, as well as recommendations for accommodations, places to eat, and things to do. Additionally, please provide a few general travel tips to make the trip smooth and enjoyable.`,
+      content: `Please provide a ${days}-day travel itinerary, starting from ${startDate} for a ${traveller} trip to ${destination} in a budget of ${budget}, with a focus on exploring its natural attractions, historical sites, and local culture. The itinerary should include daily activities with morning, afternoon, and evening plans, as well as recommendations for accommodations, places to eat, and things to do. Additionally, please provide a few general travel tips to make the trip smooth and enjoyable.`
     });
 
+    console.log(conversation);
     const gptResponse = await openai.createChatCompletion({
       model: "gpt-3.5-turbo",
       messages: conversation,
     });
 
     let output = `${gptResponse.data.choices[0].message.content}`;
-    //remove the first character from output
-    output = output.substring(1, output.length);
 
     // If the output string ends with one or more hashtags, remove all of them
     if (output.endsWith('"')) {
