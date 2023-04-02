@@ -5,23 +5,31 @@ const openai = require("../middlewares/openai");
 
 let app = express.Router();
 
-app.post("/travel", async (req, res, next) => {
+app.post("/workout", async (req, res, next) => {
   try {
-    let { destination, days, startDate,traveller, budget} = req.body.plan;
+    let {
+      age,
+      height,
+      weight,
+      fitnessGoal,
+      healthInformation,
+      scheduleAvailability,
+      gender,
+    } = req.body.plan;
 
     let conversation = [
       {
         role: "system",
-        content: `You are a travel guide that knows everything about ${destination}.`,
+        content: `You are an expert fitness trainer that knows everything about Health, fitness, and nutrition.`,
       },
     ];
 
     conversation.push({
       role: "user",
-      content: `Please provide a ${days}-day travel itinerary, starting from ${startDate} for a ${traveller} trip to ${destination} in a budget of ${budget}, with a focus on exploring its natural attractions, historical sites, and local culture. The itinerary should include daily activities with morning, afternoon, and evening plans, as well as recommendations for accommodations, places to eat, and things to do. Additionally, please provide a few general travel tips to make the trip smooth and enjoyable.`
+      content: `Please create a workout plan for a ${age}-year-old ${gender} with a height of ${height} and weight of ${weight}. His fitness goal is ${fitnessGoal}, and he has ${healthInformation}. The workout plan should cover ${scheduleAvailability} days, with exercises targeting chest, triceps, biceps, core, back, shoulders, legs, and calves. Include warm-up activities, and provide sets and repetitions for each exercise. Add a note about consulting a certified trainer or medical professional before starting any new exercise regimen.`,
     });
 
-    console.log(conversation);
+    console.log("conversation", conversation);
     const gptResponse = await openai.createChatCompletion({
       model: "gpt-3.5-turbo",
       messages: conversation,
@@ -44,7 +52,7 @@ app.post("/travel", async (req, res, next) => {
       output = output.substring(0, output.length - 1);
     }
     req.locals.output = output;
-    req.locals.planName = "Travel Plan";
+    req.locals.planName = "Workout Plan";
     next();
   } catch (err) {
     console.log(err.response);

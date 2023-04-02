@@ -50,6 +50,8 @@ const sendResponse = async (req, res, next) => {
 
 app.use("/", creditCheck);
 app.use("/", require("./travel"));
+app.use("/", require("./workout"));
+
 // app.use("/", require("./code/interpret"));
 // app.use("/", require("./writing/intro"));
 // app.use("/", require("./jobad"));

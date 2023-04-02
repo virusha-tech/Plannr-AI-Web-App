@@ -2,15 +2,16 @@ import { ViewListIcon } from "@heroicons/react/solid";
 
 const obj = {
   title: "Travel Plan",
-  desc: "A travel plan outlines the details of a trip, including destinations, accommodation, transportation, and activities.",
+  desc:
+    "A travel plan outlines the details of a trip, including destinations, accommodation, transportation, and activities.",
   additionalSystemTextForChatBot:
-  "You are an AI assistant that is an expert with Travel Plans. You know about everything related to the above Travel Plan and things that are related to the above plan. You can provide advice related to the above Travel Plan. If someone is asking anything which is outside travel related query than please respond with the phrase \"I'm just  your Travel assistant. I can't help with that.\"",
+    "You are an AI assistant that is an expert with Travel Plans. You know about everything related to the above Travel Plan and things that are related to the above plan. You can provide advice related to the above Travel Plan. If someone is asking anything which is outside travel related query than please respond with the phrase \"I'm just  your Travel assistant. I can't help with that.\"",
   category: "Personal",
   Icon: ViewListIcon,
   // tags: [],
   //   permissions: ["user"],
   isRecommendationsAvailable: true,
-  isTrackingAvailable:true,
+  isTrackingAvailable: true,
   fromColor: "gray-500",
   toColor: "gray-500",
 
@@ -28,47 +29,9 @@ const obj = {
   prompts: [
     {
       title: "Entry Text",
-      desc: "A sentence or paragraph you wish to understand in bullet point form.",
-      // prompts: [
-      //   {
-      //     title: "Destination",
-      //     attr: "destination",
-      //     value: "",
-      //     placeholder: "",
-      //     maxLength: 20,
-      //     error: "",
-      //     min: 1,
-      //     required: true,
-      //     // type: "number",
-      //     // max: 100,
-      //     // example: "5",
-      //     // label: "Examples: 2,5",
-      //   }
-      // ],
+      desc:
+        "A sentence or paragraph you wish to understand in bullet point form.",
       prompts: [
-        // {
-        //   title: "Destination",
-        //   attr: "destination",
-        //   value: "",
-        //   type: "text",
-        //   // options: [
-        //   //   { title: "Mumbai", value: "Mumbai", label: "Mumbai" },
-        //   //   { title: "Delhi", value: "Delhi", label: "Delhi" },
-        //   //   { title: "Bangalore", value: "Bangalore", label: "Bangalore" },
-        //   // ],
-        //   placeholder: "Select City",
-        //   required: true,
-        //   error: "", // label: "Examples: Udaipur, Shimla, Nanital",
-        //   // maxLength: 40,
-        //   // // max: 100,
-        //   // min: 1,
-        //   // label: "Examples: Udaipur, Shimla, Nanital",
-        //   // type: "textarea",
-        //   // maxLength: 40,
-        //   // max: 100,
-        //   // min: 1,
-        //   // example: "Udaipur",
-        // },
         {
           title: "Destination",
           attr: "destination",
@@ -91,11 +54,44 @@ const obj = {
         },
         {
           title: "Date",
-          attr: "date",
+          attr: "startDate",
           value: "",
           type: "dateRange",
+          isSingleDate: true,
           required: true,
           error: "",
+        },
+        {
+          title: "Budget",
+          attr: "budget",
+          value: "",
+          placeholder: "INR: 50,000",
+          maxLength: 20,
+          error: "",
+          min: 1,
+          required: true,
+        },
+        {
+          title: "Travellers",
+          attr: "traveller",
+          value: "",
+          type: "radiogroup",
+          required: true,
+          error: "",
+          options: [
+            {
+              label: "Solo",
+            },
+            {
+              label: "Couple",
+            },
+            {
+              label: "Family",
+            },
+            {
+              label: "Friends",
+            },
+          ],
         },
       ],
       example: {

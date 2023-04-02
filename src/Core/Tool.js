@@ -552,7 +552,7 @@ const ActionContainer = styled.div`
 const ScrollbarContainer = styled.div`
   @media only screen and (min-width: 1200px) {
     /* height: 62vh; */
-    max-height: 54vh;
+    max-height: 50vh;
     min-height: 30vh;
     padding: 0px 50px;
     overflow-y: scroll;

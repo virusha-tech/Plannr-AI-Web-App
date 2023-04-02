@@ -73,7 +73,7 @@ class EntryInput extends Component {
             onChange={(e) => this.onChange(e.value)}
             options={this.props.prompt.options}
             isError={this.props.prompt.error}
-            initialValue={this.props.prompt.value || ''}
+            initialValue={this.props.prompt.value}
           />
         );
       case "dateRange":
@@ -82,6 +82,7 @@ class EntryInput extends Component {
             onChange={this.onChange}
             isError={this.props.prompt.error}
             initialValue={this.props.prompt.value}
+            isSingleValue={this.props.prompt.isSingleDate || false}
           />
         );
       case "code":
