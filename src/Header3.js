@@ -153,7 +153,7 @@ class ResponsiveAppBar extends React.Component {
   render() {
     return (
       <AppBar position="static">
-        {this.props.isFreeVersion ? (
+        {/* {this.props.isFreeVersion ? (
           <Alert severity="info">
             Explore our complete product to check all PlannrAI Services &nbsp;
             <a
@@ -163,7 +163,7 @@ class ResponsiveAppBar extends React.Component {
               Click
             </a>
           </Alert>
-        ) : null}
+        ) : null} */}
 
         <HeaderWrapper>
           <Toolbar

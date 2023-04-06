@@ -157,14 +157,12 @@ class App extends Component {
                   <Switch>
                     <Route
                       path="/travel"
-                      exact
                       render={(props) => {
                         return <Preview {...props} />;
                       }}
                     />
                     <Route
                       path="/workout"
-                      exact
                       render={(props) => {
                         return <Preview {...props} />;
                       }}
