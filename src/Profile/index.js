@@ -375,9 +375,7 @@ const PlanDetailsFirstColumn = styled.div`
   }
 `;
 
-const HiddenInput = styled.input`
-  display: none;
-`;
+
 const UserDetails = ({ store }) => {
   const { profile } = store;
   const [imagecrop, setImagecrop] = useState(false);
@@ -399,6 +397,7 @@ const UserDetails = ({ store }) => {
         payload: pview,
         key: "profilePhoto",
       });
+      store.refreshTokenAndProfile();
       NotificationManager.info("Profile Pic Updated Successfully");
       setImage(pview);
       setImagecrop(false);
