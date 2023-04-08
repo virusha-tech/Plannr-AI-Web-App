@@ -200,7 +200,7 @@ const PlanDetails = ({ store }) => {
   const getUsagePerc = () => {
     const perc =
       Number(profile.creditsUsed) /
-      (Number(profile.creditsUsed) + Number(profile.credits));
+      (Number(profile.creditsUsed) + Number(profile.credits))*100;
     return perc;
   };
 
@@ -374,7 +374,6 @@ const PlanDetailsFirstColumn = styled.div`
     }
   }
 `;
-
 
 const UserDetails = ({ store }) => {
   const { profile } = store;
