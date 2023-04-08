@@ -167,9 +167,9 @@ class App extends Component {
                         return <Preview {...props} />;
                       }}
                     />
-                    <Route path="/" exact>
+                    {/* <Route path="/" exact>
                       <Redirect to="/login" />
-                    </Route>
+                    </Route> */}
                     <Route path="/" component={Auth} />
                   </Switch>
                 </>

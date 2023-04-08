@@ -6,7 +6,14 @@ import Courasel1 from "../assets/Courasel1.svg";
 import Courasel2 from "../assets/Courasel2.svg";
 import Courasel3 from "../assets/Courasel3.svg";
 import { Helmet } from "react-helmet";
-import { Switch, Route, withRouter, Redirect, Link } from "react-router-dom";
+import {
+  Switch,
+  Route,
+  withRouter,
+  Redirect,
+  Link,
+  NavLink,
+} from "react-router-dom";
 import { observer, inject } from "mobx-react";
 import { observable, makeObservable } from "mobx";
 import { SignIn } from "./Signin";
@@ -15,6 +22,7 @@ import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { NotificationManager } from "react-notifications";
 import { firebaseAuth } from "./firebase";
 import mixpanel from "mixpanel-browser";
+import { Button } from "@mui/material";
 
 @inject("store")
 @observer
@@ -209,102 +217,256 @@ class Auth extends Component {
         <Helmet>
           <title>{`Login - Plannr AI`}</title>
         </Helmet>
-        <div className="flex">
-          <Leftarea className="h-screen flex flex-col justify-between flex-1">
-            <AuthForm>
-              <img src={CompanyLogo} alt="Company Logo" />
-              <div>
-                <Switch>
-                  <Route path="/login">
-                    <SignIn
-                      landingPageUrl={this.props.store.landingPageUrl}
-                      email={this.email}
-                      password={this.password}
-                      signUp={this.signUpWithGoogle}
-                      onGoogleLogin={this.onGoogleLogin}
-                      onChange={this.onChangeAny}
-                      onLogin={this.onLogin}
-                    />
-                  </Route>
-                  <Route path="/signup">
-                    <SignUp
-                      email={this.email}
-                      password={this.password}
-                      fname={this.fname}
-                      lname={this.lname}
-                      onChange={this.onChangeAny}
-                      onSignup={this.onSignup}
-                      onGoogleLogin={this.onGoogleLogin}
-                    />
-                  </Route>
-                  <Route>
-                    <Route>
-                      <Redirect to="/login" />
+        {window.innerWidth > 600 ? (
+          <Desktop className="flex">
+            <Leftarea className="h-screen flex flex-col justify-between flex-1">
+              <AuthForm>
+                <img src={CompanyLogo} alt="Company Logo" />
+                <div>
+                  <Switch>
+                    <Route path="/login">
+                      <SignIn
+                        landingPageUrl={this.props.store.landingPageUrl}
+                        email={this.email}
+                        password={this.password}
+                        signUp={this.signUpWithGoogle}
+                        onGoogleLogin={this.onGoogleLogin}
+                        onChange={this.onChangeAny}
+                        onLogin={this.onLogin}
+                      />
                     </Route>
-                  </Route>
-                </Switch>
-                {this.errorMessage ? (
-                  <div className="text-red-600 bg-red-50 rounded-md p-1 text-center mt-4">
-                    {this.errorMessage}
+                    <Route path="/signup">
+                      <SignUp
+                        email={this.email}
+                        password={this.password}
+                        fname={this.fname}
+                        lname={this.lname}
+                        onChange={this.onChangeAny}
+                        onSignup={this.onSignup}
+                        onGoogleLogin={this.onGoogleLogin}
+                      />
+                    </Route>
+                    <Route>
+                      <Route>
+                        <Redirect to="/login" />
+                      </Route>
+                    </Route>
+                  </Switch>
+                  {this.errorMessage ? (
+                    <div className="text-red-600 bg-red-50 rounded-md p-1 text-center mt-4">
+                      {this.errorMessage}
+                    </div>
+                  ) : null}
+                </div>
+              </AuthForm>
+              <CopyRight className="ml-8 mb-8">© Plannr.ai 2023</CopyRight>
+            </Leftarea>
+            <Rightarea className="h-screen flex-1 ">
+              <Wrapper>
+                <StyledSlider {...settings}>
+                  <div>
+                    <img
+                      src={Courasel1}
+                      alt="Banner1"
+                      className="courasel_image"
+                    />
+                    <SliderImageInfo>
+                      <h3>Say “Hello” to Plannr AI</h3>
+                      <span>
+                        Take Your Planning to the Next Level with Our Advanced
+                        AI-Driven Tool
+                      </span>
+                    </SliderImageInfo>
                   </div>
-                ) : null}
-              </div>
-            </AuthForm>
-            <CopyRight className="ml-8 mb-8">© Plannr.ai 2023</CopyRight>
-          </Leftarea>
-          <Rightarea className="h-screen hidden md:block flex-1 ">
-            <Wrapper>
-              <StyledSlider {...settings}>
-                <div>
-                  <img
-                    src={Courasel1}
-                    alt="Banner1"
-                    style={{ height: "300px" }}
+                  <div>
+                    <img
+                      src={Courasel2}
+                      alt="Banner1"
+                      className="courasel_image"
+                    />
+                    <SliderImageInfo>
+                      <h3>AI-Powered Planning with Plannr AI</h3>
+                      <span>
+                        Streamline your planning process with Plannr's advanced
+                        AI technology, tailored to meet your specific needs
+                      </span>
+                    </SliderImageInfo>
+                  </div>
+                  <div>
+                    <img
+                      src={Courasel3}
+                      alt="Banner1"
+                      className="courasel_image"
+                    />
+                    <SliderImageInfo>
+                      <h3>Unleash the power of Planning with Plannr AI</h3>
+                      <span>Unleash the power of Planning with Plannr AI</span>
+                    </SliderImageInfo>
+                  </div>
+                </StyledSlider>
+              </Wrapper>
+            </Rightarea>
+          </Desktop>
+        ) : (
+          <Mobile>
+            <LogoWrapper>
+              <img src={CompanyLogo} alt="Company Logo" />
+            </LogoWrapper>
+            <MainWrapper>
+              <Switch>
+                <Route path="/login" exact>
+                  <SignIn
+                    landingPageUrl={this.props.store.landingPageUrl}
+                    email={this.email}
+                    password={this.password}
+                    signUp={this.signUpWithGoogle}
+                    onGoogleLogin={this.onGoogleLogin}
+                    onChange={this.onChangeAny}
+                    onLogin={this.onLogin}
                   />
-                  <SliderImageInfo>
-                    <h3>Say “Hello” to Plannr AI</h3>
-                    <span>
-                      Take Your Planning to the Next Level with Our Advanced
-                      AI-Driven Tool
-                    </span>
-                  </SliderImageInfo>
-                </div>
-
-                <div>
-                  <img
-                    src={Courasel2}
-                    alt="Banner1"
-                    style={{ height: "300px" }}
+                </Route>
+                <Route path="/signup" exact>
+                  <SignUp
+                    email={this.email}
+                    password={this.password}
+                    fname={this.fname}
+                    lname={this.lname}
+                    onChange={this.onChangeAny}
+                    onSignup={this.onSignup}
+                    onGoogleLogin={this.onGoogleLogin}
                   />
-                  <SliderImageInfo>
-                    <h3>AI-Powered Planning with Plannr AI</h3>
-                    <span>
-                      Streamline your planning process with Plannr's advanced AI
-                      technology, tailored to meet your specific needs
-                    </span>
-                  </SliderImageInfo>
-                </div>
-                <div>
-                  <img
-                    src={Courasel3}
-                    alt="Banner1"
-                    style={{ height: "300px" }}
-                  />
-                  <SliderImageInfo>
-                    <h3>Unleash the power of Planning with Plannr AI</h3>
-                    <span>Unleash the power of Planning with Plannr AI</span>
-                  </SliderImageInfo>
-                </div>
-              </StyledSlider>
-            </Wrapper>
-          </Rightarea>
-        </div>
+                </Route>
+                <Route path="/" exact>
+                  <HomeScreen settings={settings} />
+                </Route>
+              </Switch>
+            </MainWrapper>
+          </Mobile>
+        )}
       </>
     );
   }
 }
 
 export default withRouter(Auth);
+
+const HomeScreen = withRouter(({ history, settings }) => {
+  return (
+    <div className="homescreenWrapper">
+      <div className="courasel">
+        <Wrapper>
+          <StyledSlider {...settings}>
+            <div>
+              <img src={Courasel1} alt="Banner1" className="courasel_image" />
+              <SliderImageInfo>
+                <h3>Say “Hello” to Plannr AI</h3>
+                <span>
+                  Take Your Planning to the Next Level with Our Advanced
+                  AI-Driven Tool
+                </span>
+              </SliderImageInfo>
+            </div>
+            <div>
+              <img src={Courasel2} alt="Banner1" className="courasel_image" />
+              <SliderImageInfo>
+                <h3>AI-Powered Planning with Plannr AI</h3>
+                <span>
+                  Streamline your planning process with Plannr's advanced AI
+                  technology, tailored to meet your specific needs
+                </span>
+              </SliderImageInfo>
+            </div>
+            <div>
+              <img src={Courasel3} alt="Banner1" className="courasel_image" />
+              <SliderImageInfo>
+                <h3>Unleash the power of Planning with Plannr AI</h3>
+                <span>Unleash the power of Planning with Plannr AI</span>
+              </SliderImageInfo>
+            </div>
+          </StyledSlider>
+        </Wrapper>
+      </div>
+      <div className="action_btn">
+        <div className="account_creation_btns">
+          <LoginButton
+            variant="contained"
+            onClick={() => history.push("/login")}
+          >
+            Login
+          </LoginButton>
+          <SignUpButton
+            variant="outlined"
+            onClick={() => history.push("/signup")}
+          >
+            Sign Up
+          </SignUpButton>
+        </div>
+        <div className="guest_checkin_btn">
+          <StyledNavLink to="#">Continue as guest</StyledNavLink>
+        </div>
+      </div>
+    </div>
+  );
+});
+
+const MainWrapper = styled.div`
+  min-height: 92vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  gap: 2vh;
+  overflow: scroll;
+  margin-top: 8vh;
+
+  .homescreenWrapper {
+    background: #05bbc2;
+    padding: 16px;
+    height: 92vh;
+    display: flex;
+    flex-direction: column;
+    gap: 2vh;
+  }
+
+  .courasel {
+    /* height: max-content; */
+    background: linear-gradient(45deg, #222222 0%, #424242 100%);
+    padding: 4vh 2vh;
+    border-radius: 16px;
+    flex: 0.75;
+  }
+  .action_btn {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex: 0.25;
+    .account_creation_btns {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+  }
+`;
+
+const LoginButton = styled(Button)`
+  background: #ffffff !important;
+  border: 1px solid #d0d5dd !important;
+  box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.25) !important;
+  border-radius: 8px !important;
+  color: black !important;
+  font-weight: 700 !important;
+`;
+
+const StyledNavLink = styled(Link)`
+  color: white !important;
+  text-decoration: underline;
+`;
+const SignUpButton = styled(Button)`
+  border: 1px solid #ffffff !important;
+  filter: drop-shadow(0px 1px 2px rgba(16, 24, 40, 0.05)) !important;
+  border-radius: 8px !important;
+  color: white !important;
+  font-weight: 700 !important;
+`;
 
 const SlickArrowLeft = ({ currentSlide, slideCount, ...props }) => (
   <SlickArrowLeftButton
@@ -356,6 +518,33 @@ const SlickArrowRight = ({ currentSlide, slideCount, ...props }) => (
     </svg>
   </SlickArrowRightButton>
 );
+
+const Desktop = styled.button`
+  @media only screen and (max-width: 600px) {
+    display: none;
+  }
+`;
+
+const Mobile = styled.button`
+  @media only screen and (max-width: 600px) {
+    display: block;
+  }
+`;
+
+const LogoWrapper = styled.div`
+  width: 100%;
+  height: 8vh;
+  background: #ffffff;
+  box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.25);
+  display: grid;
+  place-items: center;
+  position: fixed;
+  img {
+    width: 136px;
+    height: 28px;
+    margin: auto;
+  }
+`;
 
 const SlickArrowLeftButton = styled.button`
   &:before {
@@ -447,6 +636,12 @@ const SliderImageInfo = styled.div`
 `;
 
 const StyledSlider = styled(Slider)`
+  .courasel_image {
+    height: 300px !important;
+    @media only screen and (max-width: 600px) {
+      height: 140px !important;
+    }
+  }
   .slick-slide img {
     margin: auto;
   }
