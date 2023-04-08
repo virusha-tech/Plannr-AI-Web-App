@@ -92,7 +92,7 @@ class Body extends Component {
         </Helmet>
 
         <AddBanner>
-          <div className="flex items-center justify-between	flex-1 gap-5">
+          <div className="flex items-center justify-between	flex-1 gap-5 mobileFix">
             <form
               action={`${this.props.store.baseURL}user/stripe/customer-portal`}
               method="POST"
@@ -127,7 +127,7 @@ class Body extends Component {
           </div>
         </AddBanner>
 
-        <QuestionBanner>
+        {/* <QuestionBanner>
           <Header>
             <img width="32px" src={HandGesture} alt="Hand Gesture" />
             <h1>What will you create today?</h1>
@@ -187,7 +187,7 @@ class Body extends Component {
               );
             })}
           </Grid>
-        </CardsBody>
+        </CardsBody> */}
       </Layout>
     );
   }
@@ -316,13 +316,16 @@ const AddBanner = styled.div`
   border-radius: 12px;
   padding: 14px 20px;
   gap: 20px;
-  margin-top: 16px;
 
   @media screen and (max-width: 899px) {
-    /* display: none; */
+    padding: 14px 6px;
     > div {
       flex-direction: column;
       padding: 10px;
+    }
+    .mobileFix {
+      gap: 8px;
+      padding: 0px;
     }
   }
 `;
@@ -354,6 +357,9 @@ const StyledButton = styled.button`
   border-radius: 8px;
   color: white;
   font-weight: 600;
+  @media screen and (max-width: 600px) {
+    height: 30px;
+  }
 `;
 
 const Pill = styled.div`
@@ -403,8 +409,9 @@ const TextContainer = styled.div`
   color: #101828;
   display: initial;
   text-align: left;
-  @media screen and (max-width: 899px) {
+  @media screen and (max-width: 600px) {
     text-align: center;
+    order: -1;
   }
   span {
     font-weight: 600;

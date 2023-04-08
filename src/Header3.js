@@ -100,7 +100,7 @@ const ProfileSection = (props) => {
   };
 
   return (
-    <Box sx={{ flexGrow: 0 }}>
+    <StyledProfileBox>
       <div>
         <Button
           id="basic-button"
@@ -109,8 +109,13 @@ const ProfileSection = (props) => {
           aria-expanded={open ? "true" : undefined}
           onClick={handleClick}
         >
-          <Profile className="flex items-center gap-x-1">
-            <img width="36px" height="36px" src={props?.store.profile?.profilePhoto || User} alt="Avatar" />
+          <Profile className="flex items-center gap-x-2">
+            <img
+              width="36px"
+              height="36px"
+              src={props?.store.profile?.profilePhoto || User}
+              alt="Avatar"
+            />
             <div className="flex flex-col">
               <span className="greeting">Hi, {props?.store.profile.fname}</span>
               <span className="credits">
@@ -144,9 +149,16 @@ const ProfileSection = (props) => {
           </StyledMenuItemLogout>
         </Menu>
       </div>
-    </Box>
+    </StyledProfileBox>
   );
 };
+
+const StyledProfileBox = styled(Box)`
+  display: block;
+  @media only screen and (max-width: 899px) {
+    display: none;
+  }
+`;
 
 const StyledMenuItem = styled(MenuItem)`
   margin: 0px 16px;
@@ -281,20 +293,26 @@ class ResponsiveAppBar extends React.Component {
 
         <HeaderWrapper>
           <Toolbar
+            variant="dense"
             disableGutters
             sx={{
               display: { xs: "flex" },
               justifyContent: "space-between",
+              minHeight: "initial",
+              height: "6vh",
+              gap: "5%",
             }}
           >
             <Box
               sx={{
                 display: { xs: "none", md: "flex" },
+                height: "40px",
+                'align-items': 'center'
               }}
             >
-              <StyledNavLink to="/" className="flex-none">
-                <img src={CompanyLogo} alt="Company Logo" width="137" />
-              </StyledNavLink>{" "}
+              <StylNavLink to="/" className="flex-none">
+                <StyledImg src={CompanyLogo} alt="Company Logo" />
+              </StylNavLink>{" "}
             </Box>
 
             <IconButton
@@ -421,6 +439,16 @@ class ResponsiveAppBar extends React.Component {
               store={this.props.store}
               history={this.props.history}
             />
+
+            <StyledNavLink to="/" className="flex-none">
+              <img
+                src={CompanyLogo}
+                alt="Company Logo"
+                style={{
+                  width: "98px",
+                }}
+              />
+            </StyledNavLink>
           </Toolbar>
           <Box component="nav">
             <Drawer
@@ -444,7 +472,7 @@ class ResponsiveAppBar extends React.Component {
                 sx={{ textAlign: "center" }}
               >
                 <Box>
-                  <StyledNavLink to="/" className="flex-none">
+                  {/* <StyledNavLink to="/" className="flex-none">
                     <img
                       src={CompanyLogo}
                       alt="Company Logo"
@@ -454,7 +482,7 @@ class ResponsiveAppBar extends React.Component {
                         width: "140px",
                       }}
                     />
-                  </StyledNavLink>
+                  </StyledNavLink> */}
                 </Box>
                 <Divider />
                 {!this.props.isFreeVersion ? (
@@ -579,10 +607,21 @@ ResponsiveAppBar.propTypes = {
   window: PropTypes.func,
 };
 
+const StyledImg = styled.img`
+  height: 30px;
+  display: flex;
+  align-items: flex-end;
+  @media only screen and (max-width: 1200px) {
+    height: 24px;
+  }
+`;
+
 const Profile = styled.div`
   img {
     position: relative;
     top: 4px;
+    border: 1px solid lightgrey;
+    border-radius: 50%;
   }
   .greeting {
     font-family: "Inter";
@@ -590,37 +629,40 @@ const Profile = styled.div`
     font-weight: 400;
     font-size: 12px;
     line-height: 24px;
-    /* identical to box height, or 200% */
-
+    width: 100px;
+    text-align: left;
     color: #525252;
   }
   .credits {
+    height: 13px;
     font-family: "Inter";
     font-style: normal;
     font-weight: 600;
     font-size: 14px;
     line-height: 13px;
-    /* identical to box height, or 93% */
-
+    text-align: left;
     color: #000000;
   }
 `;
 
 const HeaderWrapper = styled.div`
   border-bottom: 1px solid #eaecf0;
-  padding: 15px 120px;
-  height: 9vh;
+  padding: 8px 80px;
+  height: 8vh;
   background: white;
-  @media only screen and (max-width: 1200px) {
-    padding: 10px 40px;
+  @media only screen and (max-width: 899px) {
+    padding: 1vh 4%;
   }
 `;
 
 const StyledNavLink = styled(NavLink)`
-  /* width: 140px; */
-  height: 32px;
-  margin-right: 60px;
+  display: none;
+  @media only screen and (max-width: 899px) {
+    display: block;
+  }
 `;
+
+const StylNavLink = styled(NavLink)``;
 
 const SearchableDropdown = styled.div`
   position: relative;
@@ -642,14 +684,14 @@ const SearchableDropdown = styled.div`
 `;
 const NavListItem = styled(NavLink)`
   width: ${(props) => (!!props.ismobile ? "100%" : "max-content")};
-  height: 40px;
   background: white;
   font-family: "Inter";
   font-style: normal;
   font-weight: 600;
   font-size: 16px;
-  line-height: 24px;
+  line-height: 40px;
   color: #344054;
+  padding: 0px 8px;
 
   &.selected {
     background: rgba(116, 116, 116, 0.1);
@@ -685,14 +727,14 @@ const NestedNavListItem = styled(NavLink)`
 
 const NavButton = styled.button`
   width: max-content;
-  height: 40px;
   background: white;
   font-family: "Inter";
   font-style: normal;
   font-weight: 600;
   font-size: 16px;
-  line-height: 24px;
+  line-height: 40px;
   color: #344054;
+  padding: 0px;
 `;
 
 const StyledListItemButton = styled(ListItemButton)`

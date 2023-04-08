@@ -73,6 +73,11 @@ const materialtheme = createTheme({
       main: "#079196", // #cb1313
     },
   },
+  typography: {
+    button: {
+      textTransform: 'none'
+    }
+  }
 });
 
 @observer
