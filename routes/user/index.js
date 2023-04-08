@@ -57,16 +57,17 @@ app.post("/stripe/subscribe", async (req, res) => {
     });
   }
 });
+
 // update/userbasicinformation
 app.put("/update", async (req, res) => {
-  const { payload } = req.body;
-  console.log(payload);
+  const { payload, key } = req.body;
   try {
     await User.update(
       { _id: ObjectId(req.user._id) },
       {
-        $set: { basicInfoFields: payload },
-      }
+        $set: { [key]: payload },
+      },
+      { upsert: true }
     );
   } catch (e) {
     console.log(e);
