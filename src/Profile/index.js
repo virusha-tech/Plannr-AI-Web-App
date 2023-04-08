@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { Link, Switch, Route, NavLink } from "react-router-dom";
 import { computed, observable, makeObservable } from "mobx";
 import Header from "../Components/Header";
+import { NotificationManager } from "react-notifications";
+
 import {
   IdentificationIcon,
   CheckIcon,
@@ -182,14 +184,9 @@ class Body extends Component {
             </DisabledStyledNavLink>
           </LeftContainer>
           <RightContainer>
-            <UserDetails store={this. props.store} />
+            <UserDetails store={this.props.store} />
             <div>
               <PlanDetails store={this.props.store} />
-
-              {/* </PlanDetails> */}
-              {/* <AdditionCreditDetails>
-
-              </AdditionCreditDetails> */}
             </div>
           </RightContainer>
         </Wrapper>
@@ -212,24 +209,41 @@ const PlanDetails = ({ store }) => {
       <PlanDetailsFirstColumn>
         <div className="header">
           <h1>Plan Details</h1>
-          <div className="action_btn">
-            <form
-              action={store.baseURL + "user/stripe/customer-portal"}
-              method="POST"
-              className="flex relative"
-            >
-              <input
-                type="hidden"
-                name="token"
-                value={store.api.defaults.headers.common["x-access-token"]}
-              />
-              <ReactivateButton type="submit">
-                {profile.cancel_at_period_end
-                  ? "Manage Subscription"
-                  : "Update Subscription"}
-              </ReactivateButton>
-            </form>
-          </div>
+          {store.profile.cancel_at_period_end ? (
+            <div className="action_btn">
+              <form
+                action={store.baseURL + "user/stripe/uncancel"}
+                method="POST"
+                className="flex relative"
+              >
+                <input
+                  type="hidden"
+                  name="token"
+                  value={store.api.defaults.headers.common["x-access-token"]}
+                />
+                <button type="submit">Reactivate Subscription</button>
+              </form>
+            </div>
+          ) : (
+            <div className="action_btn">
+              <form
+                action={store.baseURL + "user/stripe/customer-portal"}
+                method="POST"
+                className="flex relative"
+              >
+                <input
+                  type="hidden"
+                  name="token"
+                  value={store.api.defaults.headers.common["x-access-token"]}
+                />
+                <button type="submit">
+                  {profile.cancel_at_period_end
+                    ? "Manage Subscription"
+                    : "Update Subscription"}
+                </button>
+              </form>
+            </div>
+          )}
         </div>
         <div className="generalInfo">
           <div>
@@ -301,16 +315,16 @@ const ReactivateButton = styled(Button)`
   box-sizing: content-box;
   width: max-content;
   height: 40px;
-  background: #05bbc2;
-  border: 1px solid #04adb4;
+  background: #05bbc2 !important;
+  border: 1px solid #04adb4 !important;
   box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
   border-radius: 8px;
-  color: white;
+  color: white !important;
   font-weight: 600;
   background: #05bbc2;
-  border: 1px solid #04adb4;
+  border: 1px solid #04adb4 !important;
   &:hover {
-    color: black;
+    color: black !important;
   }
 `;
 
@@ -337,6 +351,8 @@ const PlanDetailsFirstColumn = styled.div`
     width: 100%;
     justify-content: space-between;
     flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
   }
   .generalInfo {
     display: flex;
@@ -367,9 +383,7 @@ const UserDetails = ({ store }) => {
   const [imagecrop, setImagecrop] = useState(false);
   const [src, setsrc] = useState(false);
   const [image, setImage] = useState(profile.profilePhoto);
-  // const [profile2, setprofile2] = useState([]);
   const [pview, setpview] = useState(false);
-  // const profileFinal = profile2.map((item) => item.pview);
 
   const onClose = () => {
     setpview(null);
@@ -380,12 +394,18 @@ const UserDetails = ({ store }) => {
   };
 
   const saveCropImage = async () => {
-    await store.api.put("/user/update", {
-      payload: pview,
-      key: "profilePhoto",
-    });
-    setImage(pview);
-    setImagecrop(false);
+    try {
+      await store.api.put("/user/update", {
+        payload: pview,
+        key: "profilePhoto",
+      });
+      NotificationManager.info("Profile Pic Updated Successfully");
+      setImage(pview);
+      setImagecrop(false);
+    } catch (err) {
+      NotificationManager.error("Image size too large");
+      setImagecrop(false);
+    }
   };
 
   const handleAvatarClick = () => {
@@ -487,7 +507,11 @@ const UserDetails = ({ store }) => {
       </ThirdColumn> */}
       <FourthColumn>
         <div>
-          <LogoutButton variant="outlined" startIcon={<Logout />}>
+          <LogoutButton
+            variant="outlined"
+            startIcon={<Logout />}
+            onClick={store.handleLogout}
+          >
             Logout
           </LogoutButton>
         </div>
@@ -520,17 +544,17 @@ const ProfileUploadContent = styled.div`
 `;
 
 const LogoutButton = styled(Button)`
-  border: 2px solid #ea534a;
-  color: #ea534a;
-  filter: drop-shadow(0px 1px 2px rgba(16, 24, 40, 0.05));
+  border: 2px solid #ea534a !important;
+  color: #ea534a !important;
+  filter: drop-shadow(0px 1px 2px rgba(16, 24, 40, 0.05)) !important;
   border-radius: 8px;
   font-weight: 600;
   font-size: 14px;
   line-height: 20px;
   &:hover {
-    border: 2px solid #ea534a;
-    color: #ea534a;
-    filter: drop-shadow(0px 1px 2px rgba(16, 24, 40, 0.05));
+    border: 2px solid #ea534a !important;
+    color: #ea534a !important;
+    filter: drop-shadow(0px 1px 2px rgba(16, 24, 40, 0.05)) !important;
   }
 `;
 
