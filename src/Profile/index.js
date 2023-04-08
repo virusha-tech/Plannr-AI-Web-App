@@ -197,10 +197,12 @@ class Body extends Component {
 
 const PlanDetails = ({ store }) => {
   const { profile } = store;
+  console.log('profile');
   const getUsagePerc = () => {
     const perc =
-      Number(profile.creditsUsed) /
-      (Number(profile.creditsUsed) + Number(profile.credits))*100;
+      (Number(profile.creditsUsed) /
+        (Number(profile.creditsUsed) + Number(profile.credits))) *
+      100;
     return perc;
   };
 
