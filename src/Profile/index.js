@@ -236,11 +236,11 @@ const PlanDetails = ({ store }) => {
                   name="token"
                   value={store.api.defaults.headers.common["x-access-token"]}
                 />
-                <button type="submit">
+                <ReactivateButton type="submit">
                   {profile.cancel_at_period_end
                     ? "Manage Subscription"
                     : "Update Subscription"}
-                </button>
+                </ReactivateButton>
               </form>
             </div>
           )}
