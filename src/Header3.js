@@ -110,7 +110,7 @@ const ProfileSection = (props) => {
           onClick={handleClick}
         >
           <Profile className="flex items-center gap-x-1">
-            <img width="36px" height="36px" src={User} alt="Avatar" />
+            <img width="36px" height="36px" src={props?.store.profile?.profilePhoto || User} alt="Avatar" />
             <div className="flex flex-col">
               <span className="greeting">Hi, {props?.store.profile.fname}</span>
               <span className="credits">
