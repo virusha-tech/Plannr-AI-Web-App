@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link, Switch, Route } from "react-router-dom";
+import { Link, Switch, Route, NavLink } from "react-router-dom";
 import { computed, observable, makeObservable } from "mobx";
 import Header from "../Components/Header";
 import {
@@ -20,6 +20,36 @@ import { withRouter } from "react-router-dom";
 import { observer, inject } from "mobx-react";
 import Pricing from "../Pricing";
 import { Layout } from "../Layout";
+import styled from "styled-components";
+import AvatarImage from "../assets/Avatar.svg";
+import { Avatar, IconButton, Dialog } from "@mui/material";
+import Plugins from "../assets/Plugins.svg";
+import Integration from "../assets/Integration.svg";
+import Teams from "../assets/Teams.svg";
+import User from "../assets/EditAvatar.png";
+import AddCreditsImage from "../assets/AddCredits.svg";
+import ReactAvatar from "react-avatar-edit";
+import { Button, LinearProgress } from "@mui/material";
+import { useState } from "react";
+
+const Logout = () => {
+  return (
+    <svg
+      width="23"
+      height="26"
+      viewBox="0 0 23 26"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M1 16.4765V9.73034H7.66273V3.66233L16.6042 13.097L7.66273 22.5451V16.4767L1 16.4765ZM18.7595 4.35159L15.3964 2.83146L15.4554 1H22V12.9999V25H15.4554L15.3962 23.665L18.7595 21.5271V4.35159Z"
+        fill="#EA534A"
+      />
+    </svg>
+  );
+};
 
 @inject("store")
 @observer
@@ -95,6 +125,10 @@ class Body extends Component {
     this.init();
   }
 
+  checkActive = (match, location) => {
+    return false;
+  };
+
   init = async () => {
     let res = await this.props.store.api.post("/user/stripe/plan");
     this.plan = {
@@ -110,180 +144,470 @@ class Body extends Component {
   render() {
     return (
       <Layout>
-        <Header
-          title={this.props.store.profile.email}
-          desc={`${this.props.store.profile.fname} ${this.props.store.profile.lname}`}
-          category="Your Profile"
-          Icon={UserCircleIcon}
-          fromColor={this.fromColor}
-          options={
-            this.props.location.pathname !== "/my-profile"
-              ? [
-                  {
-                    title: "Back to Profile",
-                    Icon: ChevronLeftIcon,
-                    onClick: this.onBack,
-                  },
-                ]
-              : null
-          }
-        >
-          <Route exact path="/my-profile">
-            <Helmet>
-              <title>{`My Profile - Plannr AI `}</title>
-            </Helmet>
-          </Route>
-        </Header>
-        <MainBody className="px-4 py-4 md:px-28 md:py-8 lg:py-12">
-          <Switch>
-            <Route exact path="/my-profile/pricing">
-              <Pricing />
-            </Route>
-            <Route exact path="/my-profile/referral">
-              <Referral />
-            </Route>
-            <Route exact path="/my-profile/feedback">
-              <Feedback />
-            </Route>
-            <Route>
-              <Grid>
-                {this.plan.status === "trialing" ? (
-                  <ToolForm
-                    Icon={CheckIcon}
-                    title={`Active Subscription`}
-                    desc={`${this.plan.plan === "Entry" ? "$30" : ""}${
-                      this.plan.plan === "Pro" ? "$90" : ""
-                    } billing  immediately. Ends trial and starts billing plan.`}
-                    to={this.props.store.baseURL + "/user/stripe/activate"}
-                    api={this.props.store.api}
-                    fromColor="purple-500"
-                    toColor="indigo-600"
-                  />
-                ) : null}
+        <Wrapper>
+          <LeftContainer>
+            <StyledNavLink to="/my-profile" className="row" exact>
+              <img src={AvatarImage} alt="Avatar" />
 
-                {this.plan.plan === "None" ? (
-                  <Tool
-                    Icon={IdentificationIcon}
-                    title={"Pricing Plans"}
-                    api={this.props.store.api}
-                    desc={"Upgrade, downgrade or cancel anytime."}
-                    to={"/my-profile/pricing"}
-                    fromColor="red-400"
-                  />
-                ) : null}
+              <div>Profile</div>
+            </StyledNavLink>
+            <DisabledStyledNavLink
+              // to="/my-teams"
+              to="#"
+              exact
+              className="row"
+              isActive={this.checkActive}
+            >
+              <img src={Teams} alt="Teams" />
+              <div>Teams</div>
+            </DisabledStyledNavLink>
+            <DisabledStyledNavLink
+              // to="/my-integrations"
+              to="#"
+              disabled
+              className="row"
+              isActive={this.checkActive}
+            >
+              <img src={Integration} alt="Integration" />
+              <div>Integration</div>
+            </DisabledStyledNavLink>
+            <DisabledStyledNavLink
+              // to="/my-plugins"
+              to="#"
+              className="row"
+              isActive={this.checkActive}
+            >
+              <img src={Plugins} alt="Plugins" />
+              <div>Plugins</div>
+            </DisabledStyledNavLink>
+          </LeftContainer>
+          <RightContainer>
+            <UserDetails store={this. props.store} />
+            <div>
+              <PlanDetails store={this.props.store} />
 
-                {this.headerMessage === "Expired" ? null : (
-                  <>
-                    {this.ifNotActive ? null : (
-                      <>
-                        <ToolForm
-                          Icon={IdentificationIcon}
-                          title={"Cancel Subscription"}
-                          api={this.props.store.api}
-                          desc={
-                            "Immediately cancelation of subscription and payments."
-                          }
-                          to={this.props.store.baseURL + "user/stripe/cancel"}
-                          fromColor={
-                            this.props.store.profile.cancel_at_period_end
-                              ? "red-600"
-                              : "red-500"
-                          }
-                          toColor={
-                            this.props.store.profile.cancel_at_period_end
-                              ? "red-400"
-                              : "red-600"
-                          }
-                        />
+              {/* </PlanDetails> */}
+              {/* <AdditionCreditDetails>
 
-                        {/* <ToolForm
-									Icon={DatabaseIcon}
-									title={"Buy Credits"} 
-									desc={"250 x extra credits quick-buy"} 
-									to={this.props.store.baseURL + "user/stripe/buy250"}
-									api={this.props.store.api}
-									fromColor="purple-500"
-									toColor="indigo-600"
-								/> */}
-                      </>
-                    )}
-
-                    {this.props.store.profile.cancel_at_period_end ? (
-                      <>
-                        <ToolForm
-                          Icon={CheckIcon}
-                          title={"Reactivate Subscription"}
-                          api={this.props.store.api}
-                          desc={
-                            "Immediately cancelation of subscription and payments."
-                          }
-                          to={this.props.store.baseURL + "user/stripe/uncancel"}
-                          fromColor={
-                            this.props.store.profile.cancel_at_period_end
-                              ? "green-400"
-                              : "green-500"
-                          }
-                          toColor={
-                            this.props.store.profile.cancel_at_period_end
-                              ? "green-400"
-                              : "green-500"
-                          }
-                        />
-                      </>
-                    ) : null}
-                    <ToolForm
-                      Icon={IdentificationIcon}
-                      title={
-                        this.props.store.profile.cancel_at_period_end
-                          ? "Manage Subscription"
-                          : "Update Subscription"
-                      }
-                      api={this.props.store.api}
-                      desc={
-                        "Change your plan, card details, or cancel the plan anytime."
-                      }
-                      to={
-                        this.props.store.baseURL + "user/stripe/customer-portal"
-                      }
-                      fromColor={
-                        this.props.store.profile.cancel_at_period_end
-                          ? "blue-600"
-                          : "blue-500"
-                      }
-                      toColor={
-                        this.props.store.profile.cancel_at_period_end
-                          ? "blue-400"
-                          : "blue-600"
-                      }
-                    />
-                  </>
-                )}
-
-                <Tool
-                  Icon={ChatAltIcon}
-                  title={"Feedback"}
-                  desc={"Provide comments on your experience"}
-                  to={"/my-profile/feedback"}
-                  fromColor="gray-400"
-                  toColor="gray-400"
-                />
-
-                <ToolDiv
-                  Icon={ReplyIcon}
-                  title={"Log Out"}
-                  desc={"Sign out of your account"}
-                  onClick={this.props.store.handleLogout}
-                  fromColor="gray-400"
-                  toColor="gray-400"
-                />
-              </Grid>
-            </Route>
-          </Switch>
-        </MainBody>
+              </AdditionCreditDetails> */}
+            </div>
+          </RightContainer>
+        </Wrapper>
       </Layout>
     );
   }
 }
+
+const PlanDetails = ({ store }) => {
+  const { profile } = store;
+  const getUsagePerc = () => {
+    const perc =
+      Number(profile.creditsUsed) /
+      (Number(profile.creditsUsed) + Number(profile.credits));
+    return perc;
+  };
+
+  return (
+    <PlanDetailsWrapper>
+      <PlanDetailsFirstColumn>
+        <div className="header">
+          <h1>Plan Details</h1>
+          <div className="action_btn">
+            <form
+              action={store.baseURL + "user/stripe/customer-portal"}
+              method="POST"
+              className="flex relative"
+            >
+              <input
+                type="hidden"
+                name="token"
+                value={store.api.defaults.headers.common["x-access-token"]}
+              />
+              <ReactivateButton type="submit">
+                {profile.cancel_at_period_end
+                  ? "Manage Subscription"
+                  : "Update Subscription"}
+              </ReactivateButton>
+            </form>
+          </div>
+        </div>
+        <div className="generalInfo">
+          <div>
+            <label>Active Plan: </label>
+            <span>{profile.plan}</span>
+          </div>
+          <div>
+            <label>Status: </label>
+            <span>{profile.status}</span>
+          </div>
+          <div>
+            <label>Plan validity: </label>
+            <span>
+              {new Date(profile.current_period_end)
+                .toISOString()
+                .replace(/T.*/, "")
+                .split("-")
+                .reverse()
+                .join("-")}
+            </span>
+          </div>
+          <div>
+            <label>Usage: </label>
+          </div>
+          <div>
+            <LinearProgress
+              style={{ height: "30px", width: "100%" }}
+              variant="determinate"
+              value={getUsagePerc()}
+            />
+          </div>
+          <div>
+            <label>
+              Credits Used: {profile.creditsUsed} /{" "}
+              {profile.creditsUsed + profile.credits}
+            </label>
+          </div>
+        </div>
+      </PlanDetailsFirstColumn>
+      <AddCredits>
+        <div className="add_credits_content">
+          <img src={AddCreditsImage} width="80" alt="AddCredits" />
+          <span>Additional Credits:</span>
+        </div>
+      </AddCredits>
+    </PlanDetailsWrapper>
+  );
+};
+
+const AddCredits = styled.div`
+  width: 100%;
+  flex: 0.42;
+  background: white;
+  box-shadow: rgb(14 30 37 / 12%) 0px 2px 4px 0px,
+    rgb(14 30 37 / 32%) 0px 2px 16px 0px;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  .add_credits_content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+`;
+
+const ReactivateButton = styled(Button)`
+  padding: 0px 14px;
+  box-sizing: content-box;
+  width: max-content;
+  height: 40px;
+  background: #05bbc2;
+  border: 1px solid #04adb4;
+  box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+  border-radius: 8px;
+  color: white;
+  font-weight: 600;
+  background: #05bbc2;
+  border: 1px solid #04adb4;
+  &:hover {
+    color: black;
+  }
+`;
+
+const PlanDetailsWrapper = styled.div`
+  width: 100%;
+  margin-top: 4vh;
+  display: flex;
+  height: 31vh;
+  justify-content: space-between;
+`;
+const PlanDetailsFirstColumn = styled.div`
+  flex: 0.55;
+  display: flex;
+  padding: 40px;
+  justify-content: space-between;
+  flex-direction: column;
+  background: white;
+  box-shadow: rgb(14 30 37 / 12%) 0px 2px 4px 0px,
+    rgb(14 30 37 / 32%) 0px 2px 16px 0px;
+  border-radius: 8px;
+
+  .header {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    flex-direction: row;
+  }
+  .generalInfo {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 6px;
+    text-transform: capitalize;
+
+    h1 {
+      margin-bottom: 10px;
+    }
+    label {
+      font-style: normal;
+      font-weight: 700;
+      font-size: 14px;
+      line-height: 20px;
+      color: #344054;
+      text-transform: capitalize;
+    }
+  }
+`;
+
+const HiddenInput = styled.input`
+  display: none;
+`;
+const UserDetails = ({ store }) => {
+  const { profile } = store;
+  const [imagecrop, setImagecrop] = useState(false);
+  const [src, setsrc] = useState(false);
+  const [image, setImage] = useState(profile.profilePhoto);
+  // const [profile2, setprofile2] = useState([]);
+  const [pview, setpview] = useState(false);
+  // const profileFinal = profile2.map((item) => item.pview);
+
+  const onClose = () => {
+    setpview(null);
+  };
+
+  const onCrop = (view) => {
+    setpview(view);
+  };
+
+  const saveCropImage = async () => {
+    await store.api.put("/user/update", {
+      payload: pview,
+      key: "profilePhoto",
+    });
+    setImage(pview);
+    setImagecrop(false);
+  };
+
+  const handleAvatarClick = () => {
+    setImagecrop(true);
+  };
+
+  return (
+    <UserDetailsContainer>
+      <Dialog
+        onClose={() => setImagecrop(false)}
+        open={imagecrop}
+        sx={{
+          ".MuiPaper-root": {
+            padding: 4,
+          },
+        }}
+      >
+        <ProfileUploadContent>
+          <div className="head">
+            <h1>Update Profile Photo</h1>
+            <IconButton onClick={() => setImagecrop(false)}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="w-6 h-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </IconButton>
+          </div>
+          <ReactAvatar
+            width={500}
+            height={400}
+            onCrop={onCrop}
+            onClose={onClose}
+            src={src}
+            shadingColor="#474649"
+            backgroundColor="#474649"
+          />
+          <ReactivateButton onClick={saveCropImage}>Update</ReactivateButton>
+        </ProfileUploadContent>
+      </Dialog>
+      <label htmlFor="contained-button-file">
+        <div class="font-icon-wrapper">
+          {!image ? (
+            <IconButton onClick={handleAvatarClick}>
+              <Avatar
+                src={User}
+                style={{
+                  margin: "10px",
+                  width: "140px",
+                  height: "140px",
+                }}
+              />
+            </IconButton>
+          ) : (
+            <ViewPhoto>
+              <Avatar
+                src={image}
+                style={{
+                  margin: "10px",
+                  width: "140px",
+                  height: "140px",
+                }}
+              />
+              <ReactivateButton onClick={handleAvatarClick}>
+                Update Photo
+              </ReactivateButton>
+            </ViewPhoto>
+          )}
+        </div>
+      </label>
+      <SecondColumn>
+        <div>
+          <label>Name</label>
+          <div>{profile.fname}</div>
+        </div>
+        <div>
+          <label>Email</label>
+          <div>{profile.email}</div>
+        </div>
+      </SecondColumn>
+      {/* <ThirdColumn>
+        <div>
+          <div>Phone</div>
+          <div>{profile.fname}</div>
+        </div>
+        <div>
+          <div>Email</div>
+          <div>{profile.email}</div>
+        </div>
+      </ThirdColumn> */}
+      <FourthColumn>
+        <div>
+          <LogoutButton variant="outlined" startIcon={<Logout />}>
+            Logout
+          </LogoutButton>
+        </div>
+      </FourthColumn>
+    </UserDetailsContainer>
+  );
+};
+
+const ViewPhoto = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+const ProfileUploadContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  h1 {
+    font-weight: 700;
+  }
+  .head {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+  }
+`;
+
+const LogoutButton = styled(Button)`
+  border: 2px solid #ea534a;
+  color: #ea534a;
+  filter: drop-shadow(0px 1px 2px rgba(16, 24, 40, 0.05));
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 20px;
+  &:hover {
+    border: 2px solid #ea534a;
+    color: #ea534a;
+    filter: drop-shadow(0px 1px 2px rgba(16, 24, 40, 0.05));
+  }
+`;
+
+const UserDetailsContainer = styled.div`
+  height: 30vh;
+  width: 100%;
+  display: flex;
+  padding: 5%;
+  background: white;
+  gap: 8%;
+  box-shadow: rgb(14 30 37 / 12%) 0px 2px 4px 0px,
+    rgb(14 30 37 / 32%) 0px 2px 16px 0px;
+  border-radius: 8px;
+`;
+
+const SecondColumn = styled.div`
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 6%;
+  padding: 2%;
+  justify-content: space-evenly;
+  label {
+    font-weight: 700;
+    color: #344054;
+  }
+  div {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    color: #475467;
+  }
+`;
+
+const FourthColumn = styled.div`
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+`;
+const Wrapper = styled.div`
+  display: flex;
+  gap: 20px;
+  height: 65vh;
+  margin: 30px 0px;
+`;
+
+const LeftContainer = styled.div`
+  flex: 0.3;
+  background-color: white;
+  box-shadow: rgb(14 30 37 / 12%) 0px 2px 4px 0px,
+    rgb(14 30 37 / 32%) 0px 2px 16px 0px;
+  border-radius: 8px;
+`;
+
+const StyledNavLink = styled(NavLink)`
+  display: flex;
+  font-size: 16px;
+  gap: 24px;
+  padding: 8px 13px;
+  margin: 12px;
+  border-radius: 8px;
+  color: #344054;
+
+  &.active {
+    background: #f2f2f2;
+  }
+`;
+
+const DisabledStyledNavLink = styled(StyledNavLink)`
+  color: grey;
+  cursor: not-allowed;
+`;
+
+const RightContainer = styled.div`
+  flex: 0.7;
+`;
 
 const Grid = ({ children }) => (
   <div className="grid grid-cols-1 gap-8 mt-4 lg:grid-cols-2 xl:grid-cols-3 ">

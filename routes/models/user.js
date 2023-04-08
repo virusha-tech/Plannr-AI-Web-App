@@ -59,6 +59,10 @@ const UserSchema = new Schema({
     of: String | Object,
     default: null,
   },
+  profilePhoto: {
+    type: String,
+    default: null,
+  },
   referrerPaid: { type: Boolean, default: false }, // has the referral been given credits yet?
   referrer: {
     type: ObjectId,

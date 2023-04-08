@@ -313,7 +313,6 @@ class Pricing extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      
       activeStep: 1,
       subscription: "monthly",
       currency: "indianCurrency",
@@ -325,7 +324,7 @@ class Pricing extends Component {
   }
 
   async handleNextAction(payload) {
-    await this.props.store.api.put("/user/update", { payload });
+    await this.props.store.api.put("/user/update", { payload, key: 'basicInfoFields' });
     this.setState((prev) => {
       return {
         activeStep: prev.activeStep + 1,
@@ -342,7 +341,7 @@ class Pricing extends Component {
   }
 
   async handleSkipAction(payload) {
-    await this.props.store.api.put("/user/update", { payload });
+    await this.props.store.api.put("/user/update", { payload, key: 'basicInfoFields' });
     this.setState((prev) => {
       return {
         activeStep: prev.activeStep + 1,
@@ -563,7 +562,9 @@ const Personal = ({
             <h6 className="mt-4 mb-4 text-md -700">
               <strong>FEATURES</strong>
             </h6>
-            <span className='mb-4'>Start today and create plans for free, forever!</span>
+            <span className="mb-4">
+              Start today and create plans for free, forever!
+            </span>
           </div>
 
           <div className="divide-y divide-dashed divide-gray-300 mt-4">
@@ -926,8 +927,7 @@ const Premium = ({
               <CheckIcon />
               <div>
                 <span className="font-medium ">
-                  {isMonthlySubscription ? "20,000" : "2,40,000"}{" "}
-                  credits
+                  {isMonthlySubscription ? "20,000" : "2,40,000"} credits
                 </span>
               </div>
             </div>

@@ -7,20 +7,49 @@ import Divider from "@mui/material/Divider";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
-import { Button, Alert } from "@mui/material";
+import { Button } from "@mui/material";
 import styled from "styled-components";
 import Drawer from "@mui/material/Drawer";
 import PropTypes from "prop-types";
 import { NavLink, withRouter } from "react-router-dom";
 import CompanyLogo from "./assets/CompanyLogo.svg";
 import Select from "react-select";
-import config, { MenuList } from "./config";
+import { MenuList } from "./config";
 import User from "./assets/User.png";
 import { observer, inject } from "mobx-react";
 import { computed } from "mobx";
 import Collapse from "@mui/material/Collapse";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
 
 const drawerWidth = 240;
+
+const ProfileMenuList = [
+  {
+    name: "Profile",
+    isDisabled: false,
+  },
+  {
+    name: "Billing",
+    isDisabled: false,
+  },
+  {
+    name: "Teams",
+    isDisabled: true,
+  },
+  {
+    name: "Integration",
+    isDisabled: true,
+  },
+  {
+    name: "Plugins",
+    isDisabled: true,
+  },
+  {
+    name: "Help",
+    isDisabled: false,
+  },
+];
 
 const customStyles = {
   control: (base, { isFocused }) => ({
@@ -52,6 +81,91 @@ const customStyles = {
     };
   },
 };
+
+const ProfileSection = (props) => {
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = (ev, label) => {
+    setAnchorEl(null);
+    if (label === "Logout") {
+      props.store.handleLogout();
+    } else if (label === "Profile") {
+      props.history.push(props.isFreeVersion ? "#" : "/my-profile");
+    } else if (label === "Help") {
+      window.gist.chat("open");
+    }
+  };
+
+  return (
+    <Box sx={{ flexGrow: 0 }}>
+      <div>
+        <Button
+          id="basic-button"
+          aria-controls={open ? "basic-menu" : undefined}
+          aria-haspopup="true"
+          aria-expanded={open ? "true" : undefined}
+          onClick={handleClick}
+        >
+          <Profile className="flex items-center gap-x-1">
+            <img width="36px" height="36px" src={User} alt="Avatar" />
+            <div className="flex flex-col">
+              <span className="greeting">Hi, {props?.store.profile.fname}</span>
+              <span className="credits">
+                {props?.store.profile.credits} Credits
+              </span>
+            </div>
+          </Profile>
+        </Button>
+        <Menu
+          id="basic-menu"
+          anchorEl={anchorEl}
+          open={open}
+          onClose={handleClose}
+          MenuListProps={{
+            "aria-labelledby": "basic-button",
+            sx: { width: anchorEl && anchorEl.offsetWidth },
+          }}
+        >
+          {ProfileMenuList.map(({ name, isDisabled }) => {
+            return (
+              <StyledMenuItem
+                disabled={isDisabled}
+                onClick={(ev) => handleClose(ev, name)}
+              >
+                {name}
+              </StyledMenuItem>
+            );
+          })}
+          <StyledMenuItemLogout onClick={(ev) => handleClose(ev, "Logout")}>
+            Logout
+          </StyledMenuItemLogout>
+        </Menu>
+      </div>
+    </Box>
+  );
+};
+
+const StyledMenuItem = styled(MenuItem)`
+  margin: 0px 16px;
+  box-sizing: content-box;
+  &:hover {
+    color: ${({ theme }) => {
+      return theme.primary;
+    }};
+    background-color: #f2f2f2;
+  }
+`;
+
+const StyledMenuItemLogout = styled(StyledMenuItem)`
+  color: red;
+  &:hover {
+    color: red;
+    background-color: #f2f2f2;
+  }
+`;
 
 @inject("store")
 @observer
@@ -153,7 +267,7 @@ class ResponsiveAppBar extends React.Component {
   render() {
     return (
       <AppBar position="static">
-        {this.props.isFreeVersion ? (
+        {/* {this.props.isFreeVersion ? (
           <Alert severity="info">
             Explore our complete product to check all PlannrAI Services &nbsp;
             <a
@@ -163,7 +277,7 @@ class ResponsiveAppBar extends React.Component {
               Click
             </a>
           </Alert>
-        ) : null}
+        ) : null} */}
 
         <HeaderWrapper>
           <Toolbar
@@ -302,50 +416,11 @@ class ResponsiveAppBar extends React.Component {
               </Box>
             ) : null}
 
-            <Box sx={{ flexGrow: 0 }}>
-              <>
-                <NavLink to={this.props.isFreeVersion ? "#" : "/my-profile"}>
-                  <Profile className="flex items-center gap-x-1">
-                    <img width="36px" height="36px" src={User} alt="Avatar" />
-                    <div className="flex flex-col">
-                      <span className="greeting">
-                        Hi, {this?.props?.store.profile.fname}
-                      </span>
-                      <span className="credits">
-                        {this?.props?.store.profile.credits} Credits
-                      </span>
-                    </div>
-                  </Profile>
-                </NavLink>
-              </>
-              {/* <Tooltip title="Open settings">
-                  <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                    <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-                  </IconButton>
-                </Tooltip>
-                <Menu
-                  sx={{ mt: "45px" }}
-                  id="menu-appbar"
-                  anchorEl={anchorElUser}
-                  anchorOrigin={{
-                    vertical: "top",
-                    horizontal: "right",
-                  }}
-                  keepMounted
-                  transformOrigin={{
-                    vertical: "top",
-                    horizontal: "right",
-                  }}
-                  open={Boolean(anchorElUser)}
-                  onClose={handleCloseUserMenu}
-                >
-                  {settings.map((setting) => (
-                    <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                      <Typography textAlign="center">{setting}</Typography>
-                    </MenuItem>
-                  ))}
-                </Menu> */}
-            </Box>
+            <ProfileSection
+              isFreeVersion={this.props.isFreeVersion}
+              store={this.props.store}
+              history={this.props.history}
+            />
           </Toolbar>
           <Box component="nav">
             <Drawer
