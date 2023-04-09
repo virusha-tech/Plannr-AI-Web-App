@@ -17,6 +17,7 @@ const MainContainer = styled.div`
   background: #fafafa;
   min-height: 83vh;
   margin-top: 8vh;
+  
 
   @media only screen and (max-width: 899px) {
     padding: 16px 4%;

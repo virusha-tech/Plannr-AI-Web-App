@@ -418,6 +418,10 @@ class Tool extends Component {
 const StyledToolContainer = styled(Box)`
   box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px,
     rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+  @media only screen and (max-width: 600px) {
+    height: 84vh;
+  overflow: scroll;
+  }
 `;
 
 const PlanRecomendations = ({ planName, inputs }) => {

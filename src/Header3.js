@@ -743,14 +743,14 @@ const HeaderWrapper = styled.div`
   padding: 8px 80px;
   height: 8vh;
   background: white;
+  position: fixed;
+  background: white;
+  z-index: 100;
+  top: 0px;
+  right: 0px;
+  left: 0px;
   @media only screen and (max-width: 899px) {
     padding: 1vh 4%;
-    position: fixed;
-    background: white;
-    z-index: 100;
-    top: 0px;
-    right: 0px;
-    left: 0px;
   }
 `;
 
@@ -792,7 +792,6 @@ const NavListItem = styled(NavLink)`
   color: #344054;
   padding: 0px 8px;
   text-align: left;
-
   &.selected {
     background: rgba(116, 116, 116, 0.1);
     cursor: not-allowed;
@@ -861,4 +860,5 @@ const StyledListItemText = styled.span`
 
 const NavList = styled.ul`
   gap: 12px;
+  align-items: center;
 `;

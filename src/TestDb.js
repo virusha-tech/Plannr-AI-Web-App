@@ -410,6 +410,8 @@ const CardContainer = styled.div`
   background: #ffffff;
   border: 1px solid #f1f1f1;
   border-radius: 8px;
+  margin: 10px 0px;
+
   .left {
     flex: 0.5;
     display: flex;
@@ -447,7 +449,6 @@ const DesktopWrapper = styled.div`
   }
 `;
 const MobileWrapper = styled.div`
-    
   display: none !important;
   .header {
     display: flex;
