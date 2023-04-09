@@ -46,9 +46,14 @@ const RadioGroup = ({
 export default RadioGroup;
 
 const StyledRadioGroup = styled(Group)`
-  display: flex;
-  align-items: center;
-  gap: 40px;
+  display: grid; /* 1 */
+  grid-template-columns: repeat(3, 1fr); /* 2 */
+  grid-gap: 40px;; /* 3 */
+  justify-content: space-between; /* 4 */
+
+  @media only screen and (max-width: 600px) {
+    grid-gap: 10px;; /* 3 */
+  }
 `;
 
 const StyledLabel = styled.label`

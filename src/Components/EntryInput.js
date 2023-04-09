@@ -192,7 +192,7 @@ class EntryInput extends Component {
               {this.props.prompt.title}
             </Label>
           )}
-          <div className="relative flex flex-col gap-y-3	">
+          <div className="relative flex flex-col gap-y-3">
             {this.renderCorrespondingInput()}
             {(this.props.prompt.label || this.props.prompt.error) && (
               <div
@@ -219,12 +219,23 @@ const HorizontalRule = styled.div`
 `;
 const FlexContainer = styled.div`
   display: flex;
-
+  gap:8px;
   label {
     flex: 0.4;
   }
   > div {
     flex: 0.6;
+  }
+
+  @media only screen and (max-width: 600px) {
+    flex-direction: column;
+
+    label {
+      flex: 1;
+    }
+    > div {
+      flex: 1;
+    }
   }
 `;
 const Option = ({ index, title, desc, active, onClick, Icon }) => (

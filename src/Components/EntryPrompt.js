@@ -16,7 +16,7 @@ class EntryPrompt extends Component {
         }`
       }
       >
-        <div className="px-6 py-6">
+        <div className="md:px-6 md:py-6">
           {/* <div className="flex items-center">
 
 						<div className={`flex-shrink-0 inline-flex items-center justify-center md:h-12 md:w-12 h-6 w-6 rounded-full bg-${!disabled ? "green" : "gray"}-300 sm:mx-0 sm:h-10 sm:w-10  ${!disabled ? "bg-green-300" : "bg-gray-300"} `}>

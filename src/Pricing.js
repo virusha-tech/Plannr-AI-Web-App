@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { UserCircleIcon } from "@heroicons/react/solid";
 import { styled as mStyled } from "@mui/material/styles";
-
+import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import { Carousel } from "react-responsive-carousel";
 import styled from "styled-components";
 import StepConnector, {
   stepConnectorClasses,
@@ -25,6 +26,12 @@ const StyledStepLabel = styled(StepLabel)`
   .MuiStepLabel-label {
     font-size: 24px;
     padding: 10px;
+    @media only screen and (max-width: 900px) {
+      font-size: 16px;
+    }
+    @media only screen and (max-width: 600px) {
+      font-size: 12px;
+    }
   }
   .MuiSvgIcon-root.MuiStepIcon-root {
     height: 2rem;
@@ -101,14 +108,15 @@ const CheckIcon = () => {
 const StyledContainer = styled.div`
   padding: 0px 10px;
   background: white;
-  min-height: 83vh;
+  flex: 1;
+  margin-top: 8vh;
 `;
 
 const AlignStepper = styled.div`
   width: 50vw;
   margin: 4vh auto 0px;
   @media only screen and (max-width: 1200px) {
-    width: 100%;
+    width: 90%;
   }
 `;
 
@@ -170,7 +178,6 @@ const PlannerTab = mStyled((props) => <Tab disableRipple {...props} />)(
 
 const StyledPlannerTab = mStyled((props) => <Tab disableRipple {...props} />)(
   ({ theme }) => {
-    console.log(theme.palette.primary.main);
     return {
       textTransform: "none",
       minWidth: 0,
@@ -180,10 +187,10 @@ const StyledPlannerTab = mStyled((props) => <Tab disableRipple {...props} />)(
       padding: "4px",
       marginRight: theme.spacing(1),
       fontWeight: 600,
-      fontSize: "16px",
-      // color
+      fontSize: "14px",
       backgroundColor: theme.palette.primary,
-      padding: "22px",
+      padding: "12px",
+
       "&:hover": {
         color: "white",
         background: theme.palette.primary.main,
@@ -214,6 +221,13 @@ const PlannerTabs = styled(Tabs)({
   background: "#F9FAFB",
 });
 
+const DesktopPlannerTabs = styled(PlannerTabs)`
+  display: block;
+  @media only screen and (max-width: 600px) {
+    display: none !important;
+  }
+`;
+
 function BasicTabs({ handleTabChange }) {
   const [subscription, setSubscription] = React.useState("monthly");
   const [currency, setCurrency] = React.useState("indianCurrency");
@@ -231,7 +245,7 @@ function BasicTabs({ handleTabChange }) {
     <Box sx={{ width: "100%" }} className="xs:mt-4 xs:mb-6 sm:m-8 sm:mb-12">
       <Flex>
         <div></div>
-        <PlannerTabs
+        <DesktopPlannerTabs
           value={subscription}
           onChange={(_, newValue) => handleChange("subscription", newValue)}
           centered
@@ -244,7 +258,7 @@ function BasicTabs({ handleTabChange }) {
             iconPosition="end"
             icon={<Chip label="Save 20%" />}
           />
-        </PlannerTabs>
+        </DesktopPlannerTabs>
         <PlannerTabs
           value={currency}
           onChange={(_, newValue) => handleChange("currency", newValue)}
@@ -324,7 +338,10 @@ class Pricing extends Component {
   }
 
   async handleNextAction(payload) {
-    await this.props.store.api.put("/user/update", { payload, key: 'basicInfoFields' });
+    await this.props.store.api.put("/user/update", {
+      payload,
+      key: "basicInfoFields",
+    });
     this.setState((prev) => {
       return {
         activeStep: prev.activeStep + 1,
@@ -341,7 +358,10 @@ class Pricing extends Component {
   }
 
   async handleSkipAction(payload) {
-    await this.props.store.api.put("/user/update", { payload, key: 'basicInfoFields' });
+    await this.props.store.api.put("/user/update", {
+      payload,
+      key: "basicInfoFields",
+    });
     this.setState((prev) => {
       return {
         activeStep: prev.activeStep + 1,
@@ -352,21 +372,9 @@ class Pricing extends Component {
   render() {
     return (
       <>
-        {this.props.store.profile.status ? null : (
-          <div className="border-b border-gray-300 bg-white shadow-sm ">
-            <div className="container flex mx-auto px-4 md:px-28 flex select-none">
-              <img src={CompanyLogo} alt="Company Logo" width="137" />
-              <div className="relative text-gray-400 focus-within:text-green-500 flex flex-1 "></div>
-              <div
-                onClick={this.props.store.handleLogout}
-                className="cursor-pointer text-lg flex py-3 px-6 xl:py-4 xl:px-8 hover:bg-gray-100 rounded-t-md font-medium transition items-center"
-              >
-                <UserCircleIcon className="w-7 h-7 lg:mr-4 transition" />
-                <div className="hidden lg:block"> Log Out</div>
-              </div>
-            </div>
-          </div>
-        )}
+        <HeadContainer>
+          <img src={CompanyLogo} alt="Company Logo" width="137" />
+        </HeadContainer>
         <StyledContainer>
           <AlignStepper>
             <StyledStepper
@@ -400,7 +408,7 @@ class Pricing extends Component {
               <Helmet>
                 <title>{`Pricing - Plannr AI`}</title>
               </Helmet>
-              <div className="container mx-auto px-8 py-4 lg:px-28 lg:py-12 lg:pb-64 select-none">
+              <div className="container mx-auto xs:px-6 xs:py-12 lg:px-2 lg:py-12 lg:pb-16 select-none">
                 <Wrapper>
                   <Header>Plans that fit your scale</Header>
                   <SubHeader>
@@ -411,41 +419,108 @@ class Pricing extends Component {
                   </Styledheader>
                 </Wrapper>
                 <BasicTabs handleTabChange={this.handleTabChange} />
-                <Grid>
-                  {/* {this.props.store.profile.status ? null : ( */}
+                <DesktopWrapper>
+                  <Grid>
+                    {/* {this.props.store.profile.status ? null : ( */}
 
-                  <Personal
-                    fromColor="gray-400"
-                    toColor="gray-500"
-                    baseURL={this.props.store.baseURL}
-                    api={this.props.store.api}
-                    displayInRupee={this.state.displayInRupee}
-                    isIndianCurrency={this.state.currency === "indianCurrency"}
-                    isMonthlySubscription={
-                      this.state.subscription === "monthly"
-                    }
-                  />
-                  <Professional
-                    fromColor="green-400"
-                    toColor="green-600"
-                    baseURL={this.props.store.baseURL}
-                    api={this.props.store.api}
-                    isIndianCurrency={this.state.currency === "indianCurrency"}
-                    isMonthlySubscription={
-                      this.state.subscription === "monthly"
-                    }
-                  />
-                  <Premium
-                    fromColor="indigo-500"
-                    toColor="red-500"
-                    baseURL={this.props.store.baseURL}
-                    api={this.props.store.api}
-                    isIndianCurrency={this.state.currency === "indianCurrency"}
-                    isMonthlySubscription={
-                      this.state.subscription === "monthly"
-                    }
-                  />
-                </Grid>
+                    <Personal
+                      fromColor="gray-400"
+                      toColor="gray-500"
+                      baseURL={this.props.store.baseURL}
+                      api={this.props.store.api}
+                      displayInRupee={this.state.displayInRupee}
+                      isIndianCurrency={
+                        this.state.currency === "indianCurrency"
+                      }
+                      isMonthlySubscription={
+                        this.state.subscription === "monthly"
+                      }
+                    />
+                    <Professional
+                      fromColor="green-400"
+                      toColor="green-600"
+                      baseURL={this.props.store.baseURL}
+                      api={this.props.store.api}
+                      isIndianCurrency={
+                        this.state.currency === "indianCurrency"
+                      }
+                      isMonthlySubscription={
+                        this.state.subscription === "monthly"
+                      }
+                    />
+                    <Premium
+                      fromColor="indigo-500"
+                      toColor="red-500"
+                      baseURL={this.props.store.baseURL}
+                      api={this.props.store.api}
+                      isIndianCurrency={
+                        this.state.currency === "indianCurrency"
+                      }
+                      isMonthlySubscription={
+                        this.state.subscription === "monthly"
+                      }
+                    />
+                  </Grid>
+                </DesktopWrapper>
+                <MobileWrapper>
+                  <StyleCarousel
+                    showArrows={true}
+                    showIndicators={true}
+                    autoPlay={true}
+                    stopOnHover={true}
+                    showStatus={true}
+                    infiniteLoop={true}
+                    selectedItem={1}
+                  >
+                    <div key="slide1">
+                      <Personal
+                        fromColor="gray-400"
+                        toColor="gray-500"
+                        baseURL={this.props.store.baseURL}
+                        api={this.props.store.api}
+                        displayInRupee={this.state.displayInRupee}
+                        isIndianCurrency={
+                          this.state.currency === "indianCurrency"
+                        }
+                        isMonthlySubscription={
+                          this.state.subscription === "monthly"
+                        }
+                      />
+                    </div>
+
+                    <div key="slide2">
+                      <Professional
+                        fromColor="indigo-500"
+                        toColor="red-500"
+                        baseURL={this.props.store.baseURL}
+                        api={this.props.store.api}
+                        displayInRupee={this.state.displayInRupee}
+                        isIndianCurrency={
+                          this.state.currency === "indianCurrency"
+                        }
+                        isMonthlySubscription={
+                          this.state.subscription === "monthly"
+                        }
+                      />
+                    </div>
+
+                    <div key="slide3">
+                      <Premium
+                        fromColor="indigo-500"
+                        toColor="red-500"
+                        baseURL={this.props.store.baseURL}
+                        api={this.props.store.api}
+                        displayInRupee={this.state.displayInRupee}
+                        isIndianCurrency={
+                          this.state.currency === "indianCurrency"
+                        }
+                        isMonthlySubscription={
+                          this.state.subscription === "monthly"
+                        }
+                      />
+                    </div>
+                  </StyleCarousel>
+                </MobileWrapper>
               </div>
             </>
           )}
@@ -455,6 +530,40 @@ class Pricing extends Component {
     );
   }
 }
+
+const StyleCarousel = styled(Carousel)`
+  width: 90vw;
+  margin: 0 auto;
+  overflow: hidden;
+`;
+const HeadContainer = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  height: 8vh;
+  position: fixed;
+  background: white;
+  z-index: 10;
+`;
+
+const DesktopWrapper = styled.div`
+  display: block !important;
+
+  @media only screen and (max-width: 1100px) {
+    display: none !important;
+  }
+`;
+
+const MobileWrapper = styled.div`
+  display: none !important;
+  .legend {
+    color: black !important;
+  }
+
+  @media only screen and (max-width: 1100px) {
+    display: block !important;
+  }
+`;
 
 const Header = styled.h1`
   font-family: "Inter";
@@ -466,6 +575,13 @@ const Header = styled.h1`
   letter-spacing: -0.02em;
   color: #101828;
   margin-bottom: 24px;
+  @media only screen and (max-width: 600px) {
+    font-weight: 600;
+    font-size: 26px;
+    line-height: 40px;
+    text-align: center;
+    color: #101828;
+  }
 `;
 
 const Wrapper = styled.div`
@@ -493,6 +609,18 @@ const SubHeader = styled.h1`
   background-color: ${({ theme }) => {
     return theme.primary;
   }};
+
+  @media only screen and (max-width: 600px) {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 22px;
+    /* or 138% */
+
+    text-align: center;
+
+    color: #ffffff;
+  }
 `;
 
 const Styledheader = styled.h3`
@@ -503,6 +631,14 @@ const Styledheader = styled.h3`
   line-height: 30px;
   text-align: center;
   color: #475467;
+  @media only screen and (max-width: 600px) {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 22px;
+    text-align: center;
+    color: #475467;
+  }
 `;
 const Personal = ({
   fromColor,
@@ -628,6 +764,129 @@ const Personal = ({
   );
 };
 
+const Personal2 = ({
+  fromColor,
+  toColor,
+  baseURL,
+  api,
+  isIndianCurrency,
+  isMonthlySubscription,
+}) => {
+  let key = isIndianCurrency
+    ? isMonthlySubscription
+      ? amount["personal"]["indianCurrency"]["monthly_key"]
+      : amount["personal"]["indianCurrency"]["yearly_key"]
+    : isMonthlySubscription
+    ? amount["personal"]["USCurrency"]["monthly_key"]
+    : amount["personal"]["USCurrency"]["yearly_key"];
+  // console.log(key);
+  return (
+    <div className="flex relative ">
+      <Card
+        className={`bg-white rounded-xl transition hover:shadow-md overflow-hidden md:max-w-1lg text-gray-500 md:flex relative transform hover:scale-105  hover: flex-1`}
+      >
+        <div className="p-8 flex-1">
+          <div
+            href="#"
+            className={` block text-lg text-2xl leading-tight font-medium mb-2`}
+          >
+            Personal
+          </div>
+          <p className="mt-2  mb-2 text-md" style={{ height: "50px" }}>
+            Smarter planning for personal success
+          </p>
+
+          <div className="text-6xl  font-bold pb-4">
+            {isIndianCurrency ? (
+              <span>
+                &#8377;
+                {isMonthlySubscription
+                  ? amount["personal"]["indianCurrency"]["monthly"]
+                  : amount["personal"]["indianCurrency"]["yearly"]}
+              </span>
+            ) : (
+              <span>
+                &#36;
+                {isMonthlySubscription
+                  ? amount["personal"]["USCurrency"]["monthly"]
+                  : amount["personal"]["USCurrency"]["yearly"]}
+              </span>
+            )}
+            <span className="text-lg">
+              {isMonthlySubscription ? "/ month" : "/ year"}
+            </span>
+          </div>
+          <div className="bg-black h-px horizontalLine"></div>
+
+          <div>
+            <h6 className="mt-4 mb-4 text-md -700">
+              <strong>FEATURES</strong>
+            </h6>
+            <span className="mb-4">
+              Start today and create plans for free, forever!
+            </span>
+          </div>
+
+          <div className="divide-y divide-dashed divide-gray-300 mt-4">
+            <div className="py-2 flex gap-4">
+              <CheckIcon />
+              <div>
+                <span className="font-medium ">1000 credits</span>
+              </div>
+            </div>
+            <div className="py-2 flex gap-4">
+              <CheckIcon />
+              <div>
+                <span className="font-medium ">50K words</span>
+              </div>
+            </div>
+            <div className="py-2 flex  gap-4 items-center">
+              <CheckIcon />
+              <div>
+                <span className="font-medium ">30 Plans</span>
+              </div>
+            </div>
+            <div className="py-2 flex  gap-4 items-center">
+              <CheckIcon />
+              <div>
+                <span className="font-medium ">Access to basic plans</span>
+              </div>
+            </div>
+            <div className="py-2 flex gap-4  items-center">
+              <CheckIcon />
+              <div>
+                <span className="font-medium  gap-4 ">One User</span>
+              </div>
+            </div>
+            <p style={{ height: "41px", border: "none" }}></p>
+            <p style={{ height: "41px", border: "none" }}></p>
+          </div>
+
+          <form
+            action={baseURL + "user/stripe/subscribe"}
+            method="POST"
+            className="flex flex-1"
+          >
+            <input
+              type="hidden"
+              name="token"
+              value={api.defaults.headers.common["x-access-token"]}
+            />
+            <input type="hidden" name="priceId" value={key} />
+            {/* <input type="hidden" name="trial" value="true" /> */}
+            <input type="hidden" name="plan" value="personal" />
+            <button
+              type="submit"
+              className={`mt-8 inset-0 bg-gradient-to-r shadow-lg flex-1 rounded-md p-4 text-white font-medium text-center text-lg transition hover:from-gray-700 hover:to-gray-800 text-enter`}
+            >
+              Get Started
+            </button>
+          </form>
+        </div>
+      </Card>
+    </div>
+  );
+};
 const Card = styled.div`
   > div {
     border: 1px solid #eaecf0;
@@ -998,7 +1257,7 @@ const Premium = ({
 };
 
 const Grid = ({ children }) => (
-  <div className="grid grid-cols-1 gap-12 mt-4 xl:grid-cols-3 ">{children}</div>
+  <div className="grid grid-cols-1 gap-12 md:grid-cols-3 ">{children}</div>
 );
 
 export default Pricing;

@@ -13,6 +13,11 @@ import { visuallyHidden } from "@mui/utils";
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import { styled as matStyled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
+import styled from "styled-components";
+import FormControl from "@mui/material/FormControl";
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
+import { useEffect } from "react";
 
 const StyledTableCell = matStyled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -163,6 +168,25 @@ export const EnhancedTable = (props) => {
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [plansList, setPlansList] = React.useState([]);
+  const [selectedPlan, setSelectedPlan] = React.useState("All");
+
+  const [filteredPlansList, setFilteredPlansList] = React.useState([
+    ...props.rows,
+  ]);
+
+  useEffect(() => {
+    const uniquePlanNames = [
+      ...new Set(props.rows.map((item) => item.planName)),
+    ];
+    setPlansList(["All", ...uniquePlanNames]);
+  }, []);
+
+  const handlePlanChange = (event) => {
+    const newList = props.rows.map((item) => event.target.value);
+    setSelectedPlan(event.target.value);
+    setFilteredPlansList([...newList]);
+  };
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -195,72 +219,270 @@ export const EnhancedTable = (props) => {
   const handleClick = (output, api, planFormFields) => {
     props.handleOutput(output, api, planFormFields);
   };
-
   return (
-    <Box sx={{ width: "100%" }}>
-      <Paper sx={{ width: "100%", mb: 2 }}>
-        <TableContainer>
-          <Table
-            sx={{ minWidth: 750 }}
-            aria-labelledby="tableTitle"
-            size={"medium"}
-          >
-            <EnhancedTableHead
-              numSelected={selected.length}
-              order={order}
-              orderBy={orderBy}
-              onSelectAllClick={handleSelectAllClick}
-              onRequestSort={handleRequestSort}
-              rowCount={props.rows.length}
-            />
-            <TableBody>
-              {stableSort(props.rows, getComparator(order, orderBy)).map(
-                (row, index, array) => {
-                  return (
-                    <StyledTableRow role="checkbox" tabIndex={-1} key={row._id}>
-                      <StyledTableCell
-                        component="th"
-                        scope="row"
-                        align="center"
-                      >
-                        {`Plannr_${props.count - page * rowsPerPage - index}`}
-                      </StyledTableCell>
-                      <StyledTableCell align="center">
-                        {row.planName}
-                      </StyledTableCell>
-                      <StyledTableCell align="center">
-                        {row.created}
-                      </StyledTableCell>
-                      <StyledTableCell align="center">
-                        {row.credits}
-                      </StyledTableCell>
-                      <StyledTableCell align="center">
-                        <Button
-                          variant="outlined"
-                          onClick={() =>
-                            handleClick(row.output, row.api, row.planFormFields)
-                          }
+    <>
+      <DesktopWrapper>
+        <Box sx={{ width: "100%" }}>
+          <Paper sx={{ width: "100%", mb: 2 }}>
+            <TableContainer>
+              <Table
+                sx={{ minWidth: 750 }}
+                aria-labelledby="tableTitle"
+                size={"medium"}
+              >
+                <EnhancedTableHead
+                  numSelected={selected.length}
+                  order={order}
+                  orderBy={orderBy}
+                  onSelectAllClick={handleSelectAllClick}
+                  onRequestSort={handleRequestSort}
+                  rowCount={props.rows.length}
+                />
+                <TableBody>
+                  {stableSort(props.rows, getComparator(order, orderBy)).map(
+                    (row, index, array) => {
+                      return (
+                        <StyledTableRow
+                          role="checkbox"
+                          tabIndex={-1}
+                          key={row._id}
                         >
-                          View Plan
-                        </Button>
-                      </StyledTableCell>
-                    </StyledTableRow>
-                  );
-                }
-              )}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
-          component="div"
-          count={props.count}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
-      </Paper>
-    </Box>
+                          <StyledTableCell
+                            component="th"
+                            scope="row"
+                            align="center"
+                          >
+                            {`Plannr_${props.count -
+                              page * rowsPerPage -
+                              index}`}
+                          </StyledTableCell>
+                          <StyledTableCell align="center">
+                            {row.planName}
+                          </StyledTableCell>
+                          <StyledTableCell align="center">
+                            {row.created}
+                          </StyledTableCell>
+                          <StyledTableCell align="center">
+                            {row.credits}
+                          </StyledTableCell>
+                          <StyledTableCell align="center">
+                            <Button
+                              variant="outlined"
+                              onClick={() =>
+                                handleClick(
+                                  row.output,
+                                  row.api,
+                                  row.planFormFields
+                                )
+                              }
+                            >
+                              View Plan
+                            </Button>
+                          </StyledTableCell>
+                        </StyledTableRow>
+                      );
+                    }
+                  )}
+                </TableBody>
+              </Table>
+            </TableContainer>
+            <TablePagination
+              rowsPerPageOptions={[5, 10, 25]}
+              component="div"
+              count={props.count}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+            />
+          </Paper>
+        </Box>
+      </DesktopWrapper>
+      <MobileWrapper>
+        <div className="header">
+          <h1>Plans</h1>
+          <div className="filters">
+            <span>
+              Total <span className="value">{filteredPlansList.length}</span>
+            </span>
+            <span class="updatePlanName">
+              Show{" "}
+              <span className="value">
+                <FormControl variant="standard" sx={{ m: 1, minWidth: 140 }}>
+                  <StyledSelect
+                    labelId="demo-simple-select-standard-label"
+                    id="demo-simple-select-standard"
+                    value={selectedPlan}
+                    onChange={handlePlanChange}
+                    MenuProps={{
+                      sx: {
+                        "& .MuiListItem-root.Mui-selected": {
+                          backgroundColor: "transparent",
+                        },
+                      },
+                    }}
+                  >
+                    {plansList.map((value, index) => {
+                      return (
+                        <StyledMenuItem
+                          value={value}
+                          MenuProps={{
+                            sx: {
+                              "&& .Mui-selected": {
+                                background: "#f9f9f9",
+                                color: "#05bbc2",
+                              },
+                            },
+                          }}
+                        >
+                          {value}
+                        </StyledMenuItem>
+                      );
+                    })}
+                  </StyledSelect>
+                </FormControl>
+              </span>
+            </span>
+          </div>
+        </div>
+        {filteredPlansList.map(
+          (
+            { created, credits, planName, output, api, planFormFields },
+            index
+          ) => {
+            return (
+              <CardContainer>
+                <div className="left">
+                  <div>
+                    <div>
+                      Name:
+                      <span className="value">
+                        {` Plannr_${props.count - index}`}
+                      </span>
+                    </div>
+                    <div>
+                      Credits Used: <span className="value">{credits}</span>
+                    </div>
+                  </div>
+                  <div>
+                    <span>{created}</span>
+                  </div>
+                </div>
+                <div className="right">
+                  <div className="value">{planName}</div>
+                  <Button
+                    variant="outlined"
+                    onClick={() => handleClick(output, api, planFormFields)}
+                  >
+                    View Plan
+                  </Button>
+                </div>
+              </CardContainer>
+            );
+          }
+        )}
+      </MobileWrapper>
+    </>
   );
 };
+
+const StyledMenuItem = styled(MenuItem)`
+  font-style: normal;
+  font-size: 16px;
+  line-height: 38px;
+  padding: 3px 22px;
+`;
+
+const StyledSelect = styled(Select)`
+  #demo-simple-select-standard {
+    display: flex;
+    justify-content: space-evenly;
+    background-color: transparent !important;
+    /* color:#079196 !important; */
+  }
+`;
+
+const CardContainer = styled.div`
+  padding: 16px;
+  height: 134px;
+  display: flex;
+  justify-content: space-between;
+  background: #ffffff;
+  border: 1px solid #f1f1f1;
+  border-radius: 8px;
+  .left {
+    flex: 0.5;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    > div {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+  }
+
+  .right {
+    flex: 0.5;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .value {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 20px;
+    text-align: right;
+    color: #344054;
+  }
+`;
+
+const DesktopWrapper = styled.div`
+  display: block !important;
+
+  @media only screen and (max-width: 600px) {
+    display: none !important;
+  }
+`;
+const MobileWrapper = styled.div`
+    
+  display: none !important;
+  .header {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 16px;
+    h1 {
+      font-style: normal;
+      font-weight: 600;
+      font-size: 20px;
+      line-height: 38px;
+      color: #101828;
+    }
+    .filters {
+      display: flex;
+      flex-direction: row;
+      gap: 20px;
+      align-items: center;
+    }
+    .value {
+      font-style: normal;
+      font-weight: 700;
+      font-size: 14px;
+      line-height: 20px;
+      text-align: right;
+      color: #344054;
+    }
+
+    .updatePlanName {
+      vertical-align: middle;
+      display: flex;
+      align-items: center;
+    }
+  }
+  @media only screen and (max-width: 600px) {
+    display: block !important;
+  }
+`;

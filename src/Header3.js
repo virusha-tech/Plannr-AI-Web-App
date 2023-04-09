@@ -172,10 +172,15 @@ const StyledMenuItem = styled(MenuItem)`
 `;
 
 const StyledMenuItemLogout = styled(StyledMenuItem)`
-  color: red;
+  color: red !important;
   &:hover {
-    color: red;
-    background-color: #f2f2f2;
+    color: red !important;
+    background-color: #f2f2f2 !important;
+  }
+
+  @media only screen and (max-width: 899px) {
+    padding: 0px 6px;
+    font-weight: 600;
   }
 `;
 
@@ -253,6 +258,16 @@ class ResponsiveAppBar extends React.Component {
     }));
   };
 
+  handleClose = (ev, label) => {
+    if (label === "Logout") {
+      this.props.store.handleLogout(this.props.history);
+    } else if (label === "Profile") {
+      this.props.history.push(this.props.isFreeVersion ? "#" : "/my-profile");
+    } else if (label === "Help") {
+      window.gist.chat("open");
+    }
+  };
+
   toggleDropdown(key) {
     window.gtag("event", "click", {
       event_category: "Button",
@@ -307,7 +322,7 @@ class ResponsiveAppBar extends React.Component {
               sx={{
                 display: { xs: "none", md: "flex" },
                 height: "40px",
-                'align-items': 'center'
+                "align-items": "center",
               }}
             >
               <StylNavLink to="/" className="flex-none">
@@ -472,6 +487,22 @@ class ResponsiveAppBar extends React.Component {
                 sx={{ textAlign: "center" }}
               >
                 <Box>
+                  <MobileProfile className="flex items-center gap-x-4">
+                    <img
+                      width="60px"
+                      height="60px"
+                      src={this.props?.store.profile?.profilePhoto || User}
+                      alt="Avatar"
+                    />
+                    <div className="flex flex-col">
+                      <span className="greeting">
+                        Hi, {this.props?.store.profile.fname}
+                      </span>
+                      <span className="credits">
+                        {this.props?.store.profile.credits} Credits
+                      </span>
+                    </div>
+                  </MobileProfile>
                   {/* <StyledNavLink to="/" className="flex-none">
                     <img
                       src={CompanyLogo}
@@ -538,33 +569,65 @@ class ResponsiveAppBar extends React.Component {
                               unmountOnExit
                             >
                               <List component="div" disablePadding>
-                                {this.AllAuthorizedPlans.map(
-                                  ({ label, value, isDisabled }) => {
-                                    return (
-                                      <ListItem key={label} disablePadding>
-                                        <ListItemButton
-                                          sx={{ textAlign: "center" }}
+                                {this.AllAuthorizedPlans.filter(
+                                  ({ isDisabled }) => !isDisabled
+                                ).map(({ label, value, isDisabled }) => {
+                                  return (
+                                    <ListItem key={label} disablePadding>
+                                      <ListItemButton
+                                        sx={{ textAlign: "center" }}
+                                      >
+                                        <NestedNavListItem
+                                          style={{
+                                            padding: "0px 16px",
+                                            "text-align": "left",
+                                          }}
+                                          ismobile="true"
+                                          to={isDisabled ? "#" : value}
+                                          isdisabled={isDisabled}
                                         >
-                                          <NestedNavListItem
-                                            ismobile="true"
-                                            to={isDisabled ? "#" : value}
-                                            isdisabled={isDisabled}
-                                          >
-                                            {label}
-                                          </NestedNavListItem>
-                                        </ListItemButton>
-                                      </ListItem>
-                                    );
-                                  }
-                                )}
+                                          {label}
+                                        </NestedNavListItem>
+                                      </ListItemButton>
+                                    </ListItem>
+                                  );
+                                })}
                               </List>
                             </Collapse>
                           </div>
                         );
+                      } else if (menuItem.label === "Logout") {
+                        return (
+                          <StyledMenuItemLogout
+                            onClick={(ev) => this.handleClose(ev, "Logout")}
+                          >
+                            Logout
+                          </StyledMenuItemLogout>
+                        );
+                      } else if (menuItem.label === "Support") {
+                        return (
+                          <NavButton
+                            className="mr-2 text-center block rounded py-2 px-4"
+                            key={menuItem.label}
+                          >
+                            <a
+                              href="https://plannr-help.freshdesk.com/support/home"
+                              target="_blank"
+                              rel="noreferrer"
+                              style={{ padding: "0px 8px" }}
+                            >
+                              {menuItem.label}
+                            </a>
+                          </NavButton>
+                        );
                       } else if (menuItem.isButton) {
                         return (
                           <div key={menuItem.label}>
-                            <StyledListItemButton>
+                            <StyledListItemButton
+                              onClick={(ev) =>
+                                this.handleClose(ev, menuItem.label)
+                              }
+                            >
                               <StyledListItemText>
                                 {menuItem.label}
                               </StyledListItemText>
@@ -645,6 +708,36 @@ const Profile = styled.div`
   }
 `;
 
+const MobileProfile = styled.div`
+  padding: 16px;
+  img {
+    position: relative;
+    top: 4px;
+    border: 1px solid lightgrey;
+    border-radius: 50%;
+  }
+  .greeting {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 24px;
+    width: 100px;
+    text-align: left;
+    color: #525252;
+  }
+  .credits {
+    height: 13px;
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 13px;
+    text-align: left;
+    color: #000000;
+  }
+`;
+
 const HeaderWrapper = styled.div`
   border-bottom: 1px solid #eaecf0;
   padding: 8px 80px;
@@ -652,6 +745,12 @@ const HeaderWrapper = styled.div`
   background: white;
   @media only screen and (max-width: 899px) {
     padding: 1vh 4%;
+    position: fixed;
+    background: white;
+    z-index: 100;
+    top: 0px;
+    right: 0px;
+    left: 0px;
   }
 `;
 
@@ -692,6 +791,7 @@ const NavListItem = styled(NavLink)`
   line-height: 40px;
   color: #344054;
   padding: 0px 8px;
+  text-align: left;
 
   &.selected {
     background: rgba(116, 116, 116, 0.1);
@@ -734,7 +834,7 @@ const NavButton = styled.button`
   font-size: 16px;
   line-height: 40px;
   color: #344054;
-  padding: 0px;
+  /* padding: 0px; */
 `;
 
 const StyledListItemButton = styled(ListItemButton)`
@@ -742,7 +842,7 @@ const StyledListItemButton = styled(ListItemButton)`
   align-items: center;
   position: relative;
   left: 14px;
-  justify-content: center;
+  justify-content: flex-start;
   background: white;
   font-family: "Inter";
   height: 56px;
@@ -751,10 +851,12 @@ const StyledListItemButton = styled(ListItemButton)`
   font-size: 16px;
   line-height: 24px;
   color: #344054;
+  padding: 0px 8px;
 `;
 
 const StyledListItemText = styled.span`
   margin-right: 10px;
+  text-align: left;
 `;
 
 const NavList = styled.ul`

@@ -91,6 +91,12 @@ export const MenuList = [
     isButton: true,
     exact: true,
   },
+  {
+    label: "Logout",
+    // to: "/whats-new",
+    isButton: true,
+    exact: true,
+  },
 ];
 
 // {

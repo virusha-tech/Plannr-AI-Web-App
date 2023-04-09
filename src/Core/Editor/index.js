@@ -49,6 +49,7 @@ class MyEditor extends React.Component {
       isLoadingAnswer: false,
       answer: "",
       readOnly: true,
+      showChatBot: false,
     };
     makeObservable(this);
     this.tool = this.props.store.getToolByUrl(this.props.location.pathname);
@@ -57,6 +58,7 @@ class MyEditor extends React.Component {
     this.saveDocument = this.saveDocument.bind(this);
     this.appendText = this.appendText.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.toggleChatBot = this.toggleChatBot.bind(this);
   }
 
   checkOutput = (output) => {
@@ -182,6 +184,10 @@ class MyEditor extends React.Component {
     }
   };
 
+  toggleChatBot = () => {
+    this.setState({ showChatBot: true });
+  };
+
   render() {
     return (
       <>
@@ -220,6 +226,23 @@ class MyEditor extends React.Component {
                 Save for Later
               </DownloadButton>
             </div>
+            {this.state.showChatBot ? (
+              <ContextChatBot
+                store={this.props.store}
+                initialContext={this.props.answer}
+                additionalSystemTextForChatBot={
+                  this.props.additionalSystemTextForChatBot
+                }
+              />
+            ) : null}
+            <BottomSheet
+              onClick={!this.state.showChatBot ? this.toggleChatBot : null}
+              className={`${
+                this.state.showChatBot ? "pointer_events_none" : ""
+              }`}
+            >
+              Do you have follow up questions?
+            </BottomSheet>
           </LeftWrapper>
           <RightWrapper>
             <ContextChatBot
@@ -236,6 +259,29 @@ class MyEditor extends React.Component {
   }
 }
 
+const BottomSheet = styled.div`
+  background: #6b7280;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 28px;
+  text-align: center;
+  color: #ffffff;
+  padding: 11px 16px;
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  left: 0px;
+  display: none;
+
+  &.pointer_events_none {
+    pointer-events: none;
+  }
+  @media only screen and (max-width: 600px) {
+    display: block;
+  }
+`;
+
 const Wrapper = styled.div`
   display: flex;
   gap: 30px;
@@ -247,10 +293,20 @@ const Wrapper = styled.div`
 
 const LeftWrapper = styled.div`
   flex: 0.6;
+  @media only screen and (max-width: 600px) {
+    flex: 1;
+    h1 {
+      display: none;
+    }
+  }
 `;
 
 const RightWrapper = styled.div`
   flex: 0.4;
+  @media only screen and (max-width: 600px) {
+    flex: 0;
+    display: none;
+  }
 `;
 
 const StyledButton = styled(Button)`
@@ -358,6 +414,11 @@ const AnswersContainer = styled.div`
   width: 100%;
   gap: 12px;
   padding-top: 8px;
+
+  @media only screen and (max-width: 600px) {
+    gap: 8px;
+  }
+
   textarea {
     flex: 1;
     background: #ffffff;
@@ -381,12 +442,22 @@ const DownloadButton = styled.button`
   font-weight: 600;
   font-size: 14px;
   line-height: 20px;
+  @media only screen and (max-width: 600px) {
+    padding: 16px 10px;
+  }
 
   &:disabled {
     /* background: red; */
     opacity: 0.6;
     color: grey;
     cursor: not-allowed;
+  }
+  @media only screen and (max-width: 600px) {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 20px;
+    color: #344054;
   }
 `;
 export default withRouter(MyEditor);

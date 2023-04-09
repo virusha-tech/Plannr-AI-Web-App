@@ -76,6 +76,11 @@ Answer.defaultProps = {
 
 const ExampleDBPedia = React.memo(
   ({ initialContext, additionalSystemTextForChatBot, store }) => {
+    const [open, setOpen] = React.useState(true);
+    const toggleFloating = ({ opened }) => {
+      setOpen(opened);
+    };
+
     useEffect(() => {
       store.initializeChatLogs([
         {
@@ -86,40 +91,100 @@ const ExampleDBPedia = React.memo(
     }, []);
 
     return (
-      <>
+      <ContextChatBotWrapper>
         <h1>Research</h1>
-        <ChatBot
-          // recognitionEnable={true}
-          contentStyle={{ height: "48vh" }}
-          style={{ height: "100%" }}
-          botAvatar={Bot}
-          width="98%"
-          userAvatar={User}
-          headerTitle={"Plannr AI Bot"}
-          placeholder={"Enter your query regarding your plan..."}
-          steps={[
-            {
-              id: "1",
-              message: "Do you have follow up questions from your plan?",
-              trigger: "question",
-            },
-            {
-              id: "question",
-              user: true,
-              trigger: "answer",
-            },
-            {
-              id: "answer",
-              component: <Answer />,
-              waitAction: true,
-              trigger: "question",
-              asMessage: true,
-            },
-          ]}
-        />
-      </>
+        <MobileBot>
+          <ChatBot
+            floating={true}
+            opened={open}
+            toggleFloating={toggleFloating}
+            style={{ height: "84%" }}
+            botAvatar={Bot}
+            userAvatar={User}
+            headerTitle={"Plannr AI Bot"}
+            placeholder={"Enter your query regarding your plan..."}
+            steps={[
+              {
+                id: "1",
+                message: "Do you have follow up questions from your plan?",
+                trigger: "question",
+              },
+              {
+                id: "question",
+                user: true,
+                trigger: "answer",
+              },
+              {
+                id: "answer",
+                component: <Answer />,
+                waitAction: true,
+                trigger: "question",
+                asMessage: true,
+              },
+            ]}
+          />
+        </MobileBot>
+        <DesktopBot>
+          <ChatBot
+            // recognitionEnable={true}
+            contentStyle={{ height: "48vh" }}
+            style={{ height: "100%" }}
+            botAvatar={Bot}
+            width="98%"
+            userAvatar={User}
+            headerTitle={"Plannr AI Bot"}
+            placeholder={"Enter your query regarding your plan..."}
+            steps={[
+              {
+                id: "1",
+                message: "Do you have follow up questions from your plan?",
+                trigger: "question",
+              },
+              {
+                id: "question",
+                user: true,
+                trigger: "answer",
+              },
+              {
+                id: "answer",
+                component: <Answer />,
+                waitAction: true,
+                trigger: "question",
+                asMessage: true,
+              },
+            ]}
+          />
+        </DesktopBot>
+      </ContextChatBotWrapper>
     );
   }
 );
+
+const DesktopBot = styled.div`
+  display: block;
+
+  @media only screen and (max-width: 600px) {
+    display: none;
+  }
+`;
+const MobileBot = styled.div`
+  display: none;
+  @media only screen and (max-width: 600px) {
+    display: block;
+  }
+`;
+
+const ContextChatBotWrapper = styled.div`
+  .rsc-float-button {
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    width: 100%;
+    border-radius: 0px;
+    z-index: 0;
+    background: transparent !important;
+  }
+`;
 
 export default ExampleDBPedia;
