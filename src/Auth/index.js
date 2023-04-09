@@ -36,10 +36,6 @@ class Auth extends Component {
   constructor() {
     super();
     makeObservable(this);
-    this.state = {
-      isSplashScreen: true,
-    };
-    this.handleLoginClick = this.handleLoginClick.bind(this);
   }
 
   onChange = (val) => {
@@ -202,9 +198,7 @@ class Auth extends Component {
   handleGoogleLogin() {
     this.onGoogleLogin();
   }
-  handleLoginClick = () => {
-    this.setState({ isSplashScreen: false });
-  };
+
   render() {
     const settings = {
       dots: true,
@@ -321,14 +315,7 @@ class Auth extends Component {
             <MainWrapper>
               <Switch>
                 <Route path="/login" exact>
-                 {
-                  this.state.isSplashScreen?
-                  <HomeScreen
-                    settings={settings}
-                    onLoginClick={this.handleLoginClick}
-                  />
-                  :
-<SignIn
+                  <SignIn
                     landingPageUrl={this.props.store.landingPageUrl}
                     email={this.email}
                     password={this.password}
@@ -337,10 +324,6 @@ class Auth extends Component {
                     onChange={this.onChangeAny}
                     onLogin={this.onLogin}
                   />
-                 }
-                  
-
-                  
                 </Route>
                 <Route path="/signup" exact>
                   <SignUp
@@ -353,10 +336,11 @@ class Auth extends Component {
                     onGoogleLogin={this.onGoogleLogin}
                   />
                 </Route>
-                {/* <Route path="/" exact>
-                </Route> */}
-                <Route path="/">
-                  <Redirect to="/login" />
+                <Route path="/" exact>
+                  <HomeScreen settings={settings} />
+                </Route>
+                <Route path="*">
+                  <Redirect to="/" />
                 </Route>
               </Switch>
             </MainWrapper>
@@ -369,7 +353,7 @@ class Auth extends Component {
 
 export default withRouter(Auth);
 
-const HomeScreen = withRouter(({ history, settings, onLoginClick }) => {
+const HomeScreen = withRouter(({ history, settings }) => {
   return (
     <div className="homescreenWrapper">
       <div className="courasel">
@@ -407,7 +391,10 @@ const HomeScreen = withRouter(({ history, settings, onLoginClick }) => {
       </div>
       <div className="action_btn">
         <div className="account_creation_btns">
-          <LoginButton variant="contained" onClick={() => onLoginClick()}>
+          <LoginButton
+            variant="contained"
+            onClick={() => history.push("/login")}
+          >
             Login
           </LoginButton>
           <SignUpButton
@@ -562,7 +549,7 @@ const LogoWrapper = styled.div`
   }
 `;
 
-const SlickArrowLeftButton = styled.div`
+const SlickArrowLeftButton = styled.button`
   &:before {
     display: none;
   }
