@@ -62,6 +62,7 @@ app.use("/getAdminHistory", require("./getAdminHistory"));
 app.use("/getPlanForIthUser", require("./getPlanForIthUser"));
 app.use("/getMyPlans", require("./getMyPlans"));
 app.use("/getMyUsers", require("./getMyUsers"));
+app.use("/getAdminDashBoardInformation", require("./getAdminDashBoardInformation"));
 
 app.use("/Editor", require("./getMyPlans/EditorOutput"));
 
