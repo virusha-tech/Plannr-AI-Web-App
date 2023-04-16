@@ -1,30 +1,34 @@
 import React, { Component } from "react";
 import { Helmet } from "react-helmet";
 import styled from "styled-components";
-import { Layout } from "./Layout";
 import { observer, inject } from "mobx-react";
 import { withRouter } from "react-router-dom";
 import moment from "moment";
-import GeneratingSpinner from "./Core/Editor/GeneratingSpinner";
-import { EnhancedTable } from "./TestDb";
+import { EnhancedTable } from "./UsersDB";
+import GeneratingSpinner from "../Core/Editor/GeneratingSpinner";
+import { Layout } from "./Layout";
 
 function createData(
+  creditsUsed,
+  email,
+  fname,
+  lname,
+  profilePhoto,
   created,
-  credits,
-  id,
-  planName,
-  output,
-  api,
-  planFormFields
+  plan,
+  planCount,
+  _id
 ) {
   return {
     created: moment(created).format("D MMM, YYYY"),
-    credits,
-    id,
-    planName,
-    output,
-    api,
-    planFormFields,
+    creditsUsed,
+    email,
+    fname,
+    lname,
+    profilePhoto,
+    plan,
+    planCount,
+    id: _id,
   };
 }
 
@@ -48,79 +52,84 @@ class SavedPlans extends Component {
     this.props.history.push("/");
   };
 
-  handleOutput = (output, api, planFormFields) => {
-    this.props.history.push(
-      `${api.substring(4)}?output_id=${output}&formFields=${JSON.stringify(
-        planFormFields
-      )}`
-    );
+  handleOutput = (id) => {
+    this.props.history.push(`/admin/user/${id}`);
   };
 
   componentDidMount() {
     const getPlannerHistory = async () => {
-      const plans = await await this.props.store.api.get(
-        "/getMyPlans?page=1&pageSize=10"
+      const users = await await this.props.store.api.get(
+        "/getMyUsers?page=1&pageSize=10"
       );
 
-      const rows = plans.data.docs.map((plan) => {
+      const rows = users.data.data.map((user) => {
         const {
+          creditsUsed,
+          email,
+          fname,
+          lname,
+          profilePhoto,
           created,
-          credits,
-          id,
-          planName,
-          output,
-          api,
-          planFormFields,
-        } = plan;
+          plan,
+          planCount,
+          _id,
+        } = user;
         return createData(
+          creditsUsed,
+          email,
+          fname,
+          lname,
+          profilePhoto,
           created,
-          credits,
-          id,
-          planName,
-          output,
-          api,
-          planFormFields
+          plan,
+          planCount,
+          _id
         );
       });
 
       this.setState({
         rows,
         isLoading: false,
-        count: plans.data.count,
+        count: users.data.count,
       });
     };
     getPlannerHistory();
   }
 
   async handleChangePage(pageNumber, pageSize = 10, cb) {
-    const plans = await await this.props.store.api.get(
-      `/getMyPlans?page=${pageNumber + 1}&pageSize=${pageSize}`
+    const users = await await this.props.store.api.get(
+      `/getMyUsers?page=${pageNumber + 1}&pageSize=${pageSize}`
     );
-    const rows = plans.data.docs.map((plan) => {
+    const rows = users.data.data.map((user) => {
       const {
+        creditsUsed,
+        email,
+        fname,
+        lname,
+        profilePhoto,
         created,
-        credits,
-        id,
-        planName,
-        output,
-        api,
-        planFormFields,
-      } = plan;
+        plan,
+        planCount,
+        _id,
+      } = user;
       return createData(
+        creditsUsed,
+        email,
+        fname,
+        lname,
+        profilePhoto,
         created,
-        credits,
-        id,
-        planName,
-        output,
-        api,
-        planFormFields
+        plan,
+        planCount,
+        _id
       );
     });
 
     this.setState(
       {
-        rows: [...rows],
-        count: plans.data.count,
+        rows,
+        isLoading: false,
+        count: users.data.count,
       },
       () => {
         cb();
@@ -133,12 +142,12 @@ class SavedPlans extends Component {
       <Layout>
         {this.state.isLoading ? (
           <GeneratingSpinner showLoader={true}>
-            Finding your seach History...
+            Finding your users History...
           </GeneratingSpinner>
         ) : this.state.count ? (
           <TableWrapper>
             <Helmet>
-              <title>{`Saved Plans - Plannr AI`}</title>
+              <title>{`AdminDashboard Users - Plannr AI`}</title>
             </Helmet>
             <EnhancedTable
               rows={this.state.rows}
@@ -150,7 +159,7 @@ class SavedPlans extends Component {
         ) : (
           <Center>
             <Helmet>
-              <title>{`Saved Plans - Plannr AI`}</title>
+              <title>{`AdminDashboard Users - Plannr AI`}</title>
             </Helmet>
             <h1>No plan created yet!</h1>
             <span>

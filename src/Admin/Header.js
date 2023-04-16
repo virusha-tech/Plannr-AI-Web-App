@@ -12,10 +12,10 @@ import styled from "styled-components";
 import Drawer from "@mui/material/Drawer";
 import PropTypes from "prop-types";
 import { NavLink, withRouter } from "react-router-dom";
-import CompanyLogo from "./assets/CompanyLogo.svg";
 import Select from "react-select";
-import { MenuList } from "./config";
-import User from "./assets/User.png";
+import { AdminMenuList as MenuList } from "../config";
+import User from "../assets/User.png";
+import CompanyLogo from "../assets/CompanyLogo.svg";
 import { observer, inject } from "mobx-react";
 import { computed } from "mobx";
 import Collapse from "@mui/material/Collapse";
@@ -99,18 +99,18 @@ const ProfileSection = (props) => {
       props.history.push(props.isFreeVersion ? "#" : "/my-profile");
     } else if (label === "Help") {
       window.gist.chat("open");
-    } else if (label === "Admin Dashboard") {
-      props.history.push("/admin/dashboard");
+    } else if (label === "User Dashboard") {
+      props.history.push("/dashboard");
     }
   };
 
   useEffect(() => {
     const isFound = ProfileMenuList.findIndex((menu) => {
-      return menu.name == "Admin Dashboard";
+      return menu.name == "User Dashboard";
     });
     if (isFound === -1 && props?.store.profile.accountType === "admin") {
       ProfileMenuList.splice(1, 0, {
-        name: "Admin Dashboard",
+        name: "User Dashboard",
         isDisabled: false,
       });
     }
@@ -158,6 +158,7 @@ const ProfileSection = (props) => {
                 onClick={(ev) => handleClose(ev, name)}
               >
                 {name}
+                {/* Desktop */}
               </StyledMenuItem>
             );
           })}
@@ -181,10 +182,7 @@ const StyledMenuItem = styled(MenuItem)`
   margin: 0px 16px;
   box-sizing: content-box;
   &:hover {
-    color: ${({ theme }) => {
-      return theme.primary;
-    }};
-    background-color: #f2f2f2;
+    background-color: white;
   }
 `;
 
@@ -381,39 +379,8 @@ class ResponsiveAppBar extends React.Component {
               <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
                 <NavList className="flex flex-grow">
                   {MenuList.map((menuItem, index) => {
-                    if (menuItem.label === "All Plans") {
-                      return (
-                        <SearchableDropdown
-                          ref={this.setWrapperRef}
-                          key={menuItem.label}
-                        >
-                          <NavButton
-                            className="mr-2 text-center block rounded py-2 px-4"
-                            onClick={() => this?.toggleDropdown("isOpen")}
-                          >
-                            {menuItem.label}
-                          </NavButton>
-                          <div
-                            className={`dropdown ${
-                              this?.state.isOpen ? "open" : ""
-                            }`}
-                          >
-                            <Select
-                              options={this?.AllAuthorizedPlans}
-                              // value={this?.state.selectedOption}
-                              onChange={this?.handleSelect}
-                              autoFocus={true}
-                              menuIsOpen={true}
-                              classNamePrefix="select"
-                              styles={customStyles}
-                              isSearchable={true}
-                              maxMenuHeight={200}
-                              // menuPortalTarget={menuPortalTarget}
-                            />
-                          </div>
-                        </SearchableDropdown>
-                      );
-                    } else if (menuItem.label === "Help") {
+                    console.log(menuItem);
+                    if (menuItem.label === "Help") {
                       return (
                         <NavButton
                           className="mr-2 text-center block rounded py-2 px-4"
@@ -442,12 +409,14 @@ class ResponsiveAppBar extends React.Component {
                         </NavButton>
                       );
                     } else if (menuItem.isButton) {
-                      <NavButton
-                        className="mr-2 text-center block rounded py-2 px-4"
-                        key={menuItem.label}
-                      >
-                        {menuItem.label}
-                      </NavButton>;
+                      return (
+                        <NavButton
+                          className="mr-2 text-center block rounded py-2 px-4"
+                          key={menuItem.label}
+                        >
+                          {menuItem.label}
+                        </NavButton>
+                      );
                     } else {
                       return (
                         <NavListItem
@@ -759,9 +728,10 @@ const HeaderWrapper = styled.div`
   border-bottom: 1px solid #eaecf0;
   padding: 8px 80px;
   height: 8vh;
-  background: white;
+  background: ${({ theme }) => {
+    return theme.primary;
+  }};
   position: fixed;
-  background: white;
   z-index: 100;
   top: 0px;
   right: 0px;
@@ -810,12 +780,13 @@ const NavListItem = styled(NavLink)`
   padding: 0px 8px;
   text-align: left;
   &.selected {
-    background: rgba(116, 116, 116, 0.1);
+    background: white !important;
+    border: 2px solid black !important;
     cursor: not-allowed;
   }
 
   &:hover {
-    background: rgba(116, 116, 116, 0.1);
+    background: white !important;
   }
 `;
 

@@ -5,8 +5,8 @@ import { Layout } from "./Layout";
 import { observer, inject } from "mobx-react";
 import { withRouter } from "react-router-dom";
 import moment from "moment";
-import GeneratingSpinner from "./Core/Editor/GeneratingSpinner";
-import { EnhancedTable } from "./TestDb";
+import GeneratingSpinner from "../Core/Editor/GeneratingSpinner";
+import { EnhancedTable } from "../TestDb";
 
 function createData(
   created,
@@ -59,7 +59,7 @@ class SavedPlans extends Component {
   componentDidMount() {
     const getPlannerHistory = async () => {
       const plans = await await this.props.store.api.get(
-        "/getMyPlans?page=1&pageSize=10"
+        "/getAdminHistory?page=1&pageSize=10"
       );
 
       const rows = plans.data.docs.map((plan) => {
@@ -94,7 +94,7 @@ class SavedPlans extends Component {
 
   async handleChangePage(pageNumber, pageSize = 10, cb) {
     const plans = await await this.props.store.api.get(
-      `/getMyPlans?page=${pageNumber + 1}&pageSize=${pageSize}`
+      `/getAdminHistory?page=${pageNumber + 1}&pageSize=${pageSize}`
     );
     const rows = plans.data.docs.map((plan) => {
       const {
@@ -150,7 +150,7 @@ class SavedPlans extends Component {
         ) : (
           <Center>
             <Helmet>
-              <title>{`Saved Plans - Plannr AI`}</title>
+              <title>{`AdminDashboard History - Plannr AI`}</title>
             </Helmet>
             <h1>No plan created yet!</h1>
             <span>

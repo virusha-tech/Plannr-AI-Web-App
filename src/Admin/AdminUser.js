@@ -5,8 +5,8 @@ import { Layout } from "./Layout";
 import { observer, inject } from "mobx-react";
 import { withRouter } from "react-router-dom";
 import moment from "moment";
-import GeneratingSpinner from "./Core/Editor/GeneratingSpinner";
-import { EnhancedTable } from "./TestDb";
+import GeneratingSpinner from "../Core/Editor/GeneratingSpinner";
+import { EnhancedTable } from "../TestDb";
 
 function createData(
   created,
@@ -30,7 +30,7 @@ function createData(
 
 @inject("store")
 @observer
-class SavedPlans extends Component {
+class AdminUser extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -57,9 +57,11 @@ class SavedPlans extends Component {
   };
 
   componentDidMount() {
+    const user_id = this.props.match.params.id;
+
     const getPlannerHistory = async () => {
       const plans = await await this.props.store.api.get(
-        "/getMyPlans?page=1&pageSize=10"
+        `/getPlanForIthUser/${user_id}?page=1&pageSize=10`
       );
 
       const rows = plans.data.docs.map((plan) => {
@@ -93,9 +95,12 @@ class SavedPlans extends Component {
   }
 
   async handleChangePage(pageNumber, pageSize = 10, cb) {
+    const user_id = this.props.match.params.id;
+
     const plans = await await this.props.store.api.get(
-      `/getMyPlans?page=${pageNumber + 1}&pageSize=${pageSize}`
+      `/getPlanForIthUser/${user_id}?page=1&pageSize=10`
     );
+
     const rows = plans.data.docs.map((plan) => {
       const {
         created,
@@ -119,7 +124,8 @@ class SavedPlans extends Component {
 
     this.setState(
       {
-        rows: [...rows],
+        rows,
+        isLoading: false,
         count: plans.data.count,
       },
       () => {
@@ -167,7 +173,7 @@ class SavedPlans extends Component {
   }
 }
 
-export default withRouter(SavedPlans);
+export default withRouter(AdminUser);
 const TableWrapper = styled.div`
   height: 100%;
   padding-top: 2%;

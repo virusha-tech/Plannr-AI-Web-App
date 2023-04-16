@@ -58,7 +58,11 @@ app.use("/", authJwt.verifyToken);
 // Already signed up user routes
 app.use("/user", require("./user"));
 
+app.use("/getAdminHistory", require("./getAdminHistory"));
+app.use("/getPlanForIthUser", require("./getPlanForIthUser"));
 app.use("/getMyPlans", require("./getMyPlans"));
+app.use("/getMyUsers", require("./getMyUsers"));
+
 app.use("/Editor", require("./getMyPlans/EditorOutput"));
 
 // Using AI Platform
