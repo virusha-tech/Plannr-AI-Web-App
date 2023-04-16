@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/static/css/main.d56c02ef.css",
-    "main.js": "/static/js/main.c9223cfc.js",
-    "main.js.map": "/static/js/main.c9223cfc.js.map",
+    "main.css": "/static/css/main.a0d09660.css",
+    "main.js": "/static/js/main.d9a38610.js",
+    "main.js.map": "/static/js/main.d9a38610.js.map",
     "static/js/1.23491bcb.chunk.js": "/static/js/1.23491bcb.chunk.js",
     "static/js/1.23491bcb.chunk.js.map": "/static/js/1.23491bcb.chunk.js.map",
     "index.html": "/index.html",
-    "static/css/main.d56c02ef.css.map": "/static/css/main.d56c02ef.css.map",
-    "static/js/main.c9223cfc.js.LICENSE.txt": "/static/js/main.c9223cfc.js.LICENSE.txt",
+    "static/css/main.a0d09660.css.map": "/static/css/main.a0d09660.css.map",
+    "static/js/main.d9a38610.js.LICENSE.txt": "/static/js/main.d9a38610.js.LICENSE.txt",
     "static/media/AddCredits.c1a08353.svg": "/static/media/AddCredits.c1a08353.svg",
     "static/media/Avatar.b882ed97.svg": "/static/media/Avatar.b882ed97.svg",
     "static/media/Bot.74801902.svg": "/static/media/Bot.74801902.svg",
@@ -27,7 +27,7 @@
     "static/media/pattern-dots.svg": "/static/media/pattern-dots.dba411dc.svg"
   },
   "entrypoints": [
-    "static/css/main.d56c02ef.css",
-    "static/js/main.c9223cfc.js"
+    "static/css/main.a0d09660.css",
+    "static/js/main.d9a38610.js"
   ]
 }

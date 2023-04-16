@@ -286,7 +286,14 @@ class Tool extends Component {
         <Helmet>
           <title>{`${this.tool.title} Tool - Plannr AI`}</title>
         </Helmet>
-        <StyledToolContainer sx={{ width: "100%" }}>
+        <StyledToolContainer
+          sx={{ width: "100%" }}
+          className={`${
+            this.state.activeStep == 1 && this.state.editorOutput.answer.length
+              ? "isEditorPresent"
+              : null
+          }`}
+        >
           <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
             <Tabs value={this.state.activeTab} onChange={this.handleChange}>
               <StyledTab
@@ -418,6 +425,12 @@ class Tool extends Component {
 const StyledToolContainer = styled(Box)`
   box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px,
     rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+  @media only screen and (max-width: 600px) {
+    &.isEditorPresent {
+      height: 84vh;
+      overflow: scroll;
+    }
+  }
 `;
 
 const PlanRecomendations = ({ planName, inputs }) => {
@@ -528,7 +541,7 @@ const StyledStepLabel = styled(StepButton)`
     @media only screen and (max-width: 600px) {
       font-style: normal;
       font-weight: 500;
-      font-size: 14px;
+      font-size: 12px;
       line-height: 24px;
       color: #374151;
     }

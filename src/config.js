@@ -1,6 +1,6 @@
 const dev = {
   baseURL: "http://localhost:3080/api/",
-  baseDomain:"https://dev.plannr.ai/",
+  baseDomain: "https://dev.plannr.ai/",
   landingPageUrl: "http://localhost:3080",
   stripe: {
     // free: "price_1Mi9T5SB17XWitVzdwgoMZBC",
@@ -23,7 +23,7 @@ const dev = {
 
 const prod = {
   baseURL: "/api/",
-  baseDomain:"https://beta.plannr.ai/",
+  baseDomain: "https://beta.plannr.ai/",
   landingPageUrl: "https://beta.plannr.ai/",
   stripe: {
     // free: "price_1MjlezSB17XWitVzjlHbMFo0",
@@ -99,13 +99,47 @@ export const MenuList = [
   },
 ];
 
+export const AdminMenuList = [
+  {
+    label: "Dashboard",
+    to: "/admin/dashboard",
+    exact: true,
+  },
+  {
+    label: "Users",
+    to: "/admin/users",
+  },
+  {
+    label: "History",
+    to: "/admin/history",
+    exact: true,
+  },
+  {
+    label: "Services",
+    to: "/admin/services",
+    exact: true,
+  },
+  // {
+  //   label: "Logout",
+  //   // to: "/whats-new",
+  //   isButton: true,
+  //   exact: true,
+  // },
+  // {
+  //   label: "Plans",
+  //   // to: "/whats-new",
+  //   isButton: true,
+  //   exact: true,
+  // },
+];
+
 // {
 //   label: "Whats new?",
 //   // to: "/whats-new",
 //   isButton: true,
 //   exact: true,
 // },
-console.log('REACTAPP',process.env.NODE_ENV)
+console.log("REACTAPP", process.env.NODE_ENV);
 const config = process.env.NODE_ENV === "development" ? dev : prod;
 
 export default config;

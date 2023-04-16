@@ -150,7 +150,7 @@ class SavedPlans extends Component {
         ) : (
           <Center>
             <Helmet>
-              <title>{`Tools - Plannr AI`}</title>
+              <title>{`Saved Plans - Plannr AI`}</title>
             </Helmet>
             <h1>No plan created yet!</h1>
             <span>

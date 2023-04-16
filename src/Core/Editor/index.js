@@ -442,9 +442,6 @@ const DownloadButton = styled.button`
   font-weight: 600;
   font-size: 14px;
   line-height: 20px;
-  @media only screen and (max-width: 600px) {
-    padding: 16px 10px;
-  }
 
   &:disabled {
     /* background: red; */
@@ -455,9 +452,16 @@ const DownloadButton = styled.button`
   @media only screen and (max-width: 600px) {
     font-style: normal;
     font-weight: 600;
-    font-size: 12px;
-    line-height: 20px;
+    font-size: 10px;
+    line-height: 14px;
     color: #344054;
+    padding: 12px 10px;
+
+  }
+  @media only screen and (max-width: 400px) {
+    line-height: 12px;
+    padding:  10px;
+
   }
 `;
 export default withRouter(MyEditor);

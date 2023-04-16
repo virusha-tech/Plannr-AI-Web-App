@@ -21,6 +21,7 @@ import { computed } from "mobx";
 import Collapse from "@mui/material/Collapse";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
+import { useEffect } from "react";
 
 const drawerWidth = 240;
 
@@ -29,6 +30,7 @@ const ProfileMenuList = [
     name: "Profile",
     isDisabled: false,
   },
+
   {
     name: "Billing",
     isDisabled: false,
@@ -88,6 +90,7 @@ const ProfileSection = (props) => {
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = (ev, label) => {
     setAnchorEl(null);
     if (label === "Logout") {
@@ -96,8 +99,22 @@ const ProfileSection = (props) => {
       props.history.push(props.isFreeVersion ? "#" : "/my-profile");
     } else if (label === "Help") {
       window.gist.chat("open");
+    } else if (label === "Admin Dashboard") {
+      props.history.push("/admin/dashboard");
     }
   };
+
+  useEffect(() => {
+    const isFound = ProfileMenuList.findIndex((menu) => {
+      return menu.name == "Admin Dashboard";
+    });
+    if (isFound === -1 && props?.store.profile.accountType === "admin") {
+      ProfileMenuList.splice(1, 0, {
+        name: "Admin Dashboard",
+        isDisabled: false,
+      });
+    }
+  }, []);
 
   return (
     <StyledProfileBox>
@@ -131,7 +148,7 @@ const ProfileSection = (props) => {
           onClose={handleClose}
           MenuListProps={{
             "aria-labelledby": "basic-button",
-            sx: { width: anchorEl && anchorEl.offsetWidth },
+            sx: { width: anchorEl && anchorEl.offsetWidth + 50 },
           }}
         >
           {ProfileMenuList.map(({ name, isDisabled }) => {
@@ -743,14 +760,14 @@ const HeaderWrapper = styled.div`
   padding: 8px 80px;
   height: 8vh;
   background: white;
+  position: fixed;
+  background: white;
+  z-index: 100;
+  top: 0px;
+  right: 0px;
+  left: 0px;
   @media only screen and (max-width: 899px) {
     padding: 1vh 4%;
-    position: fixed;
-    background: white;
-    z-index: 100;
-    top: 0px;
-    right: 0px;
-    left: 0px;
   }
 `;
 
@@ -792,7 +809,6 @@ const NavListItem = styled(NavLink)`
   color: #344054;
   padding: 0px 8px;
   text-align: left;
-
   &.selected {
     background: rgba(116, 116, 116, 0.1);
     cursor: not-allowed;
@@ -861,4 +877,5 @@ const StyledListItemText = styled.span`
 
 const NavList = styled.ul`
   gap: 12px;
+  align-items: center;
 `;
