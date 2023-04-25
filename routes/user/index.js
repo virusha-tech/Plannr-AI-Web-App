@@ -4,8 +4,23 @@ const db = require("../models");
 const logger = require("../../logger");
 const User = db.user;
 const Feedback = db.feedback;
+const multer = require("multer");
+const multerS3 = require("multer-s3");
 const { mongoose } = require("../models/index");
 const { ObjectId } = mongoose.Types;
+
+const s3 = require("../s3/index");
+
+const upload = multer({
+  storage: multerS3({
+    s3: s3,
+    bucket: process.env.BUCKET,
+    key: function(req, file, cb) {
+      console.log("req.file", req.file, file);
+      cb(null, file.originalname);
+    },
+  }),
+});
 
 // Prepare Core Router
 let app = express.Router(); // User Subscribe
@@ -59,13 +74,14 @@ app.post("/stripe/subscribe", async (req, res) => {
 });
 
 // update/userbasicinformation
-app.put("/update", async (req, res) => {
-  const { payload, key } = req.body;
+app.put("/update", upload.single("file"), async (req, res) => {
+
+  const { key } = req.body;
   try {
     await User.update(
       { _id: ObjectId(req.user._id) },
       {
-        $set: { [key]: payload },
+        $set: { [key]: req.file.location },
       },
       { upsert: true }
     );

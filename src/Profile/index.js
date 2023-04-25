@@ -394,9 +394,12 @@ const UserDetails = ({ store }) => {
 
   const saveCropImage = async () => {
     try {
-      await store.api.put("/user/update", {
-        payload: pview,
-        key: "profilePhoto",
+      const imageFile = await convertToFile(pview);
+      const formData = new FormData();
+      formData.append("file", imageFile);
+      formData.append("key", "profilePhoto");
+      await store.api.put("/user/update", formData, {
+        "Content-Type": "multipart/form-data",
       });
       store.refreshTokenAndProfile();
       NotificationManager.info("Profile Pic Updated Successfully");
@@ -408,6 +411,25 @@ const UserDetails = ({ store }) => {
     }
   };
 
+  const convertToFile = async (dataUrl) => {
+    const res = await fetch(dataUrl);
+    const blob = await res.blob();
+    const mime = dataUrl
+      .split(",")[0]
+      .split(":")[1]
+      .split(";")[0];
+    const type = dataUrl
+      .substring(dataUrl.indexOf(":") + 1, dataUrl.indexOf(";"))
+      .split("/")[1];
+    const extension = mime.split("/")[1];
+
+    let newFile = new File([blob], `${profile.email}.${extension}`, {
+      type: type,
+    });
+    return newFile;
+  };
+
+  
   const handleAvatarClick = () => {
     setImagecrop(true);
   };
