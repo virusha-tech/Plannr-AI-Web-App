@@ -62,6 +62,7 @@
     "react-typist": "2.0.5",
     "recoil": "^0.4.1",
     "request-ip": "^3.3.0",
+    "sass": "^1.79.5",
     "showdown": "^1.9.1",
     "stripe": "^8.167.0",
     "styled-components": "^5.3.0",
@@ -101,7 +102,6 @@
   "devDependencies": {
     "@babel/plugin-proposal-decorators": "^7.14.5",
     "customize-cra": "^1.0.0",
-    "node-sass": "^9.0.0",
     "nodemon": "^2.0.12",
     "react-app-rewired": "^2.1.8"
   }
