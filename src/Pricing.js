@@ -655,7 +655,7 @@ const Personal = ({
     : isMonthlySubscription
     ? amount["personal"]["USCurrency"]["monthly_key"]
     : amount["personal"]["USCurrency"]["yearly_key"];
-  // console.log(key);
+  // // console.log(key);
   return (
     <div className="flex relative ">
       <Card
@@ -779,7 +779,7 @@ const Personal2 = ({
     : isMonthlySubscription
     ? amount["personal"]["USCurrency"]["monthly_key"]
     : amount["personal"]["USCurrency"]["yearly_key"];
-  // console.log(key);
+  // // console.log(key);
   return (
     <div className="flex relative ">
       <Card

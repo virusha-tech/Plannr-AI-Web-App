@@ -25,21 +25,12 @@ app.post("/travel", async (req, res, next) => {
       ", "
     )}`;
 
-    // console.log(prompt);
-
-    const gptResponse = await openai.createCompletion({
-      model: "text-davinci-003",
-      prompt,
-      user: req.user._id,
-      temperature: 0.7,
-      max_tokens: 2786,
-      top_p: 1,
-      frequency_penalty: 0,
-      presence_penalty: 0,
-      stop: ["###"],
+    const chatCompletion = await openai.chat.completions.create({
+      messages: [{ role: "system", content: prompt }],
+      model: "gpt-3.5-turbo",
     });
 
-    let output = `${gptResponse.data.choices[0].text}`;
+    let output = `${chatCompletion.choices[0].message.content}`;
     //remove the first character from output
     output = output.substring(1, output.length);
 
@@ -62,9 +53,9 @@ app.post("/travel", async (req, res, next) => {
     req.locals.planName = "Travel Plan";
     next();
   } catch (err) {
-    console.log(err.response);
-    console.log(err.data);
-    console.log(err.message);
+    // console.log(err.response);
+    // console.log(err.data);
+    // console.log(err.message);
   }
 });
 

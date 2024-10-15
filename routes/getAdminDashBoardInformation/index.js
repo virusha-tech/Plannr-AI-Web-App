@@ -24,7 +24,7 @@ app.get("/plansGrouping", async (req, res) => {
           count: count,
         };
       });
-      console.log(results);
+      // console.log(results);
       res.send({ plans });
     }
   });
@@ -77,13 +77,13 @@ app.get("/", async (req, res) => {
     ],
     (err, userResult) => {
       if (err) {
-        console.log(err);
+        // console.log(err);
       } else {
         const todayUserCount = userResult.length > 0 ? userResult[0].count : 0;
         // To get the total number of users signed up so far
         User.countDocuments({}, (err, userCount) => {
           if (err) {
-            console.log(err);
+            // console.log(err);
           } else {
             // Get plan counts
             Plan.aggregate(
@@ -106,14 +106,14 @@ app.get("/", async (req, res) => {
               ],
               (err, planResult) => {
                 if (err) {
-                  console.log(err);
+                  // console.log(err);
                 } else {
                   const todayPlanCount =
                     planResult.length > 0 ? planResult[0].count : 0;
                   // To get the total number of plans created so far
                   Plan.countDocuments({}, (err, planCount) => {
                     if (err) {
-                      console.log(err);
+                      // console.log(err);
                     } else {
                       res.send({
                         totalusersSignedInToday: todayUserCount,
@@ -137,7 +137,7 @@ app.get("/moneyFigures", async (req, res) => {
   stripe.balance.retrieve(function(err, balance) {
     // Handle any errors
     if (err) {
-      console.log("Error retrieving balance:", err);
+      // console.log("Error retrieving balance:", err);
       return;
     }
 

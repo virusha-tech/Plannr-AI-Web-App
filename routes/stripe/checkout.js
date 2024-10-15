@@ -20,8 +20,8 @@ const complete = async (eventType, data) => {
   }
   logger.info("inside checkout.session.completed");
   const { object } = data;
-  console.log(`object.customer`, object.customer);
-  console.log(`object.customer_email`, object.customer_email);
+  // console.log(`object.customer`, object.customer);
+  // console.log(`object.customer_email`, object.customer_email);
 
   await User.updateOne(
     { email: object.customer_email },

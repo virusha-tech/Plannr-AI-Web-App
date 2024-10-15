@@ -48,7 +48,7 @@ const sendResponse = async (req, res, next) => {
   res.json(response);
 };
 
-app.use("/", creditCheck);
+// app.use("/", creditCheck);
 app.use("/", require("./travel"));
 app.use("/", require("./workout"));
 

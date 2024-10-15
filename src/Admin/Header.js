@@ -379,7 +379,7 @@ class ResponsiveAppBar extends React.Component {
               <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
                 <NavList className="flex flex-grow">
                   {MenuList.map((menuItem, index) => {
-                    console.log(menuItem);
+                    // console.log(menuItem);
                     if (menuItem.label === "Help") {
                       return (
                         <NavButton

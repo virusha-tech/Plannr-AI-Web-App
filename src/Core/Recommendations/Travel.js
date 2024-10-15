@@ -2,9 +2,9 @@ import { useEffect } from "react";
 import axios from "axios";
 
 const TravelRecomendations = ({ inputs }) => {
-  //   console.log(props);
+  //   // console.log(props);
   const [{ value: Destination }] = inputs;
-  console.log(Destination);
+  // console.log(Destination);
 
   useEffect(() => {
 
@@ -21,7 +21,7 @@ const TravelRecomendations = ({ inputs }) => {
     axios
       .request(options)
       .then(function (response) {
-        console.log(response.data);
+        // console.log(response.data);
       })
       .catch(function (error) {
         console.error(error);

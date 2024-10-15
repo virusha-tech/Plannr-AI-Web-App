@@ -23,7 +23,7 @@ class Login extends Component {
 
   onChange = (val) => {
     this.currentPromptOption = val;
-    console.log(this.currentPromptOption);
+    // console.log(this.currentPromptOption);
   };
 
   onChangeAny = (val, attr) => {
@@ -42,8 +42,8 @@ class Login extends Component {
         .then(({ data }) => data);
       this.props.store.loginWithDataTokenAndProfile(data);
     } catch (err) {
-      console.log(err);
-      console.log(err?.response?.data?.message);
+      // console.log(err);
+      // console.log(err?.response?.data?.message);
       if (err?.response?.data?.message) {
         this.errorMessage = err?.response?.data?.message;
       }
@@ -54,7 +54,7 @@ class Login extends Component {
     try {
       e.preventDefault();
       this.errorMessage = "";
-      console.log("signup");
+      // console.log("signup");
       let data = await this.props.store.api
         .post("/auth/signup", {
           email: this.email,
@@ -64,13 +64,13 @@ class Login extends Component {
           referral: this.props.store.referral,
         })
         .then(({ data }) => data);
-      console.log(`onSignup`, data);
+      // console.log(`onSignup`, data);
       if (data.token && data.profile) {
         this.props.store.loginWithDataTokenAndProfile(data);
       }
     } catch (err) {
-      console.log(err);
-      console.log(err?.response?.data?.message);
+      // console.log(err);
+      // console.log(err?.response?.data?.message);
       if (err?.response?.data?.message) {
         this.errorMessage = err?.response?.data?.message;
       }

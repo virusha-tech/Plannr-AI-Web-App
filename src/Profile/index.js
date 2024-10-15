@@ -99,7 +99,7 @@ class Body extends Component {
   }
 
   @computed get currentPeriodEnd() {
-    // console.log(this.props.store.profile.current_period_end)
+    // // console.log(this.props.store.profile.current_period_end)
     if (
       this.props.store.profile.current_period_end &&
       this.props.store.profile.current_period_end.length > 0
@@ -136,7 +136,7 @@ class Body extends Component {
     this.plan = {
       ...res.data,
     };
-    console.log(`this.plan`, { ...this.plan });
+    // console.log(`this.plan`, { ...this.plan });
   };
 
   onBack = () => {
@@ -197,7 +197,7 @@ class Body extends Component {
 
 const PlanDetails = ({ store }) => {
   const { profile } = store;
-  console.log('profile');
+  // console.log('profile');
   const getUsagePerc = () => {
     const perc =
       (Number(profile.creditsUsed) /

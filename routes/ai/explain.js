@@ -55,7 +55,7 @@ app.post('/personal/explain', async (req, res, next) => {
 		next();
 
 	} catch (err){
-		console.log(err)
+		// console.log(err)
 	}
 	
 })

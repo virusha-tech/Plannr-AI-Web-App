@@ -300,7 +300,7 @@ class Tool extends Component {
             })
             this.loading = false
         } catch (error){
-            console.log(error)
+            // console.log(error)
             this.countdown.forEach(countdown => {
                 if(countdown){
                     countdown.stop()

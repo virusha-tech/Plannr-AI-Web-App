@@ -78,12 +78,12 @@ const signup = async (req, res) => {
   });
 
   let referrerObj = {};
-  console.log(`req.body.referral`, req.body.referral);
+  // console.log(`req.body.referral`, req.body.referral);
   if (req.body.referral) {
     let referrer = await User.findOne({
       referralId: `${req.body.referral}`,
     });
-    console.log(`referrer._id`, referrer);
+    // console.log(`referrer._id`, referrer);
     if (referrer) {
       referrerObj = {
         referrer: referrer._id,
@@ -91,7 +91,7 @@ const signup = async (req, res) => {
     }
   }
 
-  console.log(`referrerObj`, referrerObj);
+  // console.log(`referrerObj`, referrerObj);
 
   const user = new User({
     email: req.body.email,

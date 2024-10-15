@@ -29,7 +29,7 @@ app.get("/free/guest", function(req, res) {
       res.send({ err });
     } else if (existingIp) {
       const { credits } = existingIp;
-      console.log("IP already exists in database");
+      // console.log("IP already exists in database");
       res.send({ fname: "Guest", credits });
     } else {
       const credits = 1000;
@@ -38,7 +38,7 @@ app.get("/free/guest", function(req, res) {
         if (err) {
           console.error(err);
         } else {
-          console.log("New IP saved to database");
+          // console.log("New IP saved to database");
           res.send({ fname: "Guest", credits });
         }
       });

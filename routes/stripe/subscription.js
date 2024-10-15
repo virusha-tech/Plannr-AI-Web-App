@@ -20,13 +20,13 @@ const created = async (eventType, data) => {
   }
   const { object } = data;
   logger.info("inside subscription.created");
-  console.log("data", data);
-  console.log(`object.status`, object.plan.status);
-  console.log(`object.id`, object.id);
-  console.log(`object.customer`, object.customer);
-  console.log(`object.trial_end`, object.trial_end);
-  console.log(`object.current_period_end`, object.current_period_end);
-  console.log(`object.cancel_at_period_end`, object.cancel_at_period_end);
+  // console.log("data", data);
+  // console.log(`object.status`, object.plan.status);
+  // console.log(`object.id`, object.id);
+  // console.log(`object.customer`, object.customer);
+  // console.log(`object.trial_end`, object.trial_end);
+  // console.log(`object.current_period_end`, object.current_period_end);
+  // console.log(`object.cancel_at_period_end`, object.cancel_at_period_end);
 
   await User.updateOne(
     { customerId: object.customer },
@@ -112,12 +112,12 @@ const deleted = async (eventType, data) => {
   }
   logger.info("inside subscription.deleted");
   const { object } = data;
-  console.log(`object.status`, object.plan.status);
-  console.log(`object.id`, object.id);
-  console.log(`object.customer`, object.customer);
-  console.log(`object.trial_end`, object.trial_end);
-  console.log(`object.current_period_end`, object.current_period_end);
-  console.log(`object.cancel_at_period_end`, object.cancel_at_period_end);
+  // console.log(`object.status`, object.plan.status);
+  // console.log(`object.id`, object.id);
+  // console.log(`object.customer`, object.customer);
+  // console.log(`object.trial_end`, object.trial_end);
+  // console.log(`object.current_period_end`, object.current_period_end);
+  // console.log(`object.cancel_at_period_end`, object.cancel_at_period_end);
 
   await User.updateOne(
     { customerId: object.customer },

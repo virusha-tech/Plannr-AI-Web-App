@@ -18,12 +18,12 @@ app.post(
     let data;
     let eventType;
     logger.info("before if process.env.STRIPE_WEBHOOK_SECRET webhook");
-    // console.log(`webhook"]`,process.env.STRIPE_WEBHOOK_SECRET)
+    // // console.log(`webhook"]`,process.env.STRIPE_WEBHOOK_SECRET)
     // Check if webhook signing is configured.
     if (process.env.STRIPE_WEBHOOK_SECRET) {
       // Retrieve the event by verifying the signature using the raw body and secret.
       let event;
-      // console.log(`req.headers["stripe-signature"]`,req.headers["stripe-signature"])
+      // // console.log(`req.headers["stripe-signature"]`,req.headers["stripe-signature"])
       let signature = req.headers["stripe-signature"];
       logger.info("before stripe event creation object in webhook");
       try {
@@ -34,7 +34,7 @@ app.post(
         );
         logger.info("after stripe event creation object in webhook");
       } catch (err) {
-        console.log(`⚠️  Webhook signature verification failed.`, err);
+        // console.log(`⚠️  Webhook signature verification failed.`, err);
         logger.info("in catch webhook" + JSON.stringify(err));
         return res.sendStatus(400);
       }
@@ -54,7 +54,7 @@ app.post(
     invoice(eventType, data);
 
     // if (eventType === "checkout.session.completed") {
-    // 	console.log(`🔔  Payment received!`);
+    // 	// console.log(`🔔  Payment received!`);
     // }
 
     res.sendStatus(200);

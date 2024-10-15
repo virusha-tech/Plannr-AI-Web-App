@@ -17,7 +17,7 @@ app.get("/", async (req, res) => {
     .sort({ created: -1 })
     .exec(async (err, docs) => {
       if (err) throw err;
-      console.log(docs);
+      // console.log(docs);
       const alldocs = await Plan.find({ user: userId }).exec();
       res.json({ docs: docs, count: alldocs.length });
     });

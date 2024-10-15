@@ -100,7 +100,7 @@ class SidebarCompontent extends Component {
         });
       }
     });
-    console.log(allPlans, "allPlans");
+    // console.log(allPlans, "allPlans");
     return allPlans;
   }
 

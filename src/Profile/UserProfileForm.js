@@ -258,7 +258,7 @@ function UserProfileForm(props) {
   const [userProfile, setUserProfile] = useState({});
   const [userProfileError, setUserProfileError] = useState({});
   const [currentStep, setCurrentStep] = useState(0);
-  //console.log(userProfile);
+  //// console.log(userProfile);
   
   const renderCorrespondingInput = ({
     type,

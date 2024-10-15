@@ -21,13 +21,13 @@ class EntryInput extends Component {
   };
 
   // handleEditorChange = (e, value) => {
-  // 	console.log(e)
+  // 	// console.log(e)
   // 	this.props.prompt.value = e.target.value
   // 	this.props.prompt.error = ""
   // };
 
   @computed get isMinLength() {
-    // console.log(this.props.prompt.value.length, this.props.prompt.min)
+    // // console.log(this.props.prompt.value.length, this.props.prompt.min)
     if (!this.props.prompt.min) {
       return false;
     }

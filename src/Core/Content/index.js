@@ -70,12 +70,12 @@ const Tiptap = observer(() => {
           clipboardTextParser: clipboardTextParser,
          },
         onUpdate: ({editor}) => {
-          // console.log(editor.getCharacterCount())
+          // // console.log(editor.getCharacterCount())
             // store.editor.characterCounter(editor.getCharacterCount())
             // store.editor.editor.editorHtml = editor.getHTML()
         },
         onTransaction: ({editor}) => {
-          // console.log(editor.getCharacterCount())
+          // // console.log(editor.getCharacterCount())
             store.editor.characterCounter(editor.getCharacterCount())
             store.editor.editorHtml = editor.getHTML()
         },

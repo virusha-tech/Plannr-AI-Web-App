@@ -35,7 +35,7 @@ const MenuBar = observer(() => {
 
   const { store } = useStores()
 
-  console.log(`store.editor`,store.editor)
+  // console.log(`store.editor`,store.editor)
 
     if (!store.editor) {
       return null
@@ -71,13 +71,13 @@ const Tiptap = observer(() => {
         <pre><code class="language-javascript">for (var i=1; i <= 20; i++)
 {
   if (i % 15 == 0)
-    console.log("FizzBuzz");
+    // console.log("FizzBuzz");
   else if (i % 3 == 0)
-    console.log("Fizz");
+    // console.log("Fizz");
   else if (i % 5 == 0)
-    console.log("Buzz");
+    // console.log("Buzz");
   else
-    console.log(i);
+    // console.log(i);
 }</code></pre>
         <p>
           Press Command/Ctrl + Enter to leave the fenced code block and continue typing in boring paragraphs.

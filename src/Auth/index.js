@@ -40,7 +40,7 @@ class Auth extends Component {
 
   onChange = (val) => {
     this.currentPromptOption = val;
-    console.log(this.currentPromptOption);
+    // console.log(this.currentPromptOption);
   };
 
   onChangeAny = (val, attr) => {
@@ -84,8 +84,8 @@ class Auth extends Component {
       mixpanel.track("Client Log in Error", {
         email: this.email,
       });
-      console.log(err);
-      console.log(err?.response?.data?.message);
+      // console.log(err);
+      // console.log(err?.response?.data?.message);
       if (err?.response?.data?.message) {
         this.errorMessage = err?.response?.data?.message;
       }
@@ -182,13 +182,13 @@ class Auth extends Component {
         this.props.store.loginWithDataTokenAndProfile(data);
       }
     } catch (err) {
-      console.log(err);
+      // console.log(err);
       mixpanel.track("Client Sign Up Error", {
         email: this.email,
         fname: this.fname,
         lname: this.lname,
       });
-      console.log(err?.response?.data?.message);
+      // console.log(err?.response?.data?.message);
       if (err?.response?.data?.message) {
         this.errorMessage = err?.response?.data?.message;
       }

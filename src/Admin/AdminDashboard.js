@@ -41,7 +41,7 @@ class AdminDashboard extends Component {
         isLoading: false,
         data,
       });
-      console.log(data);
+      // console.log(data);
     };
 
     fetchData();

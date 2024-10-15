@@ -23,7 +23,7 @@ class ContentTopic extends Component {
 
 	onClick = () => {
 		this.props.store.editor.showInfo = !this.props.store.editor.showInfo
-		console.log(this.props.store.editor.editor.view.dom.focus())
+		// console.log(this.props.store.editor.editor.view.dom.focus())
 	}
 
 	render() {

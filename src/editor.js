@@ -131,7 +131,7 @@ class editorStore {
 
 	createEditor = (editor) => {
 		this.editor = editor
-		console.log(editor)
+		// console.log(editor)
 		this.editorIsLoading = false
 	}
 
@@ -177,14 +177,14 @@ class editorStore {
 			let tool = this.store.getToolByUrl(toolName)
 			this.editorPreEditLoading(tool)
 			let content = await this.editorGetSelectedText()
-			console.log(content)
+			// console.log(content)
 			let output = await this.store.api.post(tool.api, { content })
 			if(output.data.output){
 				this.editor.chain().focus().command(({ tr }) => tr.insertText(output.data.output)).run()
 			}
 			this.editorPostEditLoadingFinished()
 		} catch (err){
-			console.log(err)
+			// console.log(err)
 			this.editorPostEditLoadingFinished()
 		}
 	}
@@ -221,8 +221,8 @@ class editorStore {
 		let separated = true;
 		fromChar = fromChar || 0;
 		toChar =  toChar || 0;
-		// console.log(`toChar`,toChar)
-		// console.log(this.editor.state.doc.content.size)
+		// // console.log(`toChar`,toChar)
+		// // console.log(this.editor.state.doc.content.size)
 		const blockSeparator = '\n';
 		const leafText = null;
 
@@ -231,7 +231,7 @@ class editorStore {
 	  
 		this.editor.state.doc.nodesBetween(fromChar, toChar, (node, pos) => {
 		  const textSerializer = this.editor.extensionManager.textSerializers[node.type.name]
-		//   console.log(textSerializer,node.toJSON())
+		//   // console.log(textSerializer,node.toJSON())
 		  if (textSerializer) {
 			text += textSerializer({ node })
 			separated = !blockSeparator
@@ -255,7 +255,7 @@ class editorStore {
 			text += " "
 		  }
 		}, 0)
-		console.log(`text`,text)
+		// console.log(`text`,text)
 		return text;
 	}
 
@@ -291,7 +291,7 @@ class editorStore {
 				this.editorPostEditLoadingFinished()
 			}, 21 * totalLength)
 		} catch (err){
-			console.log(err)
+			// console.log(err)
 		}
 	}
 
@@ -325,7 +325,7 @@ class editorStore {
 				this.editorPostEditLoadingFinished()
 			}, 21 * totalLength)
 		} catch (err){
-			console.log(err)
+			// console.log(err)
 		}
 	}
 
@@ -339,7 +339,7 @@ class editorStore {
 			const { from } = state.selection
 
 			let content = await this.generateText(null,from)
-			console.log({
+			// console.log({
 				content
 			})
 			// let output = await this.store.api.post(`/ai/writing/write`, { 
@@ -373,7 +373,7 @@ class editorStore {
 			}, 21 * totalLength)
 			
 		} catch (err){
-			console.log(err)
+			// console.log(err)
 			this.editorPostEditLoadingFinished()
 		}
 	}

@@ -16,7 +16,7 @@ const upload = multer({
     s3: s3,
     bucket: process.env.BUCKET,
     key: function(req, file, cb) {
-      console.log("req.file", req.file, file);
+      // console.log("req.file", req.file, file);
       cb(null, file.originalname);
     },
   }),
@@ -27,7 +27,7 @@ let app = express.Router(); // User Subscribe
 
 // User.deleteMany({ _id: { $ne: ObjectId("63a800022e4b8b3f8b8813e5") } }).then(
 //   () => {
-//     console.log("User deleted");
+//     // console.log("User deleted");
 //   }
 // );
 
@@ -64,7 +64,7 @@ app.post("/stripe/subscribe", async (req, res) => {
     res.redirect(303, session.url);
   } catch (e) {
     res.status(400);
-    // console.log(e)
+    // // console.log(e)
     return res.send({
       error: {
         message: e.message,
@@ -86,7 +86,7 @@ app.put("/update", upload.single("file"), async (req, res) => {
       { upsert: true }
     );
   } catch (e) {
-    console.log(e);
+    // console.log(e);
     res.send({ success: false });
   }
 
@@ -118,7 +118,7 @@ app.post("/stripe/customer-portal", async (req, res) => {
     logger.info(
       `insiode customer-portal portal session error ${JSON.stringify(err)}`
     );
-    // console.log(err)
+    // // console.log(err)
     await User.updateOne(
       { _id: req.user._id },
       {
@@ -129,7 +129,7 @@ app.post("/stripe/customer-portal", async (req, res) => {
         current_period_end: 0,
       }
     );
-    // console.log(err)
+    // // console.log(err)
     const domainURL = process.env.DOMAIN;
     const returnUrl = `${domainURL}my-profile`;
     res.redirect(303, returnUrl);
@@ -149,17 +149,17 @@ app.post("/stripe/activate", async (req, res) => {
       customer: user.customerId,
       limit: 1,
     });
-    //   console.log(`subscriptions`,subscriptions.data[0].id)
+    //   // console.log(`subscriptions`,subscriptions.data[0].id)
 
     let update = stripe.subscriptions.update(subscriptions.data[0].id, {
       trial_end: "now",
       cancel_at_period_end: false,
     });
-    console.log(update);
+    // console.log(update);
     setTimeout(() => res.redirect(303, returnUrl), 2500);
     // Redirect to the URL for the session
   } catch (err) {
-    console.log(err);
+    // console.log(err);
     const domainURL = process.env.DOMAIN;
     const returnUrl = `${domainURL}my-profile`;
     res.redirect(303, returnUrl);
@@ -179,14 +179,14 @@ app.post("/stripe/cancel", async (req, res) => {
       customer: user.customerId,
       limit: 1,
     });
-    //   console.log(`subscriptions`,subscriptions.data[0].id)
+    //   // console.log(`subscriptions`,subscriptions.data[0].id)
 
     let update = stripe.subscriptions.update(subscriptions.data[0].id, {
       cancel_at_period_end: true,
     });
     setTimeout(() => res.redirect(303, returnUrl), 2500);
   } catch (err) {
-    console.log(err);
+    // console.log(err);
     const domainURL = process.env.DOMAIN;
     const returnUrl = `${domainURL}my-profile`;
     res.redirect(303, returnUrl);
@@ -206,14 +206,14 @@ app.post("/stripe/uncancel", async (req, res) => {
       customer: user.customerId,
       limit: 1,
     });
-    //   console.log(`subscriptions`,subscriptions.data[0].id)
+    //   // console.log(`subscriptions`,subscriptions.data[0].id)
 
     let update = stripe.subscriptions.update(subscriptions.data[0].id, {
       cancel_at_period_end: false,
     });
     setTimeout(() => res.redirect(303, returnUrl), 2500);
   } catch (err) {
-    console.log(err);
+    // console.log(err);
     const domainURL = process.env.DOMAIN;
     const returnUrl = `${domainURL}my-profile`;
     res.redirect(303, returnUrl);
@@ -249,7 +249,7 @@ app.post("/stripe/plan", async (req, res) => {
 
     res.json(obj);
   } catch (err) {
-    console.log(err);
+    // console.log(err);
   }
 });
 
@@ -275,7 +275,7 @@ app.post("/feedback", async (req, res) => {
     await feedback.save();
     res.json({ success: true });
   } catch (err) {
-    console.log(err);
+    // console.log(err);
   }
 });
 
@@ -288,7 +288,7 @@ app.post("/feedback/view", async (req, res) => {
       .limit(5);
     res.json(feedbacks);
   } catch (err) {
-    console.log(err);
+    // console.log(err);
   }
 });
 

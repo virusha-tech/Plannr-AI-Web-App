@@ -233,7 +233,7 @@ class App extends Component {
 }
 
 function PrivateRoute({ isAdmin, children, ...rest }) {
-  console.log("isAdmin", isAdmin);
+  // console.log("isAdmin", isAdmin);
   return (
     <Route
       {...rest}
