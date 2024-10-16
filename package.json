@@ -48,6 +48,8 @@
     "react-countdown": "^2.3.2",
     "react-dom": "17.0.2",
     "react-helmet": "^6.1.0",
+    "multer": "^1.4.3",
+    "multer-s3": "^2.10.0",
     "react-notifications": "^1.7.4",
     "react-quill": "^2.0.0",
     "react-radio-group": "^3.0.3",
