@@ -10,7 +10,6 @@ import Tab from "@mui/material/Tab";
 import EntryTabs from "../Components/EntryTabs";
 import EntryPrompt from "../Components/EntryPrompt";
 import EntryInput from "../Components/EntryInput";
-// import EntryN from "../Components/EntryN";
 import { Stepper, Step, StepButton } from "@mui/material";
 import Filter from "bad-words";
 import styled from "styled-components";
@@ -283,11 +282,18 @@ class Tool extends Component {
 
   render() {
     return (
-      <Layout isFreeVersion={this.props.isFreeVersion}>
+      <Layout isFreeVersion={this.props.isFreeVersion} hideFooter={true}>
         <Helmet>
           <title>{`${this.tool.title} Tool - Plannr AI`}</title>
         </Helmet>
-        <StyledToolContainer sx={{ width: "100%" }}>
+        <StyledToolContainer
+          sx={{ width: "100%" }}
+          className={`${
+            this.state.activeStep == 1 && this.state.editorOutput.answer.length
+              ? "isEditorPresent"
+              : null
+          }`}
+        >
           <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
             <Tabs value={this.state.activeTab} onChange={this.handleChange}>
               <StyledTab
@@ -328,7 +334,7 @@ class Tool extends Component {
               </AlignStepper>
               {this.state.activeStep == 0 ? (
                 <StyledForm>
-                  <StyledSubHeading className="px-6 py-6">
+                  <StyledSubHeading className="xs:py-4 md:px-6 md:py-6">
                     {this.tool.title}
                   </StyledSubHeading>
                   <EntryTabs
@@ -358,7 +364,6 @@ class Tool extends Component {
                           );
                         })}
                       </ScrollbarContainer>
-
                       <ActionContainer className="flex justify-end gap-6 items-center">
                         {/* <CancelButton>Cancel</CancelButton> */}
                         <Button onClick={this.onGenerateClick}>Generate</Button>
@@ -420,26 +425,13 @@ class Tool extends Component {
 const StyledToolContainer = styled(Box)`
   box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px,
     rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+  @media only screen and (max-width: 600px) {
+    &.isEditorPresent {
+      height: 84vh;
+      overflow: scroll;
+    }
+  }
 `;
-// const options = {
-//   method: "GET",
-//   url: "https://skyscanner50.p.rapidapi.com/api/v1/searchAirport",
-//   params: { query: "london" },
-//   headers: {
-//     "X-RapidAPI-Key": "48595c0b43msh693580d29aa597fp1dc724jsn7e6e83c5ba4b",
-//     "X-RapidAPI-Host": "skyscanner50.p.rapidapi.com",
-//   },
-// };
-
-// axios
-//   .request(options)
-//   .then(function (response) {
-//     console.log(response.data);
-//   })
-//   .catch(function (error) {
-//     console.error(error);
-//   });
-// console.log("response.data");
 
 const PlanRecomendations = ({ planName, inputs }) => {
   const renderCorrespondingPlanRecomendations = () => {
@@ -462,6 +454,10 @@ const StyledTab = styled(Tab)`
   color: ${(props) =>
     props.isselected === "true" ? "white !important" : "#667085 !important"};
   border-radius: 6px 6px 0px 0px;
+
+  @media only screen and (max-width: 600px) {
+    flex: 1;
+  }
 `;
 
 function TabPanel(props) {
@@ -476,17 +472,24 @@ function TabPanel(props) {
       {...other}
       style={{ background: "white" }}
     >
-      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
+      {value === index && (
+        <Box sx={{ p: 1 }} md={{ p: 3 }}>
+          {children}
+        </Box>
+      )}
     </div>
   );
 }
 
 //
 const StyledContainer = styled.div`
-  background: white;
-  padding: 0px 10px;
+  padding: 6px;
   min-height: 70vh;
   max-height: 100vh;
+  @media only screen and (max-width: 900px) {
+    min-height: 76vh;
+    max-height: initial;
+  }
 `;
 
 const CancelButton = styled.button`
@@ -518,6 +521,13 @@ const StyledSubHeading = styled.div`
   /* text-align: center; */
   color: #101828;
   margin-bottom: 1vh;
+  @media only screen and (max-width: 600px) {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 38px;
+  }
 `;
 
 const StyledStepper = styled(Stepper)`
@@ -528,6 +538,13 @@ const StyledStepLabel = styled(StepButton)`
   .MuiStepLabel-label {
     font-size: 24px;
     padding: 10px;
+    @media only screen and (max-width: 600px) {
+      font-style: normal;
+      font-weight: 500;
+      font-size: 12px;
+      line-height: 24px;
+      color: #374151;
+    }
   }
   .MuiSvgIcon-root.MuiStepIcon-root {
     height: 2rem;
@@ -550,7 +567,7 @@ const ActionContainer = styled.div`
 `;
 
 const ScrollbarContainer = styled.div`
-  @media only screen and (min-width: 1200px) {
+  @media only screen and (min-width: 901px) {
     /* height: 62vh; */
     max-height: 50vh;
     min-height: 30vh;

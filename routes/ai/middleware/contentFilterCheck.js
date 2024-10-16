@@ -40,7 +40,7 @@ const contentFilterCheck = async (req, res, next) => {
 		});
 
 		if(gptResponse.data.choices[0].text == "2"){
-			// console.log(`Unsafe content`, gptResponse.data.choices[0].text, content)
+			// // console.log(`Unsafe content`, gptResponse.data.choices[0].text, content)
 			
 			let toxic_threshold = -0.355
 			let response = gptResponse.data

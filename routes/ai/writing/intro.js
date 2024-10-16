@@ -100,7 +100,7 @@ app.post('/writing/intro', async (req, res, next) => {
 		next()
 
 	} catch (err) {
-		console.log(err)
+		// console.log(err)
 	}
   })
 

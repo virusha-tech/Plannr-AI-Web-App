@@ -49,8 +49,8 @@ class appStore {
         return response;
       },
       (error) => {
-        console.log(error);
-        console.log(`error.response.statusText`, error.response.statusText);
+        // console.log(error);
+        // console.log(`error.response.statusText`, error.response.statusText);
         if (
           error.response &&
           error.response.statusText === "Token Authentication Failed"
@@ -86,11 +86,11 @@ class appStore {
         this.api.defaults.headers.common["x-access-token"] = token;
         this.profile = JSON.parse(profile);
         this.isLoggedIn = true;
-        console.log("in init");
+        // console.log("in init");
         this.refreshTokenAndProfile();
       }
     } catch (err) {
-      console.log(err);
+      // console.log(err);
     }
   };
 
@@ -138,7 +138,7 @@ class appStore {
 
   refreshTokenAndProfile = async () => {
     try {
-      console.log("in refresh token");
+      // console.log("in refresh token");
       let data = await this.api
         .post("/user/refresh/profile")
         .then(({ data }) => data);
@@ -146,7 +146,7 @@ class appStore {
         this.setProfile(data.profile);
       }
     } catch (err) {
-      console.log(err);
+      // console.log(err);
       this.handleLogout();
     }
   };
@@ -243,7 +243,7 @@ class appStore {
         }
       }
     } catch (err) {
-      console.log(err);
+      // console.log(err);
     }
   };
 
@@ -262,7 +262,7 @@ class appStore {
     }
     navigator.clipboard.writeText(output).then(
       function() {
-        console.log("Async: Copying to clipboard was successful!");
+        // console.log("Async: Copying to clipboard was successful!");
       },
       function(err) {
         console.error("Async: Could not copy text: ", err);

@@ -57,9 +57,9 @@ app.post('/helloworld', async (req, res, next) => {
 	next()
 
 	} catch (err){
-		console.log(err.response)
-		console.log(err.data)
-		console.log(err.message)
+		// console.log(err.response)
+		// console.log(err.data)
+		// console.log(err.message)
 	}
 	
   })

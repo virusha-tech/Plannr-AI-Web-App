@@ -65,7 +65,7 @@ const obj = {
 				error: "",
 				example: `function HelloWorld(text){ 
 	let text || "Hello World"; 
-	console.log(text);
+	// console.log(text);
 }`,
 			},
 		],

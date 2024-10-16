@@ -27,9 +27,9 @@ const initMiddleware = async (req, res, next) => {
 
 const checks = {
 	initMiddleware,
-	contentFilterCheck,
+	// contentFilterCheck,
 	sendResponse,
-	creditCheck,
+	// creditCheck,
 	creditPayment,
 	saveToHistory,
 }

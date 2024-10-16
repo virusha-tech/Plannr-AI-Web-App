@@ -15,11 +15,13 @@ export const SignUp = observer(
     onGoogleLogin,
   }) => {
     return (
-      <>
+      <SignUpWrapper>
         <SignUpForm onSubmit={onSignup} className="mb-10">
           <div>
-            <div className="text-4xl font-medium text-black-900">Sign Up</div>
-            <p>Create your account.</p>
+            <div className="text-4xl font-medium text-black-900 mobile_login_text">
+              Sign Up
+            </div>
+            <p className="welcome_text">Create your account.</p>
             <div className="mt-2 lg:flex">
               <div className="flex flex-col min-w-0 md:pr-2 flex-1">
                 <label>First Name</label>
@@ -89,12 +91,36 @@ export const SignUp = observer(
         </SignUpForm>
         <span className="flex justify-center items-center">
           Already have an account? &nbsp;
-          <SignInAnchor to={`/signin`}>Sign in</SignInAnchor>
+          <SignInAnchor to={`/login`}>Sign in</SignInAnchor>
         </span>
-      </>
+        <Footer>© 2023 Plannr.ai All rights reserved.</Footer>
+      </SignUpWrapper>
     );
   }
 );
+
+const SignUpWrapper = styled.div`
+  padding-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  justify-content: space-between;
+`;
+
+const Footer = styled.div`
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 24px;
+  text-align: center;
+  color: #667085;
+  margin-top: 20px;
+  display: none;
+
+  @media only screen and (max-width: 600px) {
+    display: block;
+  }
+`;
 
 const GoogleImage = styled.img`
   width: 40px !important;
@@ -114,6 +140,8 @@ const SignInAnchor = styled(Link)`
 `;
 
 const SignUpForm = styled.form`
+  text-align: left;
+
   p {
     font-family: "Inter";
     font-style: normal;
@@ -129,13 +157,19 @@ const SignUpForm = styled.form`
     font-weight: 500;
     font-size: 14px;
     line-height: 20px;
-    /* identical to box height, or 143% */
-
-    /* Gray/700 */
     margin: 20px 0px 8px;
     color: #344054;
   }
-  button {
+  @media only screen and (max-width: 600px) {
+    padding: 16px;
+    .mobile_login_text {
+      font-style: normal;
+      font-weight: 600;
+      font-size: 24px;
+      line-height: 44px;
+      letter-spacing: -0.02em;
+      color: #101828;
+    }
   }
 `;
 

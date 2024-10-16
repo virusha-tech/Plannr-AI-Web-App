@@ -67,6 +67,10 @@ class MultplieCheckbox extends React.Component {
 const StyledCheckbox = styled.div`
   margin-bottom: 16px;
 
+  @media only screen and (max-width: 600px) {
+    margin-bottom: 4px;
+  }
+
   input[type="checkbox"] {
     /* removing default appearance */
     -webkit-appearance: none;
@@ -93,19 +97,8 @@ const StyledCheckbox = styled.div`
     }
   }
   input.checked {
-    /* background-color: ; */
     position: relative;
     &::before {
-      /* content: "";
-      position: absolute;
-      left: 2px;
-      top: 7px;
-      background: white;
-      width: 2px;
-      height: 2px;
-      box-shadow: 2px 0 0 , 4px 0 0 #007a7e, 4px -2px 0 #007a7e,
-        4px -4px 0 #007a7e, 4px -6px 0 #007a7e, 4px -8px 0 #007a7e;
-      transform: rotate(45deg); */
       content: "";
       position: absolute;
       right: 55%;

@@ -29,7 +29,7 @@ app.get("/free/guest", function(req, res) {
       res.send({ err });
     } else if (existingIp) {
       const { credits } = existingIp;
-      console.log("IP already exists in database");
+      // console.log("IP already exists in database");
       res.send({ fname: "Guest", credits });
     } else {
       const credits = 1000;
@@ -38,7 +38,7 @@ app.get("/free/guest", function(req, res) {
         if (err) {
           console.error(err);
         } else {
-          console.log("New IP saved to database");
+          // console.log("New IP saved to database");
           res.send({ fname: "Guest", credits });
         }
       });
@@ -58,7 +58,12 @@ app.use("/", authJwt.verifyToken);
 // Already signed up user routes
 app.use("/user", require("./user"));
 
+app.use("/getAdminHistory", require("./getAdminHistory"));
+app.use("/getPlanForIthUser", require("./getPlanForIthUser"));
 app.use("/getMyPlans", require("./getMyPlans"));
+app.use("/getMyUsers", require("./getMyUsers"));
+app.use("/getAdminDashBoardInformation", require("./getAdminDashBoardInformation"));
+
 app.use("/Editor", require("./getMyPlans/EditorOutput"));
 
 // Using AI Platform

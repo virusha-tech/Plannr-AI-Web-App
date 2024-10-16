@@ -258,7 +258,8 @@ function UserProfileForm(props) {
   const [userProfile, setUserProfile] = useState({});
   const [userProfileError, setUserProfileError] = useState({});
   const [currentStep, setCurrentStep] = useState(0);
-  console.log(userProfile);
+  //// console.log(userProfile);
+  
   const renderCorrespondingInput = ({
     type,
     attr,
@@ -549,6 +550,7 @@ const Wrapper = styled.div`
   /* margin: 4vh auto 0px; */
   @media only screen and (max-width: 1200px) {
     width: 80vw;
+    gap: 4px;
   }
   /* > h1 {
     text-align: left;
@@ -579,6 +581,17 @@ const FlexContainer = styled.div`
   > div {
     flex: 0.6;
   }
+  @media only screen and (max-width: 600px) {
+    flex-direction: column;
+    gap: 12px;
+    label {
+      flex: 1;
+    }
+    > div {
+      flex: 1;
+    }
+
+
 `;
 
 const Label = styled.label`

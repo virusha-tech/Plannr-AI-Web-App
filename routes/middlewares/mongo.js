@@ -5,7 +5,7 @@ require('dotenv-flow').config();
 
 //Assign MongoDB connection string to Uri and declare options settings
 var uri = `mongodb+srv://${process.env.MONGO_URL_NAME}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_URL_CLUSTER}/${process.env.MONGO_DATABASE}?retryWrites=true&w=majority`
-console.log(`url: `+uri)
+// console.log(`url: `+uri)
 const db = require("../models");
 const User = db.user;
 
@@ -15,7 +15,7 @@ db.mongoose
     useUnifiedTopology: true
   })
   .then(() => {
-    console.log("Successfully connect to MongoDB.");
+    // console.log("Successfully connect to MongoDB.");
     initial();
   })
   .catch(err => {
@@ -38,9 +38,9 @@ function initial() {
 		  credits: 10000,
 		}).save(err => {
 		  if (err) {
-			console.log("error", err);
+			// console.log("error", err);
 		  }
-		  console.log("admin user added");
+		  // console.log("admin user added");
 		});
 
 		new User({
@@ -54,9 +54,9 @@ function initial() {
 			credits: 1000,
 		  }).save(err => {
 			if (err) {
-			  console.log("error", err);
+			  // console.log("error", err);
 			}
-			console.log("admin user added");
+			// console.log("admin user added");
 		  });
 
 	  }

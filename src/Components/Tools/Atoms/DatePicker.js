@@ -100,7 +100,7 @@ class DateRange extends Component {
     }
 
     this.pickerRef.current.element.on("apply.daterangepicker", (ev, picker) => {
-      console.log(picker.startDate.format("DD/MM/YYYY"));
+      // console.log(picker.startDate.format("DD/MM/YYYY"));
       if (this.props.isSingleValue) {
         this.picker.value = picker.startDate.format("DD/MM/YYYY");
         this.props.onChange(this.picker.value);
@@ -115,7 +115,7 @@ class DateRange extends Component {
     // this.pickerRef.current.element.on(
     //   "change.daterangepicker",
     //   (ev, picker) => {
-    //     console.log(picker);
+    //     // console.log(picker);
     //   }
     // );
 

@@ -12,12 +12,17 @@ import { TabList } from "./config";
 import SearchIcon from "./assets/SearchIcon.svg";
 import { Layout } from "./Layout";
 import { Chip } from "@mui/material";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
 
 @inject("store")
 @observer
 class Body extends Component {
   state = {
     activeTab: "AllAuthorizedCards",
+    mobileTab: "AllAuthorizedCards",
   };
 
   changeTab = (tab) => {
@@ -81,6 +86,11 @@ class Body extends Component {
     });
   }
 
+  handleChange = (event) => {
+    this.setState({ mobileTab: event.target.value });
+    this.changeTab(event.target.value);
+  };
+
   render() {
     var today = moment();
     const specificDate = moment(this.props.store.profile.current_period_end);
@@ -92,7 +102,7 @@ class Body extends Component {
         </Helmet>
 
         <AddBanner>
-          <div className="flex items-center justify-between	flex-1 gap-5">
+          <div className="flex items-center justify-between	flex-1 gap-5 mobileFix">
             <form
               action={`${this.props.store.baseURL}user/stripe/customer-portal`}
               method="POST"
@@ -129,7 +139,7 @@ class Body extends Component {
 
         <QuestionBanner>
           <Header>
-            <img width="32px" src={HandGesture} alt="Hand Gesture" />
+            <img src={HandGesture} alt="Hand Gesture" />
             <h1>What will you create today?</h1>
           </Header>
           <span>
@@ -169,7 +179,43 @@ class Body extends Component {
             onKeyUp={this.onKeyUp}
           ></Input>
         </TabContainer>
-        <CardsBody className="py-4 md:py-8 lg:py-12 m-auto">
+
+        <FormControlContainer variant="standard"  sx={{ m: 1, minWidth: 200 }}>
+          <StyledSelect
+            labelId="demo-simple-select-standard-label"
+            id="demo-simple-select-standard"
+            value={this.state.mobileTab}
+            onChange={this.handleChange}
+            MenuProps={{
+              sx: {
+                '& .MuiListItem-root.Mui-selected': {
+                  backgroundColor: 'transparent',
+                },
+              },
+            }}
+          >
+            {TabList.map(({ label, id }, index) => {
+              return (
+                <StyledMenuItem
+                  value={id}
+                  MenuProps={{
+                    sx: {
+                      "&& .Mui-selected": {
+                        background: "#f9f9f9",
+                        color: "#05bbc2",
+                      },
+                    },
+                  }}
+                >
+                  {label}
+                  <Pill>{this[id].length}</Pill>
+                </StyledMenuItem>
+              );
+            })}
+          </StyledSelect>
+        </FormControlContainer>
+
+        <CardsBody className="py-1 md:py-8 lg:py-12 m-auto">
           <Grid>
             {this[this.state.activeTab]?.map((tool, index) => {
               return (
@@ -192,6 +238,22 @@ class Body extends Component {
     );
   }
 }
+
+const StyledSelect = styled(Select)`
+  #demo-simple-select-standard {
+    display: flex !important;
+    justify-content: space-evenly !important;
+    background-color: transparent !important;
+    /* color:#079196 !important; */
+  }
+`;
+
+const StyledMenuItem = styled(MenuItem)`
+  font-style: normal;
+  font-size: 16px;
+  line-height: 38px;
+  padding: 3px 22px;
+`;
 
 export const Divider = () => (
   <div className="divide-y-2 divide-dashed divide-gray-300 py-8 md:py-12">
@@ -316,22 +378,28 @@ const AddBanner = styled.div`
   border-radius: 12px;
   padding: 14px 20px;
   gap: 20px;
-  margin-top: 16px;
 
   @media screen and (max-width: 899px) {
-    /* display: none; */
+    padding: 14px 6px;
     > div {
       flex-direction: column;
       padding: 10px;
+    }
+    .mobileFix {
+      gap: 8px;
+      padding: 0px;
     }
   }
 `;
 
 const QuestionBanner = styled.div`
-  padding: 36px 0px;
+  padding: 32px 0px;
   display: flex;
   flex-direction: column;
   gap: 8px;
+  @media screen and (max-width: 899px) {
+    gap: 4px;
+  }
 
   span {
     font-family: "Inter";
@@ -340,6 +408,12 @@ const QuestionBanner = styled.div`
     font-size: 16px;
     line-height: 24px;
     color: #475467;
+    @media screen and (max-width: 899px) {
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 22px;
+      color: #475467;
+    }
   }
 `;
 
@@ -354,6 +428,9 @@ const StyledButton = styled.button`
   border-radius: 8px;
   color: white;
   font-weight: 600;
+  @media screen and (max-width: 600px) {
+    height: 30px;
+  }
 `;
 
 const Pill = styled.div`
@@ -385,6 +462,17 @@ const Header = styled.div`
     font-size: 30px;
     line-height: 38px;
     color: #101828;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 38px;
+    color: #101828;
+    @media screen and (max-width: 899px) {
+      font-size: 20px;
+    }
+  }
+  img {
+    width: 30.33px;
+    height: 38px;
   }
 `;
 
@@ -403,8 +491,9 @@ const TextContainer = styled.div`
   color: #101828;
   display: initial;
   text-align: left;
-  @media screen and (max-width: 899px) {
+  @media screen and (max-width: 600px) {
     text-align: center;
+    order: -1;
   }
   span {
     font-weight: 600;
@@ -516,11 +605,21 @@ const Input = styled.input`
   /* } */
 
   @media only screen and (max-width: 1200px) {
-    display: none;
+    display: none !important;
   }
 `;
 
 const TabContainer = styled.div`
   display: flex;
   justify-content: space-between;
+  @media only screen and (max-width: 600px) {
+    display: none !important;
+  }
 `;
+
+const FormControlContainer= styled(FormControl)`
+  display: none !important; 
+  @media only screen and (max-width: 600px) {
+    display: block !important;
+  }
+`

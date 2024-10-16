@@ -140,7 +140,6 @@ class SavedPlans extends Component {
             <Helmet>
               <title>{`Saved Plans - Plannr AI`}</title>
             </Helmet>
-            <Heading>History..</Heading>
             <EnhancedTable
               rows={this.state.rows}
               count={this.state.count}
@@ -151,9 +150,9 @@ class SavedPlans extends Component {
         ) : (
           <Center>
             <Helmet>
-              <title>{`Tools - Plannr AI`}</title>
+              <title>{`Saved Plans - Plannr AI`}</title>
             </Helmet>
-            <h1>Saved Plans</h1>
+            <h1>No plan created yet!</h1>
             <span>
               Oops! you do not have any saved plans. Start creating one by
               clicking on the link below

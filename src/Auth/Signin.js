@@ -4,13 +4,25 @@ import styled from "styled-components";
 import GoogleLogo from "../assets/GoogleLogo.svg";
 
 export const SignIn = observer(
-  ({ active, email, password, onChange, onLogin, landingPageUrl, onGoogleLogin }) => {
+  ({
+    active,
+    email,
+    password,
+    onChange,
+    onLogin,
+    landingPageUrl,
+    onGoogleLogin,
+  }) => {
     return (
       <>
         <SignInform onSubmit={onLogin}>
           <div>
-            <div className="text-4xl font-medium text-black-900">Log in</div>
-            <p>Welcome back! Please enter your details.</p>
+            <div className="text-4xl font-medium text-black-900 mobile_login_text">
+              Log in
+            </div>
+            <p className="welcome_text">
+              Welcome back! Please enter your details.
+            </p>
             <div className="flex flex-col flex-1">
               <label>Email</label>
               <input
@@ -73,6 +85,7 @@ export const SignIn = observer(
                 Don’t have an account? &nbsp;
                 <SignInAnchor to={`/signup`}>Sign up</SignInAnchor>
               </span>
+              <Footer>© 2023 Plannr.ai All rights reserved.</Footer>
             </div>
           </div>
         </SignInform>
@@ -81,7 +94,27 @@ export const SignIn = observer(
   }
 );
 
+const Footer = styled.div`
+  position: absolute;
+  bottom: 15px;
+  left: 0;
+  right: 0;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 24px;
+  text-align: center;
+  color: #667085;
+  display: none;
+
+  @media only screen and (max-width: 600px) {
+    display: block;
+  }
+`;
+
 const SignInform = styled.form`
+  text-align: left;
+
   p {
     font-family: "Inter";
     font-style: normal;
@@ -103,7 +136,17 @@ const SignInform = styled.form`
     margin: 20px 0px 8px;
     color: #344054;
   }
-  button {
+  @media only screen and (max-width: 600px) {
+    padding: 16px;
+
+    .mobile_login_text {
+      font-style: normal;
+      font-weight: 600;
+      font-size: 24px;
+      line-height: 44px;
+      letter-spacing: -0.02em;
+      color: #101828;
+    }
   }
 `;
 

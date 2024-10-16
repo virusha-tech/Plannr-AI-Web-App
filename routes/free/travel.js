@@ -21,13 +21,24 @@ app.post("/travel", async (req, res, next) => {
       content: `Please provide a ${days}-day travel itinerary, starting from ${startDate} for a ${traveller} trip to ${destination} in a budget of ${budget}, with a focus on exploring its natural attractions, historical sites, and local culture. The itinerary should include daily activities with morning, afternoon, and evening plans, as well as recommendations for accommodations, places to eat, and things to do. Additionally, please provide a few general travel tips to make the trip smooth and enjoyable.`
     });
 
-    console.log(conversation);
-    const gptResponse = await openai.createChatCompletion({
-      model: "gpt-3.5-turbo",
+    // // console.log(conversation);
+    // const gptResponse = await openai.createChatCompletion({
+    //   model: "gpt-3.5-turbo",
+    //   messages: conversation,
+    // });
+
+
+    const chatCompletion = await openai.chat.completions.create({
       messages: conversation,
+      model: "gpt-3.5-turbo",
     });
 
-    let output = `${gptResponse.data.choices[0].message.content}`;
+    let output = `${chatCompletion.choices[0].message.content}`;
+
+    // let output = `${chatCompletion.choices[0].message.content}`;
+   
+
+    // let output = `${gptResponse.data.choices[0].message.content}`;
 
     // If the output string ends with one or more hashtags, remove all of them
     if (output.endsWith('"')) {
@@ -47,9 +58,9 @@ app.post("/travel", async (req, res, next) => {
     req.locals.planName = "Travel Plan";
     next();
   } catch (err) {
-    console.log(err.response);
-    console.log(err.data);
-    console.log(err.message);
+    // console.log(err.response);
+    // console.log(err.data);
+    // console.log(err.message);
   }
 });
 

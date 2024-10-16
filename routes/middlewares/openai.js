@@ -5,11 +5,11 @@
 
 // module.exports = openai;
 
-const { Configuration, OpenAIApi } = require("openai");
+const OpenAI = require("openai");
 
-const configuration = new Configuration({
-  apiKey: process.env.OPENAI_API_KEY,
+const client = new OpenAI({
+  apiKey: process.env["OPENAI_API_KEY"], // This is the default and can be omitted
 });
-const openai = new OpenAIApi(configuration);
 
-module.exports = openai;
+
+module.exports = client;

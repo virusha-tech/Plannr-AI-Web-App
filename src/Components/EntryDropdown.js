@@ -22,7 +22,7 @@ const customStyles = {
 
   option: (styles, { data, isDisabled, isFocused, isSelected }) => {
     // const color = chroma(data.color);
-    console.log({ data, isDisabled, isFocused, isSelected });
+    // console.log({ data, isDisabled, isFocused, isSelected });
     return {
       ...styles,
       backgroundColor: isFocused ? "#079196" : null,

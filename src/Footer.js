@@ -14,7 +14,7 @@ function Footer() {
 export default Footer;
 
 const StyleFooter = styled.div`
-  height: 8vh;
+  height: 6vh;
   padding: 10px 120px;
   background: #fafafa;
   display: flex;
@@ -33,6 +33,10 @@ const StyleFooter = styled.div`
       font-size: 14px;
     }
   }
+  @media only screen and (max-width: 600px) {
+    justify-content: center;
+    padding: 1vh 4%;
+  }
 `;
 
 const Image = styled.img`
@@ -42,5 +46,9 @@ const Image = styled.img`
 
   @media only screen and (max-width: 1200px) {
     width: 90px;
+  }
+
+  @media only screen and (max-width: 600px) {
+    display:none !important;
   }
 `;

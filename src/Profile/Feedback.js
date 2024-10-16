@@ -73,7 +73,7 @@ class Referral extends Component {
       this.output = "Thank you for your feedback!";
       this.props.store.feedback = ``;
     } catch (err) {
-      console.log(err);
+      // console.log(err);
       this.output =
         "There seems to have been an error, please try submitting again";
     }

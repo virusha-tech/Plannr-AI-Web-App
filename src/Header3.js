@@ -21,6 +21,7 @@ import { computed } from "mobx";
 import Collapse from "@mui/material/Collapse";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
+import { useEffect } from "react";
 
 const drawerWidth = 240;
 
@@ -29,6 +30,7 @@ const ProfileMenuList = [
     name: "Profile",
     isDisabled: false,
   },
+
   {
     name: "Billing",
     isDisabled: false,
@@ -88,6 +90,7 @@ const ProfileSection = (props) => {
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = (ev, label) => {
     setAnchorEl(null);
     if (label === "Logout") {
@@ -96,11 +99,25 @@ const ProfileSection = (props) => {
       props.history.push(props.isFreeVersion ? "#" : "/my-profile");
     } else if (label === "Help") {
       window.gist.chat("open");
+    } else if (label === "Admin Dashboard") {
+      props.history.push("/admin/dashboard");
     }
   };
 
+  useEffect(() => {
+    const isFound = ProfileMenuList.findIndex((menu) => {
+      return menu.name == "Admin Dashboard";
+    });
+    if (isFound === -1 && props?.store.profile.accountType === "admin") {
+      ProfileMenuList.splice(1, 0, {
+        name: "Admin Dashboard",
+        isDisabled: false,
+      });
+    }
+  }, []);
+
   return (
-    <Box sx={{ flexGrow: 0 }}>
+    <StyledProfileBox>
       <div>
         <Button
           id="basic-button"
@@ -109,8 +126,13 @@ const ProfileSection = (props) => {
           aria-expanded={open ? "true" : undefined}
           onClick={handleClick}
         >
-          <Profile className="flex items-center gap-x-1">
-            <img width="36px" height="36px" src={props?.store.profile?.profilePhoto || User} alt="Avatar" />
+          <Profile className="flex items-center gap-x-2">
+            <img
+              width="36px"
+              height="36px"
+              src={props?.store.profile?.profilePhoto || User}
+              alt="Avatar"
+            />
             <div className="flex flex-col">
               <span className="greeting">Hi, {props?.store.profile.fname}</span>
               <span className="credits">
@@ -126,7 +148,7 @@ const ProfileSection = (props) => {
           onClose={handleClose}
           MenuListProps={{
             "aria-labelledby": "basic-button",
-            sx: { width: anchorEl && anchorEl.offsetWidth },
+            sx: { width: anchorEl && anchorEl.offsetWidth + 50 },
           }}
         >
           {ProfileMenuList.map(({ name, isDisabled }) => {
@@ -144,9 +166,16 @@ const ProfileSection = (props) => {
           </StyledMenuItemLogout>
         </Menu>
       </div>
-    </Box>
+    </StyledProfileBox>
   );
 };
+
+const StyledProfileBox = styled(Box)`
+  display: block;
+  @media only screen and (max-width: 899px) {
+    display: none;
+  }
+`;
 
 const StyledMenuItem = styled(MenuItem)`
   margin: 0px 16px;
@@ -160,10 +189,15 @@ const StyledMenuItem = styled(MenuItem)`
 `;
 
 const StyledMenuItemLogout = styled(StyledMenuItem)`
-  color: red;
+  color: red !important;
   &:hover {
-    color: red;
-    background-color: #f2f2f2;
+    color: red !important;
+    background-color: #f2f2f2 !important;
+  }
+
+  @media only screen and (max-width: 899px) {
+    padding: 0px 6px;
+    font-weight: 600;
   }
 `;
 
@@ -241,6 +275,16 @@ class ResponsiveAppBar extends React.Component {
     }));
   };
 
+  handleClose = (ev, label) => {
+    if (label === "Logout") {
+      this.props.store.handleLogout(this.props.history);
+    } else if (label === "Profile") {
+      this.props.history.push(this.props.isFreeVersion ? "#" : "/my-profile");
+    } else if (label === "Help") {
+      window.gist.chat("open");
+    }
+  };
+
   toggleDropdown(key) {
     window.gtag("event", "click", {
       event_category: "Button",
@@ -281,20 +325,26 @@ class ResponsiveAppBar extends React.Component {
 
         <HeaderWrapper>
           <Toolbar
+            variant="dense"
             disableGutters
             sx={{
               display: { xs: "flex" },
               justifyContent: "space-between",
+              minHeight: "initial",
+              height: "6vh",
+              gap: "5%",
             }}
           >
             <Box
               sx={{
                 display: { xs: "none", md: "flex" },
+                height: "40px",
+                "align-items": "center",
               }}
             >
-              <StyledNavLink to="/" className="flex-none">
-                <img src={CompanyLogo} alt="Company Logo" width="137" />
-              </StyledNavLink>{" "}
+              <StylNavLink to="/" className="flex-none">
+                <StyledImg src={CompanyLogo} alt="Company Logo" />
+              </StylNavLink>{" "}
             </Box>
 
             <IconButton
@@ -421,6 +471,16 @@ class ResponsiveAppBar extends React.Component {
               store={this.props.store}
               history={this.props.history}
             />
+
+            <StyledNavLink to="/" className="flex-none">
+              <img
+                src={CompanyLogo}
+                alt="Company Logo"
+                style={{
+                  width: "98px",
+                }}
+              />
+            </StyledNavLink>
           </Toolbar>
           <Box component="nav">
             <Drawer
@@ -444,7 +504,23 @@ class ResponsiveAppBar extends React.Component {
                 sx={{ textAlign: "center" }}
               >
                 <Box>
-                  <StyledNavLink to="/" className="flex-none">
+                  <MobileProfile className="flex items-center gap-x-4">
+                    <img
+                      width="60px"
+                      height="60px"
+                      src={this.props?.store.profile?.profilePhoto || User}
+                      alt="Avatar"
+                    />
+                    <div className="flex flex-col">
+                      <span className="greeting">
+                        Hi, {this.props?.store.profile.fname}
+                      </span>
+                      <span className="credits">
+                        {this.props?.store.profile.credits} Credits
+                      </span>
+                    </div>
+                  </MobileProfile>
+                  {/* <StyledNavLink to="/" className="flex-none">
                     <img
                       src={CompanyLogo}
                       alt="Company Logo"
@@ -454,7 +530,7 @@ class ResponsiveAppBar extends React.Component {
                         width: "140px",
                       }}
                     />
-                  </StyledNavLink>
+                  </StyledNavLink> */}
                 </Box>
                 <Divider />
                 {!this.props.isFreeVersion ? (
@@ -510,33 +586,65 @@ class ResponsiveAppBar extends React.Component {
                               unmountOnExit
                             >
                               <List component="div" disablePadding>
-                                {this.AllAuthorizedPlans.map(
-                                  ({ label, value, isDisabled }) => {
-                                    return (
-                                      <ListItem key={label} disablePadding>
-                                        <ListItemButton
-                                          sx={{ textAlign: "center" }}
+                                {this.AllAuthorizedPlans.filter(
+                                  ({ isDisabled }) => !isDisabled
+                                ).map(({ label, value, isDisabled }) => {
+                                  return (
+                                    <ListItem key={label} disablePadding>
+                                      <ListItemButton
+                                        sx={{ textAlign: "center" }}
+                                      >
+                                        <NestedNavListItem
+                                          style={{
+                                            padding: "0px 16px",
+                                            "text-align": "left",
+                                          }}
+                                          ismobile="true"
+                                          to={isDisabled ? "#" : value}
+                                          isdisabled={isDisabled}
                                         >
-                                          <NestedNavListItem
-                                            ismobile="true"
-                                            to={isDisabled ? "#" : value}
-                                            isdisabled={isDisabled}
-                                          >
-                                            {label}
-                                          </NestedNavListItem>
-                                        </ListItemButton>
-                                      </ListItem>
-                                    );
-                                  }
-                                )}
+                                          {label}
+                                        </NestedNavListItem>
+                                      </ListItemButton>
+                                    </ListItem>
+                                  );
+                                })}
                               </List>
                             </Collapse>
                           </div>
                         );
+                      } else if (menuItem.label === "Logout") {
+                        return (
+                          <StyledMenuItemLogout
+                            onClick={(ev) => this.handleClose(ev, "Logout")}
+                          >
+                            Logout
+                          </StyledMenuItemLogout>
+                        );
+                      } else if (menuItem.label === "Support") {
+                        return (
+                          <NavButton
+                            className="mr-2 text-center block rounded py-2 px-4"
+                            key={menuItem.label}
+                          >
+                            <a
+                              href="https://plannr-help.freshdesk.com/support/home"
+                              target="_blank"
+                              rel="noreferrer"
+                              style={{ padding: "0px 8px" }}
+                            >
+                              {menuItem.label}
+                            </a>
+                          </NavButton>
+                        );
                       } else if (menuItem.isButton) {
                         return (
                           <div key={menuItem.label}>
-                            <StyledListItemButton>
+                            <StyledListItemButton
+                              onClick={(ev) =>
+                                this.handleClose(ev, menuItem.label)
+                              }
+                            >
                               <StyledListItemText>
                                 {menuItem.label}
                               </StyledListItemText>
@@ -579,10 +687,21 @@ ResponsiveAppBar.propTypes = {
   window: PropTypes.func,
 };
 
+const StyledImg = styled.img`
+  height: 30px;
+  display: flex;
+  align-items: flex-end;
+  @media only screen and (max-width: 1200px) {
+    height: 24px;
+  }
+`;
+
 const Profile = styled.div`
   img {
     position: relative;
     top: 4px;
+    border: 1px solid lightgrey;
+    border-radius: 50%;
   }
   .greeting {
     font-family: "Inter";
@@ -590,37 +709,76 @@ const Profile = styled.div`
     font-weight: 400;
     font-size: 12px;
     line-height: 24px;
-    /* identical to box height, or 200% */
-
+    width: 100px;
+    text-align: left;
     color: #525252;
   }
   .credits {
+    height: 13px;
     font-family: "Inter";
     font-style: normal;
     font-weight: 600;
     font-size: 14px;
     line-height: 13px;
-    /* identical to box height, or 93% */
+    text-align: left;
+    color: #000000;
+  }
+`;
 
+const MobileProfile = styled.div`
+  padding: 16px;
+  img {
+    position: relative;
+    top: 4px;
+    border: 1px solid lightgrey;
+    border-radius: 50%;
+  }
+  .greeting {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 24px;
+    width: 100px;
+    text-align: left;
+    color: #525252;
+  }
+  .credits {
+    height: 13px;
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 13px;
+    text-align: left;
     color: #000000;
   }
 `;
 
 const HeaderWrapper = styled.div`
   border-bottom: 1px solid #eaecf0;
-  padding: 15px 120px;
-  height: 9vh;
+  padding: 8px 80px;
+  height: 8vh;
   background: white;
-  @media only screen and (max-width: 1200px) {
-    padding: 10px 40px;
+  position: fixed;
+  background: white;
+  z-index: 100;
+  top: 0px;
+  right: 0px;
+  left: 0px;
+  @media only screen and (max-width: 899px) {
+    padding: 1vh 4%;
   }
 `;
 
 const StyledNavLink = styled(NavLink)`
-  /* width: 140px; */
-  height: 32px;
-  margin-right: 60px;
+  display: none;
+  @media only screen and (max-width: 899px) {
+    display: block;
+  }
 `;
+
+const StylNavLink = styled(NavLink)``;
 
 const SearchableDropdown = styled.div`
   position: relative;
@@ -642,15 +800,15 @@ const SearchableDropdown = styled.div`
 `;
 const NavListItem = styled(NavLink)`
   width: ${(props) => (!!props.ismobile ? "100%" : "max-content")};
-  height: 40px;
   background: white;
   font-family: "Inter";
   font-style: normal;
   font-weight: 600;
   font-size: 16px;
-  line-height: 24px;
+  line-height: 40px;
   color: #344054;
-
+  padding: 0px 8px;
+  text-align: left;
   &.selected {
     background: rgba(116, 116, 116, 0.1);
     cursor: not-allowed;
@@ -685,14 +843,14 @@ const NestedNavListItem = styled(NavLink)`
 
 const NavButton = styled.button`
   width: max-content;
-  height: 40px;
   background: white;
   font-family: "Inter";
   font-style: normal;
   font-weight: 600;
   font-size: 16px;
-  line-height: 24px;
+  line-height: 40px;
   color: #344054;
+  /* padding: 0px; */
 `;
 
 const StyledListItemButton = styled(ListItemButton)`
@@ -700,7 +858,7 @@ const StyledListItemButton = styled(ListItemButton)`
   align-items: center;
   position: relative;
   left: 14px;
-  justify-content: center;
+  justify-content: flex-start;
   background: white;
   font-family: "Inter";
   height: 56px;
@@ -709,12 +867,15 @@ const StyledListItemButton = styled(ListItemButton)`
   font-size: 16px;
   line-height: 24px;
   color: #344054;
+  padding: 0px 8px;
 `;
 
 const StyledListItemText = styled.span`
   margin-right: 10px;
+  text-align: left;
 `;
 
 const NavList = styled.ul`
   gap: 12px;
+  align-items: center;
 `;
