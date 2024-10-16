@@ -41,7 +41,7 @@
     "mongoose-sequence": "^5.3.1",
     "morgan": "^1.10.0",
     "node-sass": "^4.14.1",
-    "openai": "^3.2.1",
+    "openai": "^4.67.3",
     "quill-to-pdf": "^1.0.7",
     "react": "^17.0.2",
     "react-avatar-edit": "^1.2.0",
